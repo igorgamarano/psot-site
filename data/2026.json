@@ -1,0 +1,50 @@
+{
+  "season": "2026",
+  "total_rodadas": 5,
+  "rounds": [
+    {
+      "rodada": 1,
+      "data": "28.02.2026",
+      "placar_final": [
+        5,
+        5
+      ],
+      "intervalo": null,
+      "vencedor": "EMPATE",
+       "time_preto": [
+        "LUCIANO",
+        "ROMILDO",
+        "IGOR C",
+        "ALEXANDRE",
+        "HUMBERTO",
+        "LEO",
+        "ZÉ RENATO",
+        "ZÉ ANTÔNIO"
+      ],
+      "time_azul": [
+        "GABRIEL",
+        "VINICIUS",
+        "IGOR G",
+        "ERILDO",
+        "FAFAH",
+        "KIKO",
+        "GIU",
+        "MONKEY",
+        "DR. WAGNER",
+        "GABI MEMO",
+        "MARRECO"
+      ],
+      "gols": {
+        "IGOR C": 3,
+        "ALEXANDRE": 1,
+        "GABRIEL": 1,
+        "LUCAS": 1,
+        "VINICIUS": 1,
+        "HUMBERTO": 1,
+        "MONKEY": 1,
+        "LEONARDO": 1
+      },
+      "reconstituida": true
+    }
+  ]
+}
