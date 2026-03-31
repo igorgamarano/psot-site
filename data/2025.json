@@ -1,0 +1,1374 @@
+{
+  "season": "2025",
+  "total_rodadas": 33,
+  "rounds": [
+    {
+      "data": "22.02.2025",
+      "placar_final": [
+        7,
+        6
+      ],
+      "intervalo": [
+        3,
+        4
+      ],
+      "time_preto": [
+        "LUCIANO",
+        "ROMILDO",
+        "PERIN",
+        "ZE RENATO",
+        "FRANCISCO",
+        "LIPIN",
+        "MARRECO",
+        "GAMARANO",
+        "MARCOS"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "LIPIN": 2,
+        "MARCOS": 2
+      },
+      "gols_azul": {},
+      "rodada": 1
+    },
+    {
+      "data": "08.03.2025",
+      "placar_final": [
+        4,
+        2
+      ],
+      "intervalo": [
+        1,
+        0
+      ],
+      "time_preto": [
+        "LUCIANO",
+        "FAFAH",
+        "FLÁVIO",
+        "ZÉ RENATO",
+        "WAGNER",
+        "MÁRCIO AUGUSTO",
+        "IGOR",
+        "HUMBERTO",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 1,
+        "ALEXANDRE": 1
+      },
+      "gols_azul": {},
+      "rodada": 2
+    },
+    {
+      "data": "22.03.2025",
+      "placar_final": [
+        12,
+        10
+      ],
+      "intervalo": [
+        4,
+        6
+      ],
+      "time_preto": [
+        "JOHNATAN",
+        "PERIN",
+        "TIAGO",
+        "FAFAH",
+        "RICARDO",
+        "GUSTAVO",
+        "LIPIN",
+        "ALEXANDRE",
+        "MARCIO AUGUSTO"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "GUSTAVO": 1,
+        "LIPIN": 4,
+        "ALEXANDRE": 3
+      },
+      "gols_azul": {},
+      "rodada": 3
+    },
+    {
+      "data": "29.03.2025",
+      "placar_final": [
+        5,
+        6
+      ],
+      "intervalo": [
+        2,
+        3
+      ],
+      "time_preto": [
+        "LUCIANO",
+        "FLAVIO",
+        "FAFAH",
+        "ROMILDO",
+        "ZÉ RENATO",
+        "RICARDO",
+        "LÉO",
+        "GAMA",
+        "LIPIN"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "ZÉ RENATO": 1,
+        "RICARDO": 1,
+        "LIPIN": 1
+      },
+      "gols_azul": {},
+      "rodada": 4
+    },
+    {
+      "data": "05.04.2025",
+      "placar_final": [
+        7,
+        6
+      ],
+      "intervalo": [
+        2,
+        2
+      ],
+      "time_preto": [
+        "JOHNATAN",
+        "GIU",
+        "FLAVIO",
+        "MARRECO",
+        "ROMILDO",
+        "GAMA",
+        "LEO",
+        "IGOR",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "GAMA": 1,
+        "IGOR": 2,
+        "ALEXANDRE": 1
+      },
+      "gols_azul": {},
+      "rodada": 5
+    },
+    {
+      "data": "12.04.2025",
+      "placar_final": [
+        10,
+        6
+      ],
+      "intervalo": [
+        4,
+        4
+      ],
+      "time_preto": [
+        "JOHNATAN",
+        "ROMILDO",
+        "RODRIGO MATTOS",
+        "PERIN",
+        "RICARDO",
+        "LUCAS",
+        "IGOR",
+        "LEO",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 5,
+        "ALEXANDRE": 4
+      },
+      "gols_azul": {},
+      "rodada": 6
+    },
+    {
+      "data": "10.05.2025",
+      "placar_final": [
+        4,
+        7
+      ],
+      "intervalo": [
+        2,
+        3
+      ],
+      "time_preto": [
+        "THIAGO",
+        "ROMILDO",
+        "PERIN",
+        "ERILDO",
+        "LEO",
+        "LUCAS",
+        "GUSTAVO",
+        "MARCOS",
+        "LIPIN"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "MARCOS": 1,
+        "LIPIN": 1
+      },
+      "gols_azul": {},
+      "rodada": 7
+    },
+    {
+      "data": "17.05.2025",
+      "placar_final": [
+        3,
+        17
+      ],
+      "intervalo": [
+        2,
+        9
+      ],
+      "time_preto": [
+        "LUCIANO",
+        "GIU",
+        "ERILDO",
+        "ZÉ RENATO",
+        "MARRECO",
+        "LEO",
+        "ZEZÉ",
+        "IGOR",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 3
+      },
+      "gols_azul": {},
+      "rodada": 8
+    },
+    {
+      "data": "24.05.2025",
+      "placar_final": [
+        6,
+        5
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "THIAGO",
+        "RODRIGO MATTOS",
+        "ERILDO",
+        "ZÉ RENATO",
+        "FAFAH",
+        "GUSTAVO",
+        "LEO",
+        "MARCOS",
+        "VINICIUS"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "LEO": 1,
+        "VINICIUS": 4
+      },
+      "gols_azul": {},
+      "rodada": 9
+    },
+    {
+      "data": "31.05.2025",
+      "placar_final": [
+        3,
+        4
+      ],
+      "intervalo": [
+        3,
+        3
+      ],
+      "time_preto": [
+        "LUCIANO",
+        "ROMILDO",
+        "GIU",
+        "FRANCISCO",
+        "WASHINGTON",
+        "LEO",
+        "FABRICIO",
+        "IGOR",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "LEO": 1,
+        "IGOR": 2
+      },
+      "gols_azul": {},
+      "rodada": 10
+    },
+    {
+      "data": "07.06.2025",
+      "placar_final": [
+        6,
+        4
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "LUCIANO",
+        "PERIN",
+        "RODRIGO MATTOS",
+        "ERILDO",
+        "PRIMO",
+        "IGOR",
+        "MARRECO",
+        "LEO",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "PRIMO": 2,
+        "IGOR": 2,
+        "ALEXANDRE": 2
+      },
+      "gols_azul": {},
+      "rodada": 11
+    },
+    {
+      "data": "14.06.2025",
+      "placar_final": [
+        10,
+        6
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "JOHNATAN",
+        "RODRIGO MATTOS",
+        "ERILDO",
+        "PERIN",
+        "FAFAH",
+        "IGOR",
+        "ZÉ RENATO",
+        "GAMARANO",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 4,
+        "GAMARANO": 2,
+        "ALEXANDRE": 4
+      },
+      "gols_azul": {},
+      "rodada": 12
+    },
+    {
+      "data": "28.06.2025",
+      "placar_final": [
+        6,
+        6
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "MARCELO",
+        "GIU",
+        "GUSTAVO",
+        "FRANCISCO",
+        "RODRIGO FARDIN",
+        "ZÉ RENATO",
+        "IGOR",
+        "MARCOS",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 3,
+        "MARCOS": 1,
+        "ALEXANDRE": 1
+      },
+      "gols_azul": {},
+      "rodada": 13
+    },
+    {
+      "data": "05.07.2025",
+      "placar_final": [
+        1,
+        3
+      ],
+      "intervalo": [
+        1,
+        1
+      ],
+      "time_preto": [
+        "JOHNATAN",
+        "FILIPE MOSÉ",
+        "RODRIGO MATTOS",
+        "ZÉ RENATO",
+        "MARCOS",
+        "ERILDO",
+        "GAMARANO",
+        "LUCAS",
+        "VINICIUS"
+      ],
+      "time_azul": [],
+      "gols_preto": {},
+      "gols_azul": {},
+      "rodada": 14
+    },
+    {
+      "data": "12.07.2025",
+      "placar_final": [
+        4,
+        4
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "THIAGO",
+        "PERIN",
+        "THIAGO PRIMEIRO",
+        "RODRIGO MATTOS",
+        "MOSÉ",
+        "GABRIEL",
+        "GAMARANO",
+        "FAFAH",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "GABRIEL": 1,
+        "ALEXANDRE": 3
+      },
+      "gols_azul": {},
+      "rodada": 15
+    },
+    {
+      "data": "19.07.2025",
+      "placar_final": [
+        5,
+        5
+      ],
+      "intervalo": [
+        3,
+        1
+      ],
+      "time_preto": [
+        "JOHNATAN",
+        "PERIN",
+        "RODRIGO MATTOS",
+        "MARCIO AUGUSTO",
+        "LUCAS",
+        "MARCOS",
+        "GABRIEL",
+        "VINICIUS",
+        "MOSÉ"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "MARCOS": 1,
+        "GABRIEL": 1,
+        "VINICIUS": 2
+      },
+      "gols_azul": {},
+      "rodada": 16
+    },
+    {
+      "data": "26.07.2025",
+      "placar_final": [
+        5,
+        6
+      ],
+      "intervalo": [
+        1,
+        3
+      ],
+      "time_preto": [
+        "LUCIANO",
+        "ERILDO",
+        "RODRIGO MATTOS",
+        "ROMILDO",
+        "LUCAS",
+        "GAMARANO",
+        "MARCOS",
+        "GABRIEL",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "LUCAS": 1,
+        "GAMARANO": 1,
+        "ALEXANDRE": 3
+      },
+      "gols_azul": {},
+      "rodada": 17
+    },
+    {
+      "data": "02.08.2025",
+      "placar_final": [
+        4,
+        8
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "LUCIANO",
+        "ZÉ RENATO",
+        "ERILDO",
+        "GIU",
+        "GUSTAVO",
+        "IGOR",
+        "MARCOS",
+        "HUMBERTO",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 3,
+        "MARCOS": 1
+      },
+      "gols_azul": {},
+      "rodada": 18
+    },
+    {
+      "data": "16.08.2025",
+      "placar_final": [
+        5,
+        5
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "LUCIANO",
+        "ROMILDO",
+        "PERIN",
+        "PRIMO",
+        "MARCIO AUGUSTO",
+        "HUMBERTO",
+        "VINICIUS",
+        "LUCAS",
+        "GABRIEL"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "PRIMO": 1,
+        "VINICIUS": 2,
+        "GABRIEL": 2
+      },
+      "gols_azul": {},
+      "rodada": 19
+    },
+    {
+      "data": "23.08.2025",
+      "placar_final": [
+        7,
+        7
+      ],
+      "intervalo": [
+        4,
+        4
+      ],
+      "time_preto": [
+        "JOHNATAS",
+        "GIU",
+        "ZÉ RENATO",
+        "ROMILDO",
+        "FAFAH",
+        "PRIMO",
+        "VINICIUS",
+        "LEO",
+        "GAMA"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "VINICIUS": 2,
+        "GAMA": 2
+      },
+      "gols_azul": {},
+      "rodada": 20
+    },
+    {
+      "data": "30.08.2025",
+      "placar_final": [
+        5,
+        5
+      ],
+      "intervalo": [
+        2,
+        2
+      ],
+      "time_preto": [
+        "JOHNATAS",
+        "FLÁVIO",
+        "ROMILDO",
+        "ZÉ RENATO",
+        "FAFAH",
+        "ZEZÉ",
+        "IGOR",
+        "GABRIEL",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "ROMILDO": 1,
+        "IGOR": 2,
+        "GABRIEL": 2
+      },
+      "gols_azul": {},
+      "rodada": 21
+    },
+    {
+      "data": "13.09.2025",
+      "placar_final": [
+        5,
+        5
+      ],
+      "intervalo": [
+        3,
+        1
+      ],
+      "time_preto": [
+        "JOHNATAN",
+        "FLAVIO",
+        "GIU",
+        "ZÉ RENATO",
+        "ROMILDO",
+        "GABRIEL",
+        "VINICIUS",
+        "LUCAS",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "GABRIEL": 2,
+        "VINICIUS": 1,
+        "ALEXANDRE": 1
+      },
+      "gols_azul": {},
+      "rodada": 22
+    },
+    {
+      "data": "20.09.2025",
+      "placar_final": [
+        3,
+        3
+      ],
+      "intervalo": [
+        1,
+        1
+      ],
+      "time_preto": [
+        "LUCIANO",
+        "PERIN",
+        "RODRIGO MATTOS",
+        "GIU",
+        "ZÉ RENATO",
+        "HUMBERTO",
+        "VINICIUS",
+        "GABRIEL",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "VINICIUS": 1,
+        "GABRIEL": 2
+      },
+      "gols_azul": {},
+      "rodada": 23
+    },
+    {
+      "data": "27.09.2025",
+      "placar_final": [
+        2,
+        3
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "LUCIANO",
+        "GIU",
+        "FLÁVIO",
+        "ERILDO",
+        "ZEZÉ",
+        "IGOR",
+        "GAMARANO",
+        "FAFAH",
+        "VINICIUS"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 1
+      },
+      "gols_azul": {},
+      "rodada": 24
+    },
+    {
+      "data": "04.10.2025",
+      "placar_final": [
+        7,
+        11
+      ],
+      "intervalo": [
+        3,
+        4
+      ],
+      "time_preto": [
+        "JOHNATAS",
+        "PERIN",
+        "RODRIGO MATTOS",
+        "MARCIO AUGUSTO",
+        "ZEZÉ",
+        "HUMBERTO",
+        "LUCAS",
+        "IGOR",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "LUCAS": 1,
+        "IGOR": 3,
+        "ALEXANDRE": 3
+      },
+      "gols_azul": {},
+      "rodada": 25
+    },
+    {
+      "data": "11.10.2025",
+      "placar_final": [
+        8,
+        6
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "LUCIANO",
+        "GIU",
+        "FAFAH",
+        "MARCIO AUGUSTO",
+        "IGOR",
+        "ERILDO",
+        "HUMBERTO",
+        "GUSTAVO",
+        "VINICIUS"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 2,
+        "HUMBERTO": 1,
+        "VINICIUS": 3
+      },
+      "gols_azul": {},
+      "rodada": 26
+    },
+    {
+      "data": "18.10.2025",
+      "placar_final": [
+        8,
+        5
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "JOHNATAS",
+        "GIU",
+        "MARCIO AUGUSTO",
+        "PERIN",
+        "FAFAH",
+        "HUMBERTO",
+        "GABRIEL",
+        "GUSTAVO",
+        "VINICIUS"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "MARCIO AUGUSTO": 1,
+        "GABRIEL": 3,
+        "VINICIUS": 2
+      },
+      "gols_azul": {},
+      "rodada": 27
+    },
+    {
+      "data": "25.10.2025",
+      "placar_final": [
+        6,
+        8
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "LUCIANO",
+        "RODRIGO MATTOS",
+        "ROMILDO",
+        "MARCIO AUGUSTO",
+        "HUMBERTO",
+        "LUCAS",
+        "MARCOS",
+        "GAMARANO",
+        "VINICIUS"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "RODRIGO MATTOS": 1,
+        "MARCOS": 1,
+        "GAMARANO": 2,
+        "VINICIUS": 1
+      },
+      "gols_azul": {},
+      "rodada": 28
+    },
+    {
+      "data": "01.11.2025",
+      "placar_final": [
+        7,
+        7
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "JOHNATAN",
+        "FLAVIO",
+        "RODRIGO MATTOS",
+        "ZÉ RENATO",
+        "ERILDO",
+        "IGOR",
+        "MARCOS",
+        "ROMILDO",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 2,
+        "MARCOS": 1,
+        "ALEXANDRE": 3
+      },
+      "gols_azul": {},
+      "rodada": 29
+    },
+    {
+      "data": "08.11.2025",
+      "placar_final": [
+        5,
+        11
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "LUCIANO",
+        "PERIN",
+        "GIU",
+        "FAFAH",
+        "ROMILDO",
+        "MARCIO AUGUSTO",
+        "IGOR",
+        "MARCOS",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 2,
+        "ALEXANDRE": 2
+      },
+      "gols_azul": {},
+      "rodada": 30
+    },
+    {
+      "data": "15.11.2025",
+      "placar_final": [
+        11,
+        10
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "TIAGO",
+        "FAFAH",
+        "ZÉ RENATO",
+        "MARCIO AUGUSTO",
+        "LUCAS",
+        "HUMBERTO",
+        "IGOR",
+        "VINICIUS",
+        "ALEXANDRE"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "HUMBERTO": 2,
+        "IGOR": 3,
+        "VINICIUS": 2,
+        "ALEXANDRE": 4
+      },
+      "gols_azul": {},
+      "rodada": 31
+    },
+    {
+      "data": "06.12.2025",
+      "placar_final": [
+        7,
+        7
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "JOHNATAS",
+        "GIU",
+        "FAFAH",
+        "ROMILDO",
+        "ZE RENATO",
+        "ZEZE",
+        "MARCOS",
+        "IGOR",
+        "GAMARANO",
+        "PERIN"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "IGOR": 3
+      },
+      "gols_azul": {},
+      "rodada": 32
+    },
+    {
+      "data": "13.12.2025",
+      "placar_final": [
+        9,
+        4
+      ],
+      "intervalo": null,
+      "time_preto": [
+        "JOHNATAS",
+        "FLAVIO",
+        "RODRIGO MATTOS",
+        "MOSÉ",
+        "ROMILDO",
+        "HUMBERTO",
+        "MARCOS",
+        "GABRIEL",
+        "LIPIN"
+      ],
+      "time_azul": [],
+      "gols_preto": {
+        "HUMBERTO": 1,
+        "GABRIEL": 5,
+        "LIPIN": 1
+      },
+      "gols_azul": {},
+      "rodada": 33
+    }
+  ],
+  "players": [
+    {
+      "nome": "Jaldemar Perin",
+      "apelido": "Perin",
+      "gols": 0,
+      "vitorias": 5,
+      "empates": 5,
+      "derrotas": 3,
+      "jogos": 14,
+      "data_nasc": "20/08/1944"
+    },
+    {
+      "nome": "Flávio Lugon",
+      "apelido": "Flávio",
+      "gols": 0,
+      "vitorias": 3,
+      "empates": 1,
+      "derrotas": 1,
+      "jogos": 3,
+      "data_nasc": "10/11/1949"
+    },
+    {
+      "nome": "José Antônio Neves Teixeira",
+      "apelido": "Zezé",
+      "gols": 0,
+      "vitorias": 1,
+      "empates": 1,
+      "derrotas": 3,
+      "jogos": 4,
+      "data_nasc": "28/10/1952"
+    },
+    {
+      "nome": "José Renato Monjardim",
+      "apelido": "Zé Renato",
+      "gols": 1,
+      "vitorias": 4,
+      "empates": 6,
+      "derrotas": 4,
+      "jogos": 14,
+      "data_nasc": "07/10/1956"
+    },
+    {
+      "nome": "Romildo Melo",
+      "apelido": "Romildo",
+      "gols": 0,
+      "vitorias": 4,
+      "empates": 6,
+      "derrotas": 6,
+      "jogos": 16,
+      "data_nasc": "20/07/1963"
+    },
+    {
+      "nome": "Márcio Augusto",
+      "apelido": "Márcio",
+      "gols": 2,
+      "vitorias": 5,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 1,
+      "data_nasc": "22/12/1965"
+    },
+    {
+      "nome": "Alexandre Monjardim",
+      "apelido": "Alexandre",
+      "gols": 20,
+      "vitorias": 6,
+      "empates": 6,
+      "derrotas": 6,
+      "jogos": 19,
+      "data_nasc": "30/01/1984"
+    },
+    {
+      "nome": "Gustavo Moraes",
+      "apelido": "Gustavo",
+      "gols": 6,
+      "vitorias": 6,
+      "empates": 1,
+      "derrotas": 2,
+      "jogos": 7,
+      "data_nasc": "23/03/1989"
+    },
+    {
+      "nome": "Igor Colodetti Prudêncio",
+      "apelido": "Igor",
+      "gols": 25,
+      "vitorias": 6,
+      "empates": 4,
+      "derrotas": 6,
+      "jogos": 17,
+      "data_nasc": "07/02/1995"
+    },
+    {
+      "nome": "Filipe Cardoso",
+      "apelido": "Lipin",
+      "gols": 20,
+      "vitorias": 4,
+      "empates": 0,
+      "derrotas": 2,
+      "jogos": 5,
+      "data_nasc": "30/03/1990"
+    },
+    {
+      "nome": "Marcos Vinicius  de Oliveira",
+      "apelido": "Marcos",
+      "gols": 9,
+      "vitorias": 7,
+      "empates": 4,
+      "derrotas": 6,
+      "jogos": 13,
+      "data_nasc": "29/11/1985"
+    },
+    {
+      "nome": "Igor Gamarano",
+      "apelido": "Gama",
+      "gols": 9,
+      "vitorias": 6,
+      "empates": 3,
+      "derrotas": 5,
+      "jogos": 11,
+      "data_nasc": "16/09/1990"
+    },
+    {
+      "nome": "Lucas Andrade Monjardim",
+      "apelido": "Lucas",
+      "gols": 4,
+      "vitorias": 4,
+      "empates": 3,
+      "derrotas": 5,
+      "jogos": 10,
+      "data_nasc": "25/08/2008"
+    },
+    {
+      "nome": "Ricardo de Toledo",
+      "apelido": "Ricardo",
+      "gols": 9,
+      "vitorias": 4,
+      "empates": 0,
+      "derrotas": 1,
+      "jogos": 3,
+      "data_nasc": "26/03/1982"
+    },
+    {
+      "nome": "Leonardo Moreira Gomes",
+      "apelido": "Léo",
+      "gols": 2,
+      "vitorias": 5,
+      "empates": 0,
+      "derrotas": 1,
+      "jogos": 1,
+      "data_nasc": "28/04/1995"
+    },
+    {
+      "nome": "Erildo Zamprogno",
+      "apelido": "Erildo",
+      "gols": 0,
+      "vitorias": 4,
+      "empates": 1,
+      "derrotas": 6,
+      "jogos": 11,
+      "data_nasc": "28/09/1981"
+    },
+    {
+      "nome": "Giuliano Rocha",
+      "apelido": "Giu",
+      "gols": 0,
+      "vitorias": 3,
+      "empates": 5,
+      "derrotas": 5,
+      "jogos": 13,
+      "data_nasc": "06/02/1970"
+    },
+    {
+      "nome": "Rodrigo Mattos",
+      "apelido": "Rodrigo",
+      "gols": 1,
+      "vitorias": 7,
+      "empates": 5,
+      "derrotas": 4,
+      "jogos": 14,
+      "data_nasc": "14/02/1996"
+    },
+    {
+      "nome": "Francisco de Deus Fonseca Neto",
+      "apelido": "Francisco",
+      "gols": 3,
+      "vitorias": 2,
+      "empates": 1,
+      "derrotas": 1,
+      "jogos": 3,
+      "data_nasc": "22/05/1978"
+    },
+    {
+      "nome": "Vinícius",
+      "apelido": "Vinícius",
+      "gols": 14,
+      "vitorias": 7,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 0,
+      "data_nasc": "21/07/2000"
+    },
+    {
+      "nome": "Marreco",
+      "apelido": "Marreco",
+      "gols": 0,
+      "vitorias": 4,
+      "empates": 0,
+      "derrotas": 1,
+      "jogos": 4,
+      "data_nasc": "31/01/1973"
+    },
+    {
+      "nome": "Humberto Gameiro Laciprete",
+      "apelido": "Humberto",
+      "gols": 0,
+      "vitorias": 0,
+      "empates": 2,
+      "derrotas": 3,
+      "jogos": 10,
+      "data_nasc": "29/11/1988"
+    },
+    {
+      "nome": "Gabriel Leão M. de Faria",
+      "apelido": "Gabriel",
+      "gols": 12,
+      "vitorias": 3,
+      "empates": 6,
+      "derrotas": 1,
+      "jogos": 9,
+      "data_nasc": "20/07/1989"
+    },
+    {
+      "nome": "Felipe Martins Oliveira",
+      "apelido": "Fafah",
+      "gols": 0,
+      "vitorias": 5,
+      "empates": 4,
+      "derrotas": 3,
+      "jogos": 14,
+      "data_nasc": "28/12/1984"
+    },
+    {
+      "nome": "Washington Barros Itabaiana",
+      "apelido": "Washington",
+      "gols": 1,
+      "vitorias": 2,
+      "empates": 0,
+      "derrotas": 1,
+      "jogos": 1,
+      "data_nasc": "24/08/1971"
+    },
+    {
+      "nome": "Mauro Bof",
+      "apelido": "Mauro",
+      "gols": 0,
+      "vitorias": 2,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 0,
+      "data_nasc": "29/01/1971"
+    },
+    {
+      "nome": "Wagner Mendonça Cassoli",
+      "apelido": "Dr. Wagner",
+      "gols": 0,
+      "vitorias": 3,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 1,
+      "data_nasc": "10/03/1979"
+    },
+    {
+      "nome": "Henrique Rommel",
+      "apelido": "Kiko",
+      "gols": 0,
+      "vitorias": 0,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 0,
+      "data_nasc": "01/12/1991"
+    },
+    {
+      "nome": "Tiago First Malini",
+      "apelido": "Tiago",
+      "gols": 0,
+      "vitorias": 3,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 2,
+      "data_nasc": "23/03/1992"
+    },
+    {
+      "nome": "Raphael Martins Rodrigues",
+      "apelido": "Raphael",
+      "gols": 0,
+      "vitorias": 3,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 0,
+      "data_nasc": "12/03/1979"
+    },
+    {
+      "nome": "Gabriel Pereira de Melo",
+      "apelido": "Gabriel",
+      "gols": 1,
+      "vitorias": 2,
+      "empates": 6,
+      "derrotas": 1,
+      "jogos": 9,
+      "data_nasc": "12/09/2006"
+    },
+    {
+      "nome": "Carlos Henrique da Cruz Borges",
+      "apelido": "Henrique",
+      "gols": 5,
+      "vitorias": 3,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 0,
+      "data_nasc": "23/08/1984"
+    },
+    {
+      "nome": "Rodrigo Fardin",
+      "apelido": "Dr. Rodrigo",
+      "gols": 0,
+      "vitorias": 2,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 0,
+      "data_nasc": "12/08/1980"
+    },
+    {
+      "nome": "Fabrício Siqueira",
+      "apelido": "Fabrício",
+      "gols": 0,
+      "vitorias": 0,
+      "empates": 0,
+      "derrotas": 0,
+      "jogos": 0,
+      "data_nasc": "22/03/1974"
+    },
+    {
+      "nome": "Jhonatan",
+      "apelido": "Johnatan",
+      "gols": 0,
+      "vitorias": 8,
+      "empates": 3,
+      "derrotas": 1,
+      "jogos": 8,
+      "data_nasc": "06/03/2001"
+    },
+    {
+      "nome": "Luciano",
+      "apelido": "Luciano",
+      "gols": 0,
+      "vitorias": 3,
+      "empates": 2,
+      "derrotas": 8,
+      "jogos": 14,
+      "data_nasc": "22/09/1998"
+    }
+  ],
+  "artilharia": [
+    {
+      "apelido": "IGOR",
+      "gols": 43
+    },
+    {
+      "apelido": "ALEXANDRE",
+      "gols": 35
+    },
+    {
+      "apelido": "VINICIUS",
+      "gols": 20
+    },
+    {
+      "apelido": "GABRIEL",
+      "gols": 18
+    },
+    {
+      "apelido": "LIPIN",
+      "gols": 9
+    },
+    {
+      "apelido": "MARCOS",
+      "gols": 8
+    },
+    {
+      "apelido": "GAMARANO",
+      "gols": 5
+    },
+    {
+      "apelido": "HUMBERTO",
+      "gols": 4
+    },
+    {
+      "apelido": "GAMA",
+      "gols": 3
+    },
+    {
+      "apelido": "PRIMO",
+      "gols": 3
+    },
+    {
+      "apelido": "LEO",
+      "gols": 2
+    },
+    {
+      "apelido": "LUCAS",
+      "gols": 2
+    },
+    {
+      "apelido": "GUSTAVO",
+      "gols": 1
+    },
+    {
+      "apelido": "ZÉ RENATO",
+      "gols": 1
+    },
+    {
+      "apelido": "RICARDO",
+      "gols": 1
+    },
+    {
+      "apelido": "ROMILDO",
+      "gols": 1
+    },
+    {
+      "apelido": "MARCIO AUGUSTO",
+      "gols": 1
+    },
+    {
+      "apelido": "RODRIGO MATTOS",
+      "gols": 1
+    }
+  ],
+  "stats": {
+    "total_gols": 405,
+    "media_gols": 12.3,
+    "vitoria_preto": 12,
+    "vitoria_azul": 11,
+    "empates": 10,
+    "rodadas_com_dados": 33
+  }
+}
