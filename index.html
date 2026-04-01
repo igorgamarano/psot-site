@@ -10,212 +10,455 @@
 <meta property="og:url" content="https://psot.site">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
 <style>
-/* ── Reset & Base ──────────────────────────────────────────────────────────── */
+/* ── Reset & Variables ──────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --preto: #1a1a2e;
-  --azul: #0d47a1;
-  --azul-claro: #1565c0;
-  --azul-bg: #e3f2fd;
-  --verde: #1b5e20;
-  --verde-bg: #e8f5e9;
-  --amarelo: #f57f17;
-  --amarelo-bg: #fff8e1;
-  --cinza: #546e7a;
-  --cinza-claro: #eceff1;
-  --branco: #ffffff;
-  --texto: #212121;
-  --texto-suave: #546e7a;
-  --borda: #cfd8dc;
-  --radius: 10px;
-  --shadow: 0 2px 12px rgba(0,0,0,.10);
-  --shadow-lg: 0 4px 24px rgba(0,0,0,.14);
+  --navy:       #07101f;
+  --gold:       #f0b429;
+  --gold-dim:   rgba(240,180,41,.18);
+  --blue-vivid: #1a6cf5;
+  --glass:      rgba(255,255,255,.07);
+  --glass-md:   rgba(255,255,255,.12);
+  --glass-hi:   rgba(255,255,255,.18);
+  --glass-bd:   rgba(255,255,255,.12);
+  --text:       rgba(255,255,255,.92);
+  --text-dim:   rgba(255,255,255,.52);
+  --text-faint: rgba(255,255,255,.28);
+  --green:      #34d399;
+  --red:        #f87171;
+  --amber:      #fbbf24;
+  --blue-light: #7eb8ff;
+  --radius:     16px;
+  --radius-lg:  22px;
+  --radius-pill:50px;
 }
-body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f4f8; color: var(--texto); line-height: 1.5; }
-a { color: var(--azul); text-decoration: none; }
-a:hover { text-decoration: underline; }
+
+body {
+  font-family: -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(160deg, #060e1c 0%, #0b1d38 50%, #080f1f 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a { color: var(--gold); text-decoration: none; }
 button { cursor: pointer; border: none; font-family: inherit; }
 img { max-width: 100%; }
 
-/* ── Layout ─────────────────────────────────────────────────────────────────── */
-#app { min-height: 100vh; display: flex; flex-direction: column; }
-header { background: var(--preto); color: #fff; padding: 0 1rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
-.header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; height: 56px; }
-.logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; color: #fff; display: flex; align-items: center; gap: .5rem; }
-.logo span { color: var(--amarelo); }
-nav { display: flex; gap: .25rem; margin-left: auto; }
-nav button { background: transparent; color: rgba(255,255,255,.8); padding: .4rem .75rem; border-radius: 6px; font-size: .85rem; font-weight: 600; transition: all .2s; }
-nav button:hover, nav button.active { background: rgba(255,255,255,.15); color: #fff; }
-.season-selector { display: flex; gap: .25rem; align-items: center; }
-.season-btn { background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.2); padding: .3rem .6rem; border-radius: 20px; font-size: .8rem; font-weight: 700; transition: all .2s; }
-.season-btn.active { background: var(--amarelo); color: var(--preto); border-color: var(--amarelo); }
-main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 1.5rem 1rem 3rem; width: 100%; }
-footer { background: var(--preto); color: rgba(255,255,255,.5); text-align: center; padding: 1rem; font-size: .8rem; }
+/* ── Background Orbs ────────────────────────────────────────────────────────── */
+.bg-orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; filter: blur(90px); }
+.orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, #1a4a9e 0%, transparent 70%); top: -200px; left: -180px; opacity: .22; animation: float1 22s ease-in-out infinite; }
+.orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, #c8860a 0%, transparent 70%); bottom: -80px; right: -100px; opacity: .1; animation: float2 28s ease-in-out infinite; }
+.orb-3 { width: 450px; height: 450px; background: radial-gradient(circle, #1a6cf5 0%, transparent 70%); top: 40%; left: 55%; opacity: .08; animation: float3 19s ease-in-out infinite; }
 
-/* ── Cards & Sections ───────────────────────────────────────────────────────── */
-.card { background: var(--branco); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-.card-header { padding: .85rem 1.25rem; display: flex; align-items: center; gap: .5rem; font-weight: 700; font-size: 1rem; border-bottom: 1px solid var(--borda); }
-.card-body { padding: 1rem 1.25rem; }
-.section-title { font-size: 1.4rem; font-weight: 800; color: var(--preto); margin-bottom: 1.25rem; display: flex; align-items: center; gap: .5rem; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@keyframes float1 { 0%,100% { transform: translate(0,0); } 33% { transform: translate(50px,70px); } 66% { transform: translate(-30px,35px); } }
+@keyframes float2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-70px,-55px); } }
+@keyframes float3 { 0%,100% { transform: translate(-50%,-50%); } 50% { transform: translate(-50%,-50%) scale(1.25); } }
+
+/* ── App Shell ──────────────────────────────────────────────────────────────── */
+#app { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── Season Selector — top left ─────────────────────────────────────────────── */
+#season-wrapper { position: fixed; top: 16px; left: 20px; z-index: 300; }
+
+.season-toggle-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(240,180,41,.38);
+  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  color: var(--gold);
+  padding: 8px 14px; border-radius: var(--radius-pill);
+  font-size: .78rem; font-weight: 800; letter-spacing: .8px; text-transform: uppercase;
+  transition: all .2s; white-space: nowrap; cursor: pointer;
+}
+.season-toggle-btn:hover { background: rgba(240,180,41,.28); }
+.season-toggle-btn svg { transition: transform .25s; flex-shrink: 0; }
+.season-toggle-btn.open svg { transform: rotate(180deg); }
+
+#season-dropdown {
+  margin-top: 8px; min-width: 148px;
+  background: rgba(8,18,40,.88);
+  backdrop-filter: blur(26px); -webkit-backdrop-filter: blur(26px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+  overflow: hidden; display: none;
+}
+#season-dropdown.open { display: block; }
+
+.season-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; width: 100%; text-align: left;
+  font-size: .88rem; font-weight: 700;
+  color: var(--text-dim); background: transparent; border: none; cursor: pointer;
+  transition: all .15s;
+}
+.season-option:hover { background: var(--glass); color: var(--text); }
+.season-option.active { color: var(--gold); }
+.season-option .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-faint); flex-shrink: 0; }
+.season-option.active .dot { background: var(--gold); }
+.season-option .cur-tag { font-size: .65rem; font-weight: 500; color: var(--text-faint); margin-left: auto; }
+
+/* ── Floating Nav ───────────────────────────────────────────────────────────── */
+#main-nav {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 200;
+  display: flex; align-items: center; gap: 3px;
+  background: rgba(8,20,45,.72);
+  backdrop-filter: blur(26px); -webkit-backdrop-filter: blur(26px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius-pill);
+  padding: 6px; white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.07);
+}
+.nav-btn {
+  background: transparent; color: var(--text-dim);
+  padding: 8px 16px; border-radius: 40px;
+  font-size: .8rem; font-weight: 600; letter-spacing: .2px;
+  transition: all .2s;
+}
+.nav-btn:hover { color: var(--text); background: var(--glass); }
+.nav-btn.active {
+  background: rgba(255,255,255,.13); color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.13);
+}
+
+/* ── Main Content ───────────────────────────────────────────────────────────── */
+main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 96px 20px 80px; width: 100%; }
+
+/* ── Footer ─────────────────────────────────────────────────────────────────── */
+footer {
+  text-align: center; padding: 1.25rem; font-size: .8rem;
+  color: var(--text-faint); border-top: 1px solid var(--glass-bd);
+}
+
+/* ── Glass Card ─────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.card-header {
+  padding: .85rem 1.25rem; font-weight: 700; font-size: .88rem; letter-spacing: .3px;
+  border-bottom: 1px solid var(--glass-bd); color: var(--text);
+}
+.card-header.gold  { background: rgba(240,180,41,.1);  color: var(--gold); }
+.card-header.blue  { background: rgba(26,108,245,.13); color: var(--blue-light); }
+.card-header.green { background: rgba(52,211,153,.09); color: var(--green); }
+.card-header.dark  { background: rgba(255,255,255,.04); }
+.card-body { padding: 1.25rem; }
+
+/* ── Section Title ──────────────────────────────────────────────────────────── */
+.section-title { font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 1.25rem; letter-spacing: -.3px; }
+.section-title small { font-size: .88rem; font-weight: 500; color: var(--text-dim); }
 
 /* ── Stat Pills ─────────────────────────────────────────────────────────────── */
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: .75rem; margin-bottom: 1.5rem; }
-.stat-pill { background: var(--branco); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem; text-align: center; }
-.stat-pill .val { font-size: 2rem; font-weight: 900; color: var(--azul); line-height: 1; }
-.stat-pill .lbl { font-size: .75rem; color: var(--texto-suave); margin-top: .25rem; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
-.stat-pill.green .val { color: var(--verde); }
-.stat-pill.amber .val { color: var(--amarelo); }
-.stat-pill.dark .val { color: var(--preto); }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: .75rem; margin-bottom: 1.5rem; }
+.stat-pill {
+  background: var(--glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius-lg);
+  padding: 1.1rem .75rem; text-align: center;
+  transition: transform .2s, background .2s;
+}
+.stat-pill:hover { background: var(--glass-md); transform: translateY(-2px); }
+.stat-pill .val { font-size: 2rem; font-weight: 900; color: var(--text); line-height: 1; letter-spacing: -1px; }
+.stat-pill .lbl { font-size: .67rem; color: var(--text-dim); margin-top: .3rem; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.stat-pill.gold  .val { color: var(--gold); }
+.stat-pill.green .val { color: var(--green); }
+.stat-pill.blue  .val { color: var(--blue-light); }
+.stat-pill.red   .val { color: var(--red); }
 
 /* ── Tables ─────────────────────────────────────────────────────────────────── */
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { width: 100%; border-collapse: collapse; font-size: .875rem; }
-thead th { background: var(--preto); color: #fff; padding: .6rem .75rem; text-align: center; font-size: .75rem; font-weight: 700; letter-spacing: .5px; white-space: nowrap; }
-thead th:first-child { text-align: left; padding-left: 1rem; }
-tbody tr { border-bottom: 1px solid var(--cinza-claro); transition: background .15s; }
-tbody tr:hover { background: var(--cinza-claro); }
-tbody tr.gold { background: #fff8e1; }
-tbody tr.silver { background: #f5f5f5; }
-tbody tr.bronze { background: #fbe9e7; }
-tbody td { padding: .55rem .75rem; text-align: center; }
-tbody td:first-child { text-align: left; padding-left: 1rem; }
-.badge { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; font-weight: 700; font-size: .8rem; }
-.badge-v { background: var(--verde-bg); color: var(--verde); }
-.badge-d { background: #ffebee; color: #b71c1c; }
-.badge-e { background: var(--amarelo-bg); color: var(--amarelo); }
-.pts { font-weight: 800; color: var(--azul); }
-.gols-bold { font-weight: 700; color: var(--verde); }
+thead th {
+  padding: .75rem .85rem; text-align: center;
+  font-size: .7rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
+  color: var(--text-dim); border-bottom: 1px solid var(--glass-bd);
+  white-space: nowrap; background: transparent;
+}
+thead th:first-child { text-align: left; padding-left: 1.25rem; }
+tbody tr { border-bottom: 1px solid rgba(255,255,255,.04); transition: background .15s; }
+tbody tr:hover { background: var(--glass); }
+tbody tr:last-child { border-bottom: none; }
+tbody tr.row-gold   { background: rgba(240,180,41,.07); }
+tbody tr.row-silver { background: rgba(255,255,255,.03); }
+tbody tr.row-bronze { background: rgba(255,120,60,.04); }
+tbody td { padding: .62rem .85rem; text-align: center; color: var(--text); }
+tbody td:first-child { text-align: left; padding-left: 1.25rem; }
+.pts-val  { font-weight: 800; color: var(--gold); }
+.gols-val { font-weight: 700; color: var(--green); }
 .nome-cell { font-weight: 600; }
-.ap-tag { background: var(--cinza-claro); color: var(--cinza); font-size: .72rem; padding: .15rem .45rem; border-radius: 4px; margin-left: .4rem; font-weight: 600; }
 
-/* ── Rounds / Histórico ─────────────────────────────────────────────────────── */
-.rounds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-.round-card { background: var(--branco); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; cursor: pointer; transition: transform .2s, box-shadow .2s; }
-.round-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-.round-header { padding: .6rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: .8rem; font-weight: 600; }
-.round-header.azul { background: var(--azul); color: #fff; }
-.round-header.preto { background: var(--preto); color: #fff; }
-.round-header.empate { background: #607d8b; color: #fff; }
+.badge-v { background: rgba(52,211,153,.14); color: var(--green); padding: .18rem .55rem; border-radius: 6px; font-weight: 700; font-size: .8rem; display: inline-block; }
+.badge-d { background: rgba(248,113,113,.14); color: var(--red); padding: .18rem .55rem; border-radius: 6px; font-weight: 700; font-size: .8rem; display: inline-block; }
+.badge-e { background: rgba(251,191,36,.14); color: var(--amber); padding: .18rem .55rem; border-radius: 6px; font-weight: 700; font-size: .8rem; display: inline-block; }
+
+/* ── Tags ───────────────────────────────────────────────────────────────────── */
+.tag { display: inline-block; padding: .2rem .65rem; border-radius: 6px; font-size: .72rem; font-weight: 700; letter-spacing: .3px; }
+.tag-azul   { background: rgba(26,108,245,.2);  color: var(--blue-light); }
+.tag-preto  { background: rgba(255,255,255,.1);  color: rgba(255,255,255,.82); }
+.tag-empate { background: rgba(251,191,36,.15);  color: var(--amber); }
+
+/* ── Round Cards ────────────────────────────────────────────────────────────── */
+.rounds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.round-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius-lg);
+  overflow: hidden; cursor: pointer;
+  transition: transform .22s, background .2s, box-shadow .22s;
+}
+.round-card:hover { transform: translateY(-3px); background: var(--glass-md); box-shadow: 0 14px 44px rgba(0,0,0,.32); }
+.round-header { padding: .65rem 1rem; display: flex; justify-content: space-between; align-items: center; font-size: .77rem; font-weight: 700; letter-spacing: .3px; }
+.rh-azul   { background: rgba(26,108,245,.18); color: var(--blue-light); }
+.rh-preto  { background: rgba(255,255,255,.07); color: var(--text); }
+.rh-empate { background: rgba(251,191,36,.12);  color: var(--amber); }
 .round-score { padding: 1rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
 .team-score { text-align: center; }
-.team-score .team-name { font-size: .75rem; font-weight: 700; letter-spacing: 1px; color: var(--texto-suave); }
-.team-score .score-num { font-size: 2.5rem; font-weight: 900; line-height: 1; }
-.score-num.preto-num { color: var(--preto); }
-.score-num.azul-num { color: var(--azul); }
-.score-divider { font-size: 1.5rem; color: var(--borda); font-weight: 300; }
-.round-footer { padding: .5rem 1rem .75rem; font-size: .8rem; color: var(--texto-suave); border-top: 1px solid var(--cinza-claro); }
-.scorers-line { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: .3rem; }
-.scorer-tag { background: var(--verde-bg); color: var(--verde); padding: .15rem .5rem; border-radius: 12px; font-size: .72rem; font-weight: 600; }
+.team-name-label { font-size: .65rem; font-weight: 800; letter-spacing: 1.5px; color: var(--text-faint); text-transform: uppercase; }
+.score-num { font-size: 2.5rem; font-weight: 900; line-height: 1; color: var(--text); }
+.score-num.winner { color: var(--gold); }
+.score-divider { font-size: 1.3rem; color: var(--text-faint); }
+.round-footer { padding: .5rem 1rem .75rem; font-size: .77rem; color: var(--text-dim); border-top: 1px solid var(--glass-bd); }
+.scorers-line { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .3rem; }
+.scorer-tag { background: rgba(52,211,153,.11); color: var(--green); padding: .2rem .55rem; border-radius: 10px; font-size: .72rem; font-weight: 600; }
 
 /* ── Round Detail ───────────────────────────────────────────────────────────── */
-.round-detail-hero { background: var(--preto); color: #fff; border-radius: var(--radius); padding: 2rem 1.5rem; text-align: center; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
-.round-detail-hero::before { content: '⚽'; position: absolute; font-size: 8rem; opacity: .04; top: -1rem; right: -1rem; }
-.rnd-date { font-size: .85rem; color: rgba(255,255,255,.6); margin-bottom: .5rem; letter-spacing: 1px; }
-.rnd-title { font-size: 1rem; font-weight: 700; color: var(--amarelo); margin-bottom: 1.5rem; letter-spacing: 2px; }
+.round-detail-hero {
+  background: rgba(8,18,44,.65);
+  backdrop-filter: blur(26px); -webkit-backdrop-filter: blur(26px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem; text-align: center; margin-bottom: 1.5rem;
+  position: relative; overflow: hidden;
+}
+.round-detail-hero::before { content: '⚽'; position: absolute; font-size: 10rem; opacity: .025; top: -1.5rem; right: -1.5rem; pointer-events: none; }
+.rnd-date  { font-size: .82rem; color: var(--text-dim); margin-bottom: .5rem; letter-spacing: 1px; }
+.rnd-title { font-size: .88rem; font-weight: 800; color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 2px; }
 .rnd-scoreboard { display: flex; align-items: center; justify-content: center; gap: 2rem; }
 .rnd-team { text-align: center; }
-.rnd-team-name { font-size: .75rem; font-weight: 800; letter-spacing: 2px; opacity: .7; }
-.rnd-score { font-size: 5rem; font-weight: 900; line-height: 1; }
-.rnd-score.winner { color: var(--amarelo); }
-.rnd-x { font-size: 2rem; opacity: .4; }
-.rnd-result-badge { display: inline-block; margin-top: 1rem; padding: .35rem 1rem; border-radius: 20px; font-size: .8rem; font-weight: 700; letter-spacing: 1px; }
-.rnd-result-badge.azul { background: var(--azul); }
-.rnd-result-badge.preto { background: rgba(255,255,255,.15); }
-.rnd-result-badge.empate { background: #607d8b; }
+.rnd-team-name { font-size: .7rem; font-weight: 800; letter-spacing: 2px; opacity: .55; text-transform: uppercase; }
+.rnd-score { font-size: 5rem; font-weight: 900; line-height: 1; color: var(--text); }
+.rnd-score.winner { color: var(--gold); }
+.rnd-x { font-size: 2rem; opacity: .28; }
+.rnd-result-badge { display: inline-block; margin-top: 1.25rem; padding: .4rem 1.1rem; border-radius: 40px; font-size: .8rem; font-weight: 700; letter-spacing: .5px; }
+.rnd-result-badge.azul   { background: rgba(26,108,245,.22); color: var(--blue-light); border: 1px solid rgba(26,108,245,.28); }
+.rnd-result-badge.preto  { background: rgba(255,255,255,.1);  color: var(--text); border: 1px solid var(--glass-bd); }
+.rnd-result-badge.empate { background: rgba(251,191,36,.14);  color: var(--amber); border: 1px solid rgba(251,191,36,.28); }
+
+/* ── Lineups ────────────────────────────────────────────────────────────────── */
 .lineups { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-.lineup-card { background: var(--branco); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-.lineup-title { padding: .65rem 1rem; font-weight: 700; font-size: .85rem; letter-spacing: 1px; }
-.lineup-title.preto { background: var(--preto); color: #fff; }
-.lineup-title.azul { background: var(--azul); color: #fff; }
+.lineup-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius-lg); overflow: hidden;
+}
+.lineup-title { padding: .7rem 1rem; font-weight: 700; font-size: .83rem; letter-spacing: .5px; text-transform: uppercase; }
+.lineup-title.preto { background: rgba(255,255,255,.06); color: var(--text); }
+.lineup-title.azul  { background: rgba(26,108,245,.18);  color: var(--blue-light); }
 .lineup-list { list-style: none; padding: .5rem 0; }
-.lineup-list li { padding: .35rem 1rem; font-size: .875rem; display: flex; align-items: center; gap: .4rem; border-bottom: 1px solid var(--cinza-claro); }
+.lineup-list li { padding: .42rem 1rem; font-size: .875rem; display: flex; align-items: center; gap: .5rem; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text); }
 .lineup-list li:last-child { border-bottom: none; }
-.goal-icon { color: var(--verde); font-size: .9rem; }
 
 /* ── Player Profile ─────────────────────────────────────────────────────────── */
-.player-hero { background: linear-gradient(135deg, var(--preto) 0%, var(--azul-claro) 100%); color: #fff; border-radius: var(--radius); padding: 2rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1.5rem; }
-.player-avatar { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 900; flex-shrink: 0; border: 3px solid rgba(255,255,255,.3); }
-.player-info h1 { font-size: 1.6rem; font-weight: 900; }
-.player-info .player-apelido { font-size: .9rem; color: rgba(255,255,255,.6); margin-top: .15rem; }
-.player-info .player-meta { font-size: .8rem; color: rgba(255,255,255,.5); margin-top: .25rem; }
+.player-hero {
+  background: rgba(8,18,44,.65);
+  backdrop-filter: blur(26px); -webkit-backdrop-filter: blur(26px);
+  border: 1px solid var(--glass-bd); border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem; margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 1.5rem;
+}
+.player-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(240,180,41,.14); border: 2px solid rgba(240,180,41,.32);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; font-weight: 900; color: var(--gold); flex-shrink: 0;
+}
+.player-info h1 { font-size: 1.6rem; font-weight: 900; color: var(--text); }
+.player-apelido { font-size: .9rem; color: var(--text-dim); margin-top: .15rem; }
+.player-meta { font-size: .8rem; color: var(--text-faint); margin-top: .25rem; }
 .seasons-tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
-.season-tab { padding: .4rem .9rem; border-radius: 20px; border: 2px solid var(--borda); background: var(--branco); font-weight: 700; font-size: .85rem; color: var(--texto-suave); transition: all .2s; }
-.season-tab.active { background: var(--azul); color: #fff; border-color: var(--azul); }
+.season-tab { padding: .45rem 1rem; border-radius: 40px; border: 1px solid var(--glass-bd); background: var(--glass); font-weight: 700; font-size: .85rem; color: var(--text-dim); transition: all .2s; cursor: pointer; }
+.season-tab.active { background: rgba(240,180,41,.14); color: var(--gold); border-color: rgba(240,180,41,.38); }
 
-/* ── Artilharia ─────────────────────────────────────────────────────────────── */
-.art-row { display: flex; align-items: center; gap .75rem; padding: .65rem 0; border-bottom: 1px solid var(--cinza-claro); }
-.art-pos { width: 32px; text-align: center; font-weight: 700; font-size: .9rem; }
-.art-name { flex: 1; font-weight: 600; }
-.art-gols { font-weight: 800; color: var(--verde); font-size: 1rem; min-width: 28px; text-align: right; }
-.art-bar-wrap { width: 100px; background: var(--cinza-claro); border-radius: 4px; height: 8px; overflow: hidden; }
-.art-bar { height: 100%; background: var(--verde); border-radius: 4px; }
-
-/* ── Utilities ──────────────────────────────────────────────────────────────── */
-.back-btn { display: inline-flex; align-items: center; gap: .35rem; color: var(--azul); font-weight: 600; margin-bottom: 1rem; font-size: .875rem; cursor: pointer; background: none; border: none; padding: 0; }
-.back-btn:hover { text-decoration: underline; }
-.tag-azul { background: var(--azul-bg); color: var(--azul); padding: .15rem .5rem; border-radius: 4px; font-size: .72rem; font-weight: 700; }
-.tag-preto { background: #eceff1; color: var(--preto); padding: .15rem .5rem; border-radius: 4px; font-size: .72rem; font-weight: 700; }
-.tag-empate { background: #fff9c4; color: #e65100; padding: .15rem .5rem; border-radius: 4px; font-size: .72rem; font-weight: 700; }
-.empty-state { text-align: center; padding: 3rem 1rem; color: var(--texto-suave); }
-.empty-state .icon { font-size: 3rem; margin-bottom: .5rem; }
-.loading { text-align: center; padding: 4rem; color: var(--texto-suave); font-size: 1.1rem; }
-.reconstituida-badge { background: var(--amarelo-bg); color: var(--amarelo); font-size: .7rem; padding: .1rem .4rem; border-radius: 4px; font-weight: 600; }
-.search-box { width: 100%; padding: .6rem 1rem; border: 2px solid var(--borda); border-radius: 8px; font-size: .9rem; margin-bottom: 1rem; outline: none; transition: border .2s; }
-.search-box:focus { border-color: var(--azul); }
-.tabs { display: flex; gap: .25rem; border-bottom: 2px solid var(--borda); margin-bottom: 1.25rem; overflow-x: auto; }
-.tab-btn { padding: .55rem 1rem; background: none; border: none; font-weight: 600; font-size: .875rem; color: var(--texto-suave); border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: all .2s; }
-.tab-btn.active { color: var(--azul); border-bottom-color: var(--azul); }
+/* ── Tabs ───────────────────────────────────────────────────────────────────── */
+.tabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--glass-bd); margin-bottom: 1.25rem; overflow-x: auto; }
+.tab-btn { padding: .6rem 1rem; background: none; border: none; font-weight: 600; font-size: .875rem; color: var(--text-dim); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; transition: all .2s; }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
+/* ── Search ─────────────────────────────────────────────────────────────────── */
+.search-box {
+  width: 100%; padding: .75rem 1.25rem; border: 1px solid var(--glass-bd); border-radius: var(--radius-pill);
+  font-size: .9rem; margin-bottom: 1.25rem; outline: none;
+  background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  color: var(--text); transition: border .2s, background .2s;
+}
+.search-box::placeholder { color: var(--text-faint); }
+.search-box:focus { border-color: rgba(240,180,41,.45); background: var(--glass-md); }
+
+/* ── Back Button ────────────────────────────────────────────────────────────── */
+.back-btn {
+  display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--text-dim); font-weight: 600; margin-bottom: 1.25rem;
+  font-size: .875rem; background: var(--glass); border: 1px solid var(--glass-bd);
+  padding: .5rem 1rem; border-radius: var(--radius-pill); transition: all .2s;
+}
+.back-btn:hover { background: var(--glass-md); color: var(--text); }
+
+/* ── Loading — Bouncing Ball ────────────────────────────────────────────────── */
+.loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 55vh; gap: 0; }
+.loading-ball { font-size: 3.5rem; display: inline-block; animation: ballBounce .72s cubic-bezier(.36,.07,.19,.97) infinite; filter: drop-shadow(0 14px 8px rgba(0,0,0,.45)); }
+.loading-shadow { width: 38px; height: 10px; background: rgba(0,0,0,.3); border-radius: 50%; margin-top: 4px; animation: shadowPulse .72s cubic-bezier(.36,.07,.19,.97) infinite; }
+.loading-text { color: var(--text-dim); font-size: .88rem; font-weight: 600; letter-spacing: .5px; margin-top: 1.5rem; }
+
+@keyframes ballBounce {
+  0%   { transform: translateY(0) scaleX(1)    scaleY(1); }
+  40%  { transform: translateY(-52px) scaleX(1) scaleY(1); }
+  50%  { transform: translateY(-52px) scaleX(1.06) scaleY(.94); }
+  60%  { transform: translateY(-52px) scaleX(1) scaleY(1); }
+  92%  { transform: translateY(0) scaleX(1.1)  scaleY(.9); }
+  100% { transform: translateY(0) scaleX(1)    scaleY(1); }
+}
+@keyframes shadowPulse {
+  0%,100% { transform: scale(1);   opacity: .35; }
+  50%      { transform: scale(.45); opacity: .1; }
+}
+
+/* ── Gallery ────────────────────────────────────────────────────────────────── */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.gallery-slot { aspect-ratio: 1; background: var(--glass); border: 1px dashed rgba(255,255,255,.15); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--text-faint); font-size: 1.75rem; transition: background .2s; }
+.gallery-slot:hover { background: var(--glass-md); }
+
+/* ── Artilharia Bar ─────────────────────────────────────────────────────────── */
+.art-bar-bg { flex: 1; background: rgba(255,255,255,.06); border-radius: 4px; height: 6px; overflow: hidden; min-width: 60px; }
+.art-bar-fill { height: 100%; border-radius: 4px; background: var(--green); transition: width .4s ease; }
+.art-bar-fill.gc { background: var(--text-faint); }
+
+/* ── Misc ───────────────────────────────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.empty-state { text-align: center; padding: 4rem 1rem; color: var(--text-dim); }
+.empty-icon { font-size: 3rem; margin-bottom: .75rem; }
+.reconstituida-badge { background: rgba(240,180,41,.14); color: var(--gold); font-size: .67rem; padding: .1rem .4rem; border-radius: 4px; font-weight: 600; }
+.art-clickable { cursor: pointer; border-radius: 10px; transition: background .15s; }
+.art-clickable:hover { background: var(--glass); }
+
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
-@media (max-width: 680px) {
-  .grid-2, .grid-3, .lineups { grid-template-columns: 1fr; }
-  nav button span.label { display: none; }
+@media (max-width: 700px) {
+  .grid-2, .lineups { grid-template-columns: 1fr; }
   .rounds-grid { grid-template-columns: 1fr; }
   .player-hero { flex-direction: column; text-align: center; }
   .rnd-score { font-size: 3.5rem; }
-  .header-inner { gap: .5rem; }
-  .season-selector { display: none; }
+  #main-nav { top: 60px; max-width: calc(100vw - 24px); overflow-x: auto; }
+  .nav-btn { padding: 8px 10px; font-size: .73rem; }
+  main { padding-top: 130px; }
+  #season-wrapper { top: 12px; left: 10px; }
+  .section-title { font-size: 1.25rem; }
 }
 </style>
 </head>
 <body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
 <div id="app">
-  <header>
-    <div class="header-inner">
-      <div class="logo">⚽ <span>PSOT</span></div>
-      <nav id="main-nav">
-        <button onclick="navigate('home')" class="active" data-page="home">🏠 <span class="label">Início</span></button>
-        <button onclick="navigate('classificacao')" data-page="classificacao">📊 <span class="label">Classificação</span></button>
-        <button onclick="navigate('artilharia')" data-page="artilharia">⚽ <span class="label">Artilharia</span></button>
-        <button onclick="navigate('rodadas')" data-page="rodadas">📅 <span class="label">Rodadas</span></button>
-        <button onclick="navigate('jogadores')" data-page="jogadores">👥 <span class="label">Jogadores</span></button>
-      </nav>
-      <div class="season-selector" id="season-selector"></div>
-    </div>
-  </header>
+
+  <!-- Season Selector — top left -->
+  <div id="season-wrapper">
+    <button class="season-toggle-btn" id="season-toggle-btn" onclick="toggleSeasonDropdown()">
+      <span id="season-label">2026</span>
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div id="season-dropdown"></div>
+  </div>
+
+  <!-- Floating Nav -->
+  <nav id="main-nav">
+    <button class="nav-btn active" onclick="navigate('home')" data-page="home">Início</button>
+    <button class="nav-btn" onclick="navigate('classificacao')" data-page="classificacao">Classificação</button>
+    <button class="nav-btn" onclick="navigate('artilharia')" data-page="artilharia">Artilharia</button>
+    <button class="nav-btn" onclick="navigate('rodadas')" data-page="rodadas">Rodadas</button>
+    <button class="nav-btn" onclick="navigate('jogadores')" data-page="jogadores">Jogadores</button>
+    <button class="nav-btn" onclick="navigate('galeria')" data-page="galeria">Galeria</button>
+  </nav>
+
   <main id="main-content">
-    <div class="loading">⚽ Carregando dados...</div>
+    <div class="loading-container">
+      <div class="loading-ball">⚽</div>
+      <div class="loading-shadow"></div>
+      <div class="loading-text">Carregando dados...</div>
+    </div>
   </main>
+
   <footer>
-    <strong>PSOT</strong> — Pelada de Sábado Oito e Trinta · Clube Álvares Cabral, Vitória/ES
-    <span id="footer-updated" style="margin-left:.5rem;opacity:.6;"></span>
+    <strong style="color:rgba(255,255,255,.65);">PSOT</strong>
+    <span> — Pelada de Sábado Oito e Trinta · Clube Álvares Cabral, Vitória/ES</span>
+    <span id="footer-updated" style="margin-left:.5rem;"></span>
   </footer>
+
 </div>
 
 <script>
-// ── State ─────────────────────────────────────────────────────────────────────
+// ── State ────────────────────────────────────────────────────────────────────
 const state = {
   currentPage: 'home',
   currentSeason: '2026',
   seasons: {},
   config: null,
+  dropdownOpen: false,
 };
 
-// ── Data Loading ─────────────────────────────────────────────────────────────
+// ── Season Dropdown ───────────────────────────────────────────────────────────
+function toggleSeasonDropdown() {
+  state.dropdownOpen = !state.dropdownOpen;
+  const dd  = document.getElementById('season-dropdown');
+  const btn = document.getElementById('season-toggle-btn');
+  if (state.dropdownOpen) { dd.classList.add('open'); btn.classList.add('open'); }
+  else { dd.classList.remove('open'); btn.classList.remove('open'); }
+}
+
+function closeSeasonDropdown() {
+  state.dropdownOpen = false;
+  document.getElementById('season-dropdown').classList.remove('open');
+  document.getElementById('season-toggle-btn').classList.remove('open');
+}
+
+document.addEventListener('click', e => {
+  const w = document.getElementById('season-wrapper');
+  if (w && !w.contains(e.target)) closeSeasonDropdown();
+});
+
+function buildSeasonSelector() {
+  document.getElementById('season-label').textContent = state.currentSeason;
+  const dd = document.getElementById('season-dropdown');
+  dd.innerHTML = state.config.seasons.map(s => `
+    <button class="season-option ${s === state.currentSeason ? 'active' : ''}" onclick="setSeason('${s}')">
+      <span class="dot"></span>
+      ${s}
+      ${s === state.config.current_season ? '<span class="cur-tag">atual</span>' : ''}
+    </button>`).join('');
+}
+
+function setSeason(s) {
+  state.currentSeason = s;
+  closeSeasonDropdown();
+  buildSeasonSelector();
+  navigate(state.currentPage);
+}
+
+function getSeason() { return state.seasons[state.currentSeason]; }
+
+// ── Data Loading ──────────────────────────────────────────────────────────────
 async function loadData() {
   const [cfg, s2025, s2026] = await Promise.all([
     fetch('data/config.json').then(r => r.json()),
@@ -231,36 +474,22 @@ async function loadData() {
   navigate(state.currentPage);
 }
 
-function buildSeasonSelector() {
-  const sel = document.getElementById('season-selector');
-  sel.innerHTML = state.config.seasons.map(s =>
-    `<button class="season-btn ${s === state.currentSeason ? 'active' : ''}" onclick="setSeason('${s}')">${s}</button>`
-  ).join('');
-}
-
-function setSeason(s) {
-  state.currentSeason = s;
-  buildSeasonSelector();
-  navigate(state.currentPage);
-}
-
-function getSeason() { return state.seasons[state.currentSeason]; }
-
 // ── Router ────────────────────────────────────────────────────────────────────
 function navigate(page, params = {}) {
   state.currentPage = page.split(':')[0];
-  document.querySelectorAll('#main-nav button').forEach(b => {
+  document.querySelectorAll('#main-nav .nav-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.page === state.currentPage);
   });
   const el = document.getElementById('main-content');
   switch (state.currentPage) {
-    case 'home':          el.innerHTML = renderHome(); break;
-    case 'classificacao': el.innerHTML = renderClassificacao(); break;
-    case 'artilharia':    el.innerHTML = renderArtilharia(); break;
-    case 'rodadas':       el.innerHTML = renderRodadas(); break;
-    case 'rodada':        el.innerHTML = renderRodadaDetail(params.num); break;
-    case 'jogadores':     el.innerHTML = renderJogadores(); break;
-    case 'jogador':       el.innerHTML = renderJogadorDetail(params.apelido, params.season); break;
+    case 'home':          el.innerHTML = renderHome();                              break;
+    case 'classificacao': el.innerHTML = renderClassificacao();                    break;
+    case 'artilharia':   el.innerHTML = renderArtilharia();                       break;
+    case 'rodadas':      el.innerHTML = renderRodadas();                          break;
+    case 'rodada':       el.innerHTML = renderRodadaDetail(params.num);           break;
+    case 'jogadores':    el.innerHTML = renderJogadores();                        break;
+    case 'jogador':      el.innerHTML = renderJogadorDetail(params.apelido, params.season); break;
+    case 'galeria':      el.innerHTML = renderGaleria();                          break;
   }
   window.scrollTo(0, 0);
 }
@@ -275,9 +504,9 @@ function fmtDate(d) {
 
 function vencTag(v) {
   if (!v) return '';
-  if (v === 'AZUL')   return `<span class="tag-azul">Azul Vence</span>`;
-  if (v === 'PRETO')  return `<span class="tag-preto">Preto Vence</span>`;
-  return `<span class="tag-empate">Empate</span>`;
+  if (v === 'AZUL')  return `<span class="tag tag-azul">Azul Vence</span>`;
+  if (v === 'PRETO') return `<span class="tag tag-preto">Preto Vence</span>`;
+  return `<span class="tag tag-empate">Empate</span>`;
 }
 
 function medalPos(p) {
@@ -288,9 +517,9 @@ function medalPos(p) {
 }
 
 function rowClass(p) {
-  if (p === 1) return 'gold';
-  if (p === 2) return 'silver';
-  if (p === 3) return 'bronze';
+  if (p === 1) return 'row-gold';
+  if (p === 2) return 'row-silver';
+  if (p === 3) return 'row-bronze';
   return '';
 }
 
@@ -320,6 +549,11 @@ function scorersText(gols) {
     .join(', ');
 }
 
+// ── Btn util ──────────────────────────────────────────────────────────────────
+function ghostBtn(label, onclick) {
+  return `<button onclick="${onclick}" style="background:var(--glass-md);border:1px solid var(--glass-bd);color:var(--text-dim);padding:.5rem 1.1rem;border-radius:40px;font-size:.8rem;font-weight:600;transition:all .2s;" onmouseover="this.style.color='var(--text)';this.style.background='var(--glass-hi)'" onmouseout="this.style.color='var(--text-dim)';this.style.background='var(--glass-md)'">${label}</button>`;
+}
+
 // ── Home ──────────────────────────────────────────────────────────────────────
 function renderHome() {
   const s = getSeason();
@@ -332,98 +566,92 @@ function renderHome() {
     .slice(0, 5);
 
   return `
-  <div class="section-title">⚽ Temporada ${state.currentSeason}</div>
+  <div class="section-title">Temporada ${state.currentSeason}</div>
 
   <div class="stat-grid">
     <div class="stat-pill"><div class="val">${s.total_rodadas}</div><div class="lbl">Rodadas</div></div>
     <div class="stat-pill green"><div class="val">${st.total_gols}</div><div class="lbl">Gols</div></div>
-    <div class="stat-pill amber"><div class="val">${st.media_gols}</div><div class="lbl">Média/Jogo</div></div>
-    <div class="stat-pill dark"><div class="val">${s.players.filter(p=>p.jogos>0).length}</div><div class="lbl">Jogadores</div></div>
-    <div class="stat-pill"><div class="val">${st.vitoria_azul}</div><div class="lbl">Vitórias Azul</div></div>
-    <div class="stat-pill dark"><div class="val">${st.vitoria_preto}</div><div class="lbl">Vitórias Preto</div></div>
-    <div class="stat-pill amber"><div class="val">${st.empates}</div><div class="lbl">Empates</div></div>
+    <div class="stat-pill gold"><div class="val">${st.media_gols}</div><div class="lbl">Média/Jogo</div></div>
+    <div class="stat-pill"><div class="val">${s.players.filter(p=>p.jogos>0).length}</div><div class="lbl">Jogadores</div></div>
+    <div class="stat-pill blue"><div class="val">${st.vitoria_azul}</div><div class="lbl">Vitórias Azul</div></div>
+    <div class="stat-pill"><div class="val">${st.vitoria_preto}</div><div class="lbl">Vitórias Preto</div></div>
+    <div class="stat-pill gold"><div class="val">${st.empates}</div><div class="lbl">Empates</div></div>
   </div>
 
-  <div class="grid-2" style="gap:1rem;margin-bottom:1rem;">
+  <div class="grid-2" style="margin-bottom:1rem;">
     <div class="card">
-      <div class="card-header" style="background:var(--preto);color:#fff;">
-        📅 Última Rodada · R${lastRound?.rodada || '—'}
-      </div>
+      <div class="card-header dark">Última Rodada · R${lastRound?.rodada || '—'}</div>
       <div class="card-body">
         ${lastRound ? `
-          <div style="text-align:center;padding:.5rem 0;">
-            <div style="font-size:.8rem;color:var(--texto-suave);margin-bottom:.5rem;">${fmtDate(lastRound.data)}</div>
+          <div style="text-align:center;padding:.25rem 0;">
+            <div style="font-size:.78rem;color:var(--text-dim);margin-bottom:.75rem;">${fmtDate(lastRound.data)}</div>
             <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:.75rem;">
               <div style="text-align:center;">
-                <div style="font-size:.7rem;font-weight:700;letter-spacing:1px;color:var(--cinza);">PRETO</div>
-                <div style="font-size:3.5rem;font-weight:900;color:var(--preto);">${lastRound.placar_final[0]}</div>
+                <div style="font-size:.63rem;font-weight:800;letter-spacing:1.5px;color:var(--text-faint);">PRETO</div>
+                <div style="font-size:3.5rem;font-weight:900;color:var(--text);line-height:1.1;">${lastRound.placar_final[0]}</div>
               </div>
-              <div style="font-size:1.5rem;color:var(--borda);">×</div>
+              <div style="font-size:1.4rem;color:var(--text-faint);">×</div>
               <div style="text-align:center;">
-                <div style="font-size:.7rem;font-weight:700;letter-spacing:1px;color:var(--azul);">AZUL</div>
-                <div style="font-size:3.5rem;font-weight:900;color:var(--azul);">${lastRound.placar_final[1]}</div>
+                <div style="font-size:.63rem;font-weight:800;letter-spacing:1.5px;color:var(--blue-light);">AZUL</div>
+                <div style="font-size:3.5rem;font-weight:900;color:var(--blue-light);line-height:1.1;">${lastRound.placar_final[1]}</div>
               </div>
             </div>
             ${vencTag(lastRound.vencedor)}
           </div>
           ${Object.keys(lastRound.gols||{}).length ? `
-            <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--cinza-claro);">
-              <div style="font-size:.75rem;font-weight:700;color:var(--texto-suave);margin-bottom:.35rem;">⚽ GOLS</div>
+            <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--glass-bd);">
+              <div style="font-size:.68rem;font-weight:700;color:var(--text-dim);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.5px;">Gols</div>
               <div class="scorers-line">
                 ${Object.entries(lastRound.gols||{}).filter(([,g])=>g>0).sort(([,a],[,b])=>b-a).map(([n,g])=>`<span class="scorer-tag">${n}${g>1?' ('+g+')':''}</span>`).join('')}
               </div>
             </div>` : ''}
-          <div style="margin-top:.75rem;text-align:center;">
-            <button onclick="navigate('rodada',{num:${lastRound.rodada}})" style="background:var(--azul);color:#fff;padding:.4rem 1rem;border-radius:6px;font-size:.8rem;font-weight:600;">Ver detalhes →</button>
+          <div style="margin-top:.85rem;text-align:center;">
+            ${ghostBtn('Ver detalhes →', `navigate('rodada',{num:${lastRound.rodada}})`)}
           </div>
-        ` : '<div class="empty-state"><div class="icon">📅</div>Sem rodadas ainda</div>'}
+        ` : '<div class="empty-state"><div class="empty-icon">📅</div>Sem rodadas ainda</div>'}
       </div>
     </div>
 
     <div class="card">
-      <div class="card-header" style="background:var(--verde);color:#fff;">⚽ Top Artilheiros</div>
-      <div class="card-body" style="padding:.5rem 1rem;">
+      <div class="card-header green">Top Artilheiros</div>
+      <div class="card-body" style="padding-top:.75rem;">
         ${top3art.map((a, i) => `
-          <div class="art-row" style="display:flex;align-items:center;gap:.75rem;padding:.65rem 0;border-bottom:1px solid var(--cinza-claro);">
-            <div class="art-pos">${medalPos(i+1)}</div>
-            <div class="art-name" style="flex:1;font-weight:600;">${a.apelido}</div>
-            <div style="width:80px;background:var(--cinza-claro);border-radius:4px;height:8px;overflow:hidden;">
-              <div style="height:100%;background:var(--verde);border-radius:4px;width:${Math.round(a.gols/top3art[0].gols*100)}%;"></div>
-            </div>
-            <div class="art-gols" style="font-weight:800;color:var(--verde);min-width:28px;text-align:right;">${a.gols}</div>
+          <div class="art-clickable" style="display:flex;align-items:center;gap:.75rem;padding:.65rem .35rem;border-bottom:1px solid rgba(255,255,255,.04);" onclick="navigate('jogador',{apelido:'${escAp(a.apelido)}',season:'${state.currentSeason}'})">
+            <div style="width:30px;text-align:center;font-size:.85rem;">${medalPos(i+1)}</div>
+            <div style="flex:1;font-weight:600;">${a.apelido}</div>
+            <div class="art-bar-bg"><div class="art-bar-fill" style="width:${Math.round(a.gols/top3art[0].gols*100)}%;"></div></div>
+            <div style="font-weight:800;color:var(--green);min-width:26px;text-align:right;">${a.gols}</div>
           </div>
         `).join('')}
-        <div style="text-align:center;margin-top:.75rem;">
-          <button onclick="navigate('artilharia')" style="background:transparent;color:var(--verde);border:1.5px solid var(--verde);padding:.35rem .9rem;border-radius:6px;font-size:.8rem;font-weight:600;">Ver tabela completa →</button>
+        <div style="text-align:center;margin-top:.85rem;">
+          ${ghostBtn('Ver tabela completa →', "navigate('artilharia')")}
         </div>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header" style="background:var(--azul-claro);color:#fff;">📊 Classificação — Top 5</div>
+    <div class="card-header blue">Classificação — Top 5</div>
     <div class="table-wrap">
       <table>
-        <thead><tr>
-          <th>#</th><th style="text-align:left;">Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th>
-        </tr></thead>
+        <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th></tr></thead>
         <tbody>
           ${top5class.map((p, i) => `
             <tr class="${rowClass(i+1)}" style="cursor:pointer;" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.currentSeason}'})">
               <td>${medalPos(i+1)}</td>
               <td class="nome-cell">${p.apelido}</td>
               <td>${p.jogos}</td>
-              <td class="badge badge-v">${p.vitorias}</td>
+              <td><span class="badge-v">${p.vitorias}</span></td>
               <td>${p.empates ?? 0}</td>
               <td>${p.derrotas ?? 0}</td>
-              <td class="pts">${pts(p)}</td>
-              <td class="gols-bold">${p.gols}</td>
+              <td class="pts-val">${pts(p)}</td>
+              <td class="gols-val">${p.gols}</td>
             </tr>`).join('')}
         </tbody>
       </table>
     </div>
-    <div style="padding:.75rem 1rem;text-align:center;">
-      <button onclick="navigate('classificacao')" style="background:transparent;color:var(--azul);border:1.5px solid var(--azul);padding:.35rem .9rem;border-radius:6px;font-size:.8rem;font-weight:600;">Ver classificação completa →</button>
+    <div style="padding:.75rem 1.25rem;text-align:center;">
+      ${ghostBtn('Ver classificação completa →', "navigate('classificacao')")}
     </div>
   </div>`;
 }
@@ -447,32 +675,32 @@ function renderClassificacao() {
       <td>${medalPos(pos)}</td>
       <td class="nome-cell">${p.apelido}</td>
       <td>${p.jogos}/${totalRodadas}</td>
-      <td><span class="badge badge-v">${p.vitorias}</span></td>
+      <td><span class="badge-v">${p.vitorias}</span></td>
       <td>${p.empates ?? 0}</td>
       <td>${p.derrotas ?? 0}</td>
-      <td class="pts">${pts(p)}</td>
-      <td class="gols-bold">${p.gols}</td>
-      <td>${pv}</td>
+      <td class="pts-val">${pts(p)}</td>
+      <td class="gols-val">${p.gols}</td>
+      <td style="color:var(--text-dim);">${pv}</td>
     </tr>`;
   }).join('');
 
   return `
-  <div class="section-title">📊 Classificação ${state.currentSeason}</div>
+  <div class="section-title">Classificação ${state.currentSeason}</div>
   <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('tab-geral',this)">Geral (pontos)</button>
-    <button class="tab-btn" onclick="showTab('tab-pct',this)">Ranking por % <span style="background:var(--amarelo-bg);color:var(--amarelo);font-size:.7rem;padding:.1rem .35rem;border-radius:4px;margin-left:.3rem;">mín ${minJogos}j</span></button>
+    <button class="tab-btn active" onclick="showTab('tab-geral',this)">Geral</button>
+    <button class="tab-btn" onclick="showTab('tab-pct',this)">% Vitórias <span style="background:var(--gold-dim);color:var(--gold);font-size:.68rem;padding:.1rem .38rem;border-radius:4px;margin-left:.3rem;">mín ${minJogos}j</span></button>
   </div>
 
   <div id="tab-geral" class="tab-content active">
     <div class="card">
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th>% Vit</th></tr></thead>
+          <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th>%Vit</th></tr></thead>
           <tbody>${tabela(ativos)}</tbody>
         </table>
       </div>
     </div>
-    <p style="font-size:.75rem;color:var(--texto-suave);margin-top:.5rem;padding-left:.25rem;">PTS = Vitórias×3 + Empates×1</p>
+    <p style="font-size:.74rem;color:var(--text-faint);margin-top:.5rem;padding-left:.25rem;">PTS = Vitórias×3 + Empates×1</p>
   </div>
 
   <div id="tab-pct" class="tab-content">
@@ -484,24 +712,24 @@ function renderClassificacao() {
       <div class="card">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th>% Vit</th></tr></thead>
+            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th>%Vit</th></tr></thead>
             <tbody>${tabela(rankPct)}</tbody>
           </table>
         </div>
       </div>
       ${inativos.length ? `
       <div style="margin-top:1rem;" class="card">
-        <div class="card-header" style="background:var(--amarelo-bg);color:var(--amarelo);">⚠️ Amostra insuficiente — menos de ${minJogos} jogos</div>
+        <div class="card-header" style="background:rgba(240,180,41,.07);color:var(--amber);">Amostra insuficiente — menos de ${minJogos} jogos</div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>Gols</th><th>% Vit</th></tr></thead>
-            <tbody>${inativos.map((p,i) => `<tr style="opacity:.6;cursor:pointer;" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.currentSeason}'})">
+            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>Gols</th><th>%Vit</th></tr></thead>
+            <tbody>${inativos.map((p) => `<tr style="opacity:.5;cursor:pointer;" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.currentSeason}'})">
               <td>—</td><td>${p.apelido}</td><td>${p.jogos}</td><td>${p.vitorias}</td><td>${p.empates??0}</td><td>${p.derrotas??0}</td><td>${p.gols}</td><td>${pct(p.vitorias,p.jogos)}</td></tr>`).join('')}
             </tbody>
           </table>
         </div>
       </div>` : ''}
-      <p style="font-size:.75rem;color:var(--texto-suave);margin-top:.5rem;padding-left:.25rem;">Mínimo de ${minJogos} jogos (⌊${totalRodadas}÷2⌋) para entrar no ranking por %</p>`;
+      <p style="font-size:.74rem;color:var(--text-faint);margin-top:.5rem;padding-left:.25rem;">Mínimo de ${minJogos} jogos (⌊${totalRodadas}÷2⌋) para entrar no ranking por %</p>`;
     })()}
   </div>`;
 }
@@ -512,19 +740,17 @@ function renderArtilharia() {
   const art = s.artilharia;
   const max = art[0]?.gols || 1;
   return `
-  <div class="section-title">⚽ Artilharia ${state.currentSeason}</div>
+  <div class="section-title">Artilharia ${state.currentSeason}</div>
   <div class="card">
     <div class="card-body" style="padding-top:.5rem;">
       ${art.map((a, i) => {
         const isGC = a.apelido.toUpperCase().includes('GOL CONTRA') || a.apelido.toUpperCase().includes('GC');
         return `
-        <div style="display:flex;align-items:center;gap:.75rem;padding:.7rem 0;border-bottom:1px solid var(--cinza-claro);" ${!isGC ? `class="art-clickable" onclick="navigate('jogador',{apelido:'${escAp(a.apelido)}',season:'${state.currentSeason}'})" style="cursor:pointer;display:flex;align-items:center;gap:.75rem;padding:.7rem 0;border-bottom:1px solid var(--cinza-claro);"` : ''}>
+        <div class="${!isGC ? 'art-clickable' : ''}" style="display:flex;align-items:center;gap:.75rem;padding:.7rem .25rem;border-bottom:1px solid rgba(255,255,255,.04);" ${!isGC ? `onclick="navigate('jogador',{apelido:'${escAp(a.apelido)}',season:'${state.currentSeason}'})"` : ''}>
           <div style="width:32px;text-align:center;font-weight:700;">${isGC ? '—' : medalPos(i+1)}</div>
-          <div style="flex:1;font-weight:${i<3?'700':'600'};color:${isGC?'var(--cinza)':'var(--texto)'};">${a.apelido}</div>
-          <div style="width:${Math.min(160, window.innerWidth * .25)}px;background:var(--cinza-claro);border-radius:4px;height:8px;overflow:hidden;">
-            <div style="height:100%;background:${isGC?'var(--cinza)':'var(--verde)'};border-radius:4px;width:${Math.round(a.gols/max*100)}%;"></div>
-          </div>
-          <div style="font-weight:800;color:${isGC?'var(--cinza)':'var(--verde)'};min-width:32px;text-align:right;font-size:1rem;">${a.gols}</div>
+          <div style="flex:1;font-weight:${i<3?'700':'600'};color:${isGC?'var(--text-faint)':'var(--text)'};">${a.apelido}</div>
+          <div class="art-bar-bg"><div class="art-bar-fill ${isGC?'gc':''}" style="width:${Math.round(a.gols/max*100)}%;"></div></div>
+          <div style="font-weight:800;color:${isGC?'var(--text-faint)':'var(--green)'};min-width:32px;text-align:right;font-size:1rem;">${a.gols}</div>
         </div>`;
       }).join('')}
     </div>
@@ -536,34 +762,34 @@ function renderRodadas() {
   const s = getSeason();
   const rounds = [...s.rounds].reverse();
   return `
-  <div class="section-title">📅 Rodadas ${state.currentSeason} <span style="font-size:.9rem;font-weight:500;color:var(--texto-suave);">${s.total_rodadas} disputadas</span></div>
+  <div class="section-title">Rodadas ${state.currentSeason} <small>${s.total_rodadas} disputadas</small></div>
   <div class="rounds-grid">
     ${rounds.map(r => {
       const pf = r.placar_final;
       const v = r.vencedor || (pf ? (pf[0]>pf[1]?'PRETO':pf[1]>pf[0]?'AZUL':'EMPATE') : 'EMPATE');
-      const hdrClass = v === 'AZUL' ? 'azul' : v === 'PRETO' ? 'preto' : 'empate';
+      const hdrClass = v === 'AZUL' ? 'rh-azul' : v === 'PRETO' ? 'rh-preto' : 'rh-empate';
       const scorers = scorersText(r.gols);
       return `
       <div class="round-card" onclick="navigate('rodada',{num:${r.rodada}})">
         <div class="round-header ${hdrClass}">
           <span>Rodada ${r.rodada}</span>
           <span>${fmtDate(r.data)}</span>
-          ${r.reconstituida ? '<span class="reconstituida-badge" style="color:#fff;background:rgba(0,0,0,.2);">reconstituída</span>' : ''}
+          ${r.reconstituida ? '<span class="reconstituida-badge">reconstituída</span>' : ''}
         </div>
         <div class="round-score">
           <div class="team-score">
-            <div class="team-name">PRETO</div>
-            <div class="score-num preto-num ${v==='PRETO'?'winner':''}" style="${v==='PRETO'?'color:var(--amarelo)':''}">${pf?pf[0]:'?'}</div>
+            <div class="team-name-label">PRETO</div>
+            <div class="score-num ${v==='PRETO'?'winner':''}">${pf?pf[0]:'?'}</div>
           </div>
           <div class="score-divider">×</div>
           <div class="team-score">
-            <div class="team-name" style="color:var(--azul);">AZUL</div>
-            <div class="score-num azul-num ${v==='AZUL'?'winner':''}" style="${v==='AZUL'?'color:var(--amarelo)':''}">${pf?pf[1]:'?'}</div>
+            <div class="team-name-label" style="color:var(--blue-light);">AZUL</div>
+            <div class="score-num ${v==='AZUL'?'winner':''}" style="${v!=='AZUL'?'color:var(--blue-light);':''}">${pf?pf[1]:'?'}</div>
           </div>
         </div>
         <div class="round-footer">
           <div>${vencTag(v)}</div>
-          ${scorers ? `<div class="scorers-line" style="margin-top:.4rem;">⚽ <span style="font-size:.75rem;color:var(--texto-suave);">${scorers}</span></div>` : ''}
+          ${scorers ? `<div class="scorers-line" style="margin-top:.4rem;">${scorers.split(', ').map(s=>`<span class="scorer-tag">${s}</span>`).join('')}</div>` : ''}
         </div>
       </div>`;
     }).join('')}
@@ -574,22 +800,22 @@ function renderRodadas() {
 function renderRodadaDetail(num) {
   const s = getSeason();
   const r = s.rounds.find(x => x.rodada === num);
-  if (!r) return `<button class="back-btn" onclick="navigate('rodadas')">← Voltar</button><div class="empty-state"><div class="icon">❓</div>Rodada não encontrada</div>`;
+  if (!r) return `<button class="back-btn" onclick="navigate('rodadas')">← Voltar</button><div class="empty-state"><div class="empty-icon">❓</div>Rodada não encontrada</div>`;
 
   const pf = r.placar_final;
   const v = r.vencedor || (pf[0]>pf[1]?'PRETO':pf[1]>pf[0]?'AZUL':'EMPATE');
   const pretoWin = v === 'PRETO', azulWin = v === 'AZUL';
 
-  const lineupHtml = (players, gols, side) => {
-    if (!players?.length) return '<li style="padding:.5rem 1rem;color:var(--texto-suave);font-size:.85rem;">Dados não disponíveis</li>';
+  const lineupHtml = (players, gols) => {
+    if (!players?.length) return '<li style="padding:.5rem 1rem;color:var(--text-dim);font-size:.85rem;">Dados não disponíveis</li>';
     return players.map(p => {
       const g = gols?.[p] || 0;
-      return `<li>${p}${g > 0 ? ` <span class="goal-icon">${'⚽'.repeat(g)}</span>` : ''}</li>`;
+      return `<li>${p}${g > 0 ? ` <span style="color:var(--green);font-size:.85rem;">${'⚽'.repeat(Math.min(g,5))}${g>1?' '+g+'g':''}</span>` : ''}</li>`;
     }).join('');
   };
 
   return `
-  <button class="back-btn" onclick="navigate('rodadas')">← Voltar às Rodadas</button>
+  <button class="back-btn" onclick="navigate('rodadas')">← Rodadas</button>
 
   <div class="round-detail-hero">
     <div class="rnd-date">${fmtDate(r.data)}</div>
@@ -601,27 +827,27 @@ function renderRodadaDetail(num) {
       </div>
       <div class="rnd-x">×</div>
       <div class="rnd-team">
-        <div class="rnd-team-name">AZUL</div>
-        <div class="rnd-score ${azulWin ? 'winner' : ''}">${pf[1]}</div>
+        <div class="rnd-team-name" style="color:var(--blue-light);">AZUL</div>
+        <div class="rnd-score ${azulWin ? 'winner' : ''}" style="${!azulWin?'color:var(--blue-light);':''}">${pf[1]}</div>
       </div>
     </div>
     <div>
       <span class="rnd-result-badge ${v.toLowerCase()}">
         ${v === 'EMPATE' ? 'Empate' : `Vitória ${v === 'AZUL' ? 'Time Azul' : 'Time Preto'}`}
       </span>
-      ${r.reconstituida ? '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.8);font-size:.7rem;padding:.2rem .5rem;border-radius:4px;margin-left:.5rem;">reconstituída</span>' : ''}
+      ${r.reconstituida ? '<span class="reconstituida-badge" style="margin-left:.5rem;">reconstituída</span>' : ''}
     </div>
-    ${r.intervalo ? `<div style="margin-top:.75rem;font-size:.8rem;opacity:.6;">Intervalo: ${r.intervalo[0]} × ${r.intervalo[1]}</div>` : ''}
+    ${r.intervalo ? `<div style="margin-top:.75rem;font-size:.8rem;color:var(--text-faint);">Intervalo: ${r.intervalo[0]} × ${r.intervalo[1]}</div>` : ''}
   </div>
 
   ${Object.keys(r.gols||{}).length ? `
   <div class="card" style="margin-bottom:1rem;">
-    <div class="card-header" style="background:var(--verde);color:#fff;">⚽ Marcadores</div>
+    <div class="card-header green">Marcadores</div>
     <div class="card-body">
       <div class="scorers-line">
         ${Object.entries(r.gols).filter(([,g])=>g>0).sort(([,a],[,b])=>b-a).map(([n,g])=>`<span class="scorer-tag" style="font-size:.85rem;padding:.3rem .75rem;">${n}${g>1?' ('+g+')':''}</span>`).join('')}
       </div>
-      <div style="margin-top:.75rem;font-size:.8rem;color:var(--texto-suave);">
+      <div style="margin-top:.75rem;font-size:.8rem;color:var(--text-dim);">
         Total: ${Object.values(r.gols).reduce((a,b)=>a+b,0)} gols
       </div>
     </div>
@@ -629,12 +855,12 @@ function renderRodadaDetail(num) {
 
   <div class="lineups">
     <div class="lineup-card">
-      <div class="lineup-title preto">⬛ TIME PRETO ${pretoWin ? '🏆' : ''}</div>
-      <ul class="lineup-list">${lineupHtml(r.time_preto, r.gols, 'preto')}</ul>
+      <div class="lineup-title preto">Time Preto ${pretoWin ? '🏆' : ''}</div>
+      <ul class="lineup-list">${lineupHtml(r.time_preto, r.gols)}</ul>
     </div>
     <div class="lineup-card">
-      <div class="lineup-title azul">🟦 TIME AZUL ${azulWin ? '🏆' : ''}</div>
-      <ul class="lineup-list">${lineupHtml(r.time_azul, r.gols, 'azul')}</ul>
+      <div class="lineup-title azul">Time Azul ${azulWin ? '🏆' : ''}</div>
+      <ul class="lineup-list">${lineupHtml(r.time_azul, r.gols)}</ul>
     </div>
   </div>`;
 }
@@ -646,20 +872,20 @@ function renderJogadores() {
     .sort((a, b) => a.apelido.localeCompare(b.apelido));
 
   return `
-  <div class="section-title">👥 Jogadores ${state.currentSeason}</div>
-  <input class="search-box" id="player-search" placeholder="🔍  Buscar jogador..." oninput="filterPlayers()" />
+  <div class="section-title">Jogadores ${state.currentSeason}</div>
+  <input class="search-box" id="player-search" placeholder="Buscar jogador..." oninput="filterPlayers()" />
   <div class="rounds-grid" id="players-grid">
     ${players.map(p => `
     <div class="round-card" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.currentSeason}'})" data-name="${p.apelido.toLowerCase()}">
-      <div class="round-header preto">
-        <span style="font-size:1rem;">👤 ${p.apelido}</span>
-        ${p.numero ? `<span style="background:rgba(255,255,255,.2);padding:.15rem .5rem;border-radius:4px;font-size:.8rem;">#${p.numero}</span>` : ''}
+      <div class="round-header rh-preto">
+        <span style="font-weight:700;">${p.apelido}</span>
+        ${p.numero ? `<span style="background:var(--glass-md);padding:.15rem .5rem;border-radius:4px;font-size:.73rem;">#${p.numero}</span>` : ''}
       </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:.75rem .5rem;">
-        <div><div style="font-size:1.4rem;font-weight:900;color:var(--verde);">${p.gols}</div><div style="font-size:.65rem;color:var(--texto-suave);font-weight:600;">GOLS</div></div>
-        <div><div style="font-size:1.4rem;font-weight:900;color:var(--verde);">${p.vitorias}</div><div style="font-size:.65rem;color:var(--texto-suave);font-weight:600;">VITÓRIAS</div></div>
-        <div><div style="font-size:1.4rem;font-weight:900;color:var(--azul);">${pts(p)}</div><div style="font-size:.65rem;color:var(--texto-suave);font-weight:600;">PTS</div></div>
-        <div><div style="font-size:1.4rem;font-weight:900;color:var(--cinza);">${p.jogos}</div><div style="font-size:.65rem;color:var(--texto-suave);font-weight:600;">JOGOS</div></div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:.9rem .5rem;">
+        <div><div style="font-size:1.4rem;font-weight:900;color:var(--green);">${p.gols}</div><div style="font-size:.6rem;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;">Gols</div></div>
+        <div><div style="font-size:1.4rem;font-weight:900;color:var(--green);">${p.vitorias}</div><div style="font-size:.6rem;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;">Vitórias</div></div>
+        <div><div style="font-size:1.4rem;font-weight:900;color:var(--gold);">${pts(p)}</div><div style="font-size:.6rem;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;">PTS</div></div>
+        <div><div style="font-size:1.4rem;font-weight:900;color:var(--text-dim);">${p.jogos}</div><div style="font-size:.6rem;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;">Jogos</div></div>
       </div>
     </div>`).join('')}
   </div>`;
@@ -677,24 +903,22 @@ function renderJogadorDetail(apelido, initSeason) {
   const decoded = decodeAp(apelido);
   const all = allPlayers();
   const found = all.find(p => p.apelido.toUpperCase() === decoded.toUpperCase());
-  if (!found) return `<button class="back-btn" onclick="navigate('jogadores')">← Voltar</button><div class="empty-state"><div class="icon">❓</div>Jogador não encontrado</div>`;
+  if (!found) return `<button class="back-btn" onclick="navigate('jogadores')">← Voltar</button><div class="empty-state"><div class="empty-icon">❓</div>Jogador não encontrado</div>`;
 
   const viewSeason = initSeason || state.currentSeason;
   const p = found.seasons[viewSeason];
-  const pOther = found.seasons[viewSeason === '2026' ? '2025' : '2026'];
-
   const initial = found.apelido.charAt(0).toUpperCase();
   const nome = found.nome || found.apelido;
 
   return `
-  <button class="back-btn" onclick="navigate('jogadores')">← Voltar aos Jogadores</button>
+  <button class="back-btn" onclick="navigate('jogadores')">← Jogadores</button>
 
   <div class="player-hero">
     <div class="player-avatar">${initial}</div>
     <div class="player-info">
       <h1>${found.apelido}</h1>
       <div class="player-apelido">${nome !== found.apelido ? nome : ''}</div>
-      ${p?.data_nasc ? `<div class="player-meta">🎂 ${p.data_nasc}</div>` : ''}
+      ${p?.data_nasc ? `<div class="player-meta">${p.data_nasc}</div>` : ''}
       ${p?.numero ? `<div class="player-meta">Camisa #${p.numero}</div>` : ''}
     </div>
   </div>
@@ -711,25 +935,25 @@ function renderJogadorDetail(apelido, initSeason) {
     <div class="stat-pill green"><div class="val">${p.gols??0}</div><div class="lbl">Gols</div></div>
     <div class="stat-pill"><div class="val">${p.jogos??0}</div><div class="lbl">Jogos</div></div>
     <div class="stat-pill green"><div class="val">${p.vitorias??0}</div><div class="lbl">Vitórias</div></div>
-    <div class="stat-pill amber"><div class="val">${p.empates??0}</div><div class="lbl">Empates</div></div>
-    <div class="stat-pill"><div class="val" style="color:#b71c1c;">${p.derrotas??0}</div><div class="lbl">Derrotas</div></div>
-    <div class="stat-pill dark"><div class="val">${pts(p)}</div><div class="lbl">PTS</div></div>
-    <div class="stat-pill amber"><div class="val">${pct(p.vitorias, p.jogos)}</div><div class="lbl">% Vitória</div></div>
-    ${p.jogos>0?`<div class="stat-pill green"><div class="val">${p.gols && p.jogos ? (p.gols/p.jogos).toFixed(2) : '0.00'}</div><div class="lbl">Gols/Jogo</div></div>`:''}
+    <div class="stat-pill gold"><div class="val">${p.empates??0}</div><div class="lbl">Empates</div></div>
+    <div class="stat-pill red"><div class="val">${p.derrotas??0}</div><div class="lbl">Derrotas</div></div>
+    <div class="stat-pill gold"><div class="val">${pts(p)}</div><div class="lbl">PTS</div></div>
+    <div class="stat-pill"><div class="val" style="font-size:1.4rem;">${pct(p.vitorias, p.jogos)}</div><div class="lbl">% Vitória</div></div>
+    ${p.jogos>0?`<div class="stat-pill green"><div class="val" style="font-size:1.4rem;">${p.gols&&p.jogos?(p.gols/p.jogos).toFixed(2):'0.00'}</div><div class="lbl">Gols/Jogo</div></div>`:''}
   </div>
 
   <div class="card">
-    <div class="card-header">📅 Rodadas em ${viewSeason}</div>
+    <div class="card-header dark">Rodadas em ${viewSeason}</div>
     <div class="card-body">
       ${renderPlayerRounds(found.apelido, viewSeason)}
     </div>
   </div>
-  ` : `<div class="empty-state"><div class="icon">📅</div>Sem dados para ${viewSeason}</div>`}`;
+  ` : `<div class="empty-state"><div class="empty-icon">📅</div>Sem dados para ${viewSeason}</div>`}`;
 }
 
 function renderPlayerRounds(apelido, season) {
   const s = state.seasons[season];
-  if (!s) return '<p style="color:var(--texto-suave);">Sem dados</p>';
+  if (!s) return '<p style="color:var(--text-dim);">Sem dados</p>';
 
   const ap = apelido.toUpperCase();
   const played = s.rounds.filter(r => {
@@ -737,7 +961,7 @@ function renderPlayerRounds(apelido, season) {
     return all.some(x => x === ap || x.includes(ap) || ap.includes(x));
   });
 
-  if (!played.length) return '<p style="color:var(--texto-suave);">Não há rodadas registradas.</p>';
+  if (!played.length) return '<p style="color:var(--text-dim);">Não ha rodadas registradas.</p>';
 
   return `<div style="display:flex;flex-direction:column;gap:.5rem;">
     ${played.map(r => {
@@ -751,33 +975,37 @@ function renderPlayerRounds(apelido, season) {
       const result = drew ? 'E' : won ? 'V' : 'D';
       const badgeClass = result === 'V' ? 'badge-v' : result === 'D' ? 'badge-d' : 'badge-e';
       return `
-      <div style="display:flex;align-items:center;gap:.75rem;padding:.5rem .75rem;background:var(--cinza-claro);border-radius:8px;cursor:pointer;" onclick="navigate('rodada',{num:${r.rodada}})">
-        <span style="font-size:.8rem;font-weight:700;min-width:70px;">R${r.rodada} · ${r.data?.split('.').slice(0,2).join('/')}</span>
-        <span style="font-size:.8rem;">${pf[0]} × ${pf[1]}</span>
-        <span style="font-size:.75rem;color:var(--texto-suave);">(${myTeam})</span>
-        <span class="badge ${badgeClass}">${result}</span>
-        ${gols > 0 ? `<span style="font-size:.8rem;color:var(--verde);font-weight:700;">${'⚽'.repeat(Math.min(gols,5))} ${gols > 1 ? gols+'g' : ''}</span>` : ''}
-      </div>`;
-    }).join('')}
-  </div>`;
-}
+      <div style="display:flex;align-items:center;gap:.75rem;padding:.55rem .85rem;background:var(--glass);border:1px solid var(--glass-bd);border-radius:12px;cursor:pointer;transition:background .15s;" onclick="navigate('rodada',{num:${r.rodada}})" onmouseover="this.style.background='var(--glass-md)'" onmouseout="this.style.background='var(--glass)'">
+        <span style="font-size:.78rem;font-weight:700;min-width:70px;color:var(--text-dim);">R${r.rodada} · ${r.data?.split('.').slice(0,2).join('/')}</span>
+        <span style="font-size:.88rem;font-weight:700;">${pf[0]} × ${pf[1]}</span>
+        <span style="font-size:.73rem;color:var(--text-faint);">(${myTeam})</span>
+        <span class="${badgeClass}">${result}</span>
+        ${gols > 0 ? `<span stylOH��۝\�^�N���[N���܎��\�KYܙY[�Nٛ۝]�ZY���ȏ�����I˜�\X]
+X]�Z[����
+JJ_I���όO��	��������Ή��O��[���	��B��]��JK���[�	��_B��]��B����8� 8� �[\�XH8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ��[��[ۈ�[�\��[\�XJ
+H�]\���]��\��H��X�[ۋ]]H���[\�XO�]���]��\��H��\���[OH�X\��[�X���N�K�\�[Nȏ��]��\��H��\�X��H��[OH�^X[Yێ��[�\��Y[�Όˍ\�[H��[Nȏ��]��[OH��۝\�^�N�ˍ\�[N�X\��[�X���N�\�[Nȏ�'���]���]��[OH��۝\�^�N�K�\�[Nٛ۝]�ZY������܎��\�K]^
+N�X\��[�X���N��\�[Nȏ�[H��]�O�]���]��[OH���܎��\�K]^Y[JNٛ۝\�^�N��\�[N�X^]�Y���X\��[��]]�ȏ�\�����\�[Y\�H	��]K��\��[��X\�۟H����\\�X�\�\]ZH[H��]�K��]����]����]���]��\��H��[\�KYܚY���	�\��^K����J�[���JK�X\
 
-// ── Utils ─────────────────────────────────────────────────────────────────────
-function escAp(ap) { return encodeURIComponent(ap); }
-function decodeAp(ap) { return decodeURIComponent(ap); }
 
-function showTab(id, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-}
-
-// ── Init ──────────────────────────────────────────────────────────────────────
-loadData().catch(e => {
-  document.getElementById('main-content').innerHTML =
-    `<div class="empty-state"><div class="icon">⚠️</div><p>Erro ao carregar dados.<br><small>${e.message}</small></p></div>`;
-});
-</script>
-</body>
-</html>
+HO�]��\��H��[\�K\������]��
+K���[�	��_B��]��B����8� 8� ][�8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ��[��[ۈ\��\
+\
+H��]\��[���UT�P��\ۙ[�
+\
+N�B��[��[ۈX��P\
+\
+H��]\��X��UT�P��\ۙ[�
+\
+N�B���[��[ۈ���X�Y��H��[Y[��]Y\�T�[X�ܐ[
+	˝X�X�۝[�	�K��ܑXX�
+O���\��\���[[ݙJ	�X�]�I�JN��[Y[��]Y\�T�[X�ܐ[
+	˝X�X���K��ܑXX�
+�O����\��\���[[ݙJ	�X�]�I�JN��[Y[���][[Y[��RY
+Y
+K��\��\��Y
+	�X�]�I�N����\��\��Y
+	�X�]�I�NB����8� 8� [�]8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ��Y]J
+K��]�
+HO���[Y[���][[Y[��RY
+	�XZ[�X�۝[�	�K�[��\�SB�]��\��H�[\K\�]H��]��\��H�[\KZX�ۈ����;�#��]���\���[��\��Y�\�Y�ˏ����X[�[OH���܎��\�K]^Y�Z[�
+Nȏ��K�Y\��Y�_O��X[����]��JN��ܚ\��؛�O���[�
