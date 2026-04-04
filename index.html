@@ -409,7 +409,7 @@ tbody td:first-child { text-align: left; padding-left: 1.25rem; }
 </div>
 
 <script>
-// ── State ────────────────────────────────────────────────────────────────────
+// ── State ─────────────────────────────────────────────────────────────────────
 const state = {
   currentPage: 'home',
   currentSeason: '2026',
@@ -961,7 +961,7 @@ function renderPlayerRounds(apelido, season) {
     return all.some(x => x === ap || x.includes(ap) || ap.includes(x));
   });
 
-  if (!played.length) return '<p style="color:var(--text-dim);">Não ha rodadas registradas.</p>';
+  if (!played.length) return '<p style="color:var(--text-dim);">Não há rodadas registradas.</p>';
 
   return `<div style="display:flex;flex-direction:column;gap:.5rem;">
     ${played.map(r => {
@@ -980,32 +980,44 @@ function renderPlayerRounds(apelido, season) {
         <span style="font-size:.88rem;font-weight:700;">${pf[0]} × ${pf[1]}</span>
         <span style="font-size:.73rem;color:var(--text-faint);">(${myTeam})</span>
         <span class="${badgeClass}">${result}</span>
-        ${gols > 0 ? `<span stylOH��۝\�^�N���[N���܎��\�KYܙY[�Nٛ۝]�ZY���ȏ�����I˜�\X]
-X]�Z[����
-JJ_I���όO��	��������Ή��O��[���	��B��]��JK���[�	��_B��]��B����8� 8� �[\�XH8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ��[��[ۈ�[�\��[\�XJ
-H�]\���]��\��H��X�[ۋ]]H���[\�XO�]���]��\��H��\���[OH�X\��[�X���N�K�\�[Nȏ��]��\��H��\�X��H��[OH�^X[Yێ��[�\��Y[�Όˍ\�[H��[Nȏ��]��[OH��۝\�^�N�ˍ\�[N�X\��[�X���N�\�[Nȏ�'���]���]��[OH��۝\�^�N�K�\�[Nٛ۝]�ZY������܎��\�K]^
-N�X\��[�X���N��\�[Nȏ�[H��]�O�]���]��[OH���܎��\�K]^Y[JNٛ۝\�^�N��\�[N�X^]�Y���X\��[��]]�ȏ�\�����\�[Y\�H	��]K��\��[��X\�۟H����\\�X�\�\]ZH[H��]�K��]����]����]���]��\��H��[\�KYܚY���	�\��^K����J�[���JK�X\
+        ${gols > 0 ? `<span style="font-size:.8rem;color:var(--green);font-weight:700;">${'⚽'.repeat(Math.min(gols,5))}${gols>1?' '+gols+'g':''}</span>` : ''}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
 
+// ── Galeria ───────────────────────────────────────────────────────────────────
+function renderGaleria() {
+  return `
+  <div class="section-title">Galeria</div>
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-body" style="text-align:center;padding:3.5rem 2rem;">
+      <div style="font-size:3.5rem;margin-bottom:1rem;">📸</div>
+      <div style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.5rem;">Em breve</div>
+      <div style="color:var(--text-dim);font-size:.9rem;max-width:300px;margin:0 auto;">As fotos das peladas de ${state.currentSeason} vão aparecer aqui em breve.</div>
+    </div>
+  </div>
+  <div class="gallery-grid">
+    ${Array.from({length: 8}).map(() => `<div class="gallery-slot">+</div>`).join('')}
+  </div>`;
+}
 
-HO�]��\��H��[\�K\������]��
-K���[�	��_B��]��B����8� 8� ][�8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ��[��[ۈ\��\
-\
-H��]\��[���UT�P��\ۙ[�
-\
-N�B��[��[ۈX��P\
-\
-H��]\��X��UT�P��\ۙ[�
-\
-N�B���[��[ۈ���X�Y��H��[Y[��]Y\�T�[X�ܐ[
-	˝X�X�۝[�	�K��ܑXX�
-O���\��\���[[ݙJ	�X�]�I�JN��[Y[��]Y\�T�[X�ܐ[
-	˝X�X���K��ܑXX�
-�O����\��\���[[ݙJ	�X�]�I�JN��[Y[���][[Y[��RY
-Y
-K��\��\��Y
-	�X�]�I�N����\��\��Y
-	�X�]�I�NB����8� 8� [�]8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� 8� ��Y]J
-K��]�
-HO���[Y[���][[Y[��RY
-	�XZ[�X�۝[�	�K�[��\�SB�]��\��H�[\K\�]H��]��\��H�[\KZX�ۈ����;�#��]���\���[��\��Y�\�Y�ˏ����X[�[OH���܎��\�K]^Y�Z[�
-Nȏ��K�Y\��Y�_O��X[����]��JN��ܚ\��؛�O���[�
+// ── Utils ─────────────────────────────────────────────────────────────────────
+function escAp(ap) { return encodeURIComponent(ap); }
+function decodeAp(ap) { return decodeURIComponent(ap); }
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+loadData().catch(e => {
+  document.getElementById('main-content').innerHTML =
+    `<div class="empty-state"><div class="empty-icon">⚠️</div><p>Erro ao carregar dados.<br><small style="color:var(--text-faint);">${e.message}</small></p></div>`;
+});
+</script>
+</body>
+</html>
