@@ -124,10 +124,10 @@ img { max-width: 100%; }
   box-shadow: 0 2px 10px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.13);
 }
 
-/* ── Main Content ───────────────────────────────────────────────────────────── */
+/* ── Main Content ──────────────────────────────────────────────────────────── */
 main { flex: 1; max-width: 1100px; margin: 0 auto; padding: 96px 20px 80px; width: 100%; }
 
-/* ── Footer ─────────────────────────────────────────────────────────────────── */
+/* ── Footer ────────────────────────────────────────────────────────────────── */
 footer {
   text-align: center; padding: 1.25rem; font-size: .8rem;
   color: var(--text-faint); border-top: 1px solid var(--glass-bd);
@@ -196,6 +196,9 @@ tbody td:first-child { text-align: left; padding-left: 1.25rem; }
 .badge-v { background: rgba(52,211,153,.14); color: var(--green); padding: .18rem .55rem; border-radius: 6px; font-weight: 700; font-size: .8rem; display: inline-block; }
 .badge-d { background: rgba(248,113,113,.14); color: var(--red); padding: .18rem .55rem; border-radius: 6px; font-weight: 700; font-size: .8rem; display: inline-block; }
 .badge-e { background: rgba(251,191,36,.14); color: var(--amber); padding: .18rem .55rem; border-radius: 6px; font-weight: 700; font-size: .8rem; display: inline-block; }
+.cart-badge { position:relative; display:inline-flex; align-items:center; justify-content:center; background:rgba(251,191,36,.13); color:var(--amber); border-radius:5px; padding:.1rem .42rem; font-size:.78rem; font-weight:800; cursor:help; }
+.cart-badge::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:rgba(20,20,30,.96); color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:7px; padding:.35rem .7rem; white-space:nowrap; font-size:.75rem; font-weight:500; pointer-events:none; opacity:0; transition:opacity .18s; z-index:99; }
+.cart-badge:hover::after { opacity:1; }
 
 /* ── Tags ───────────────────────────────────────────────────────────────────── */
 .tag { display: inline-block; padding: .2rem .65rem; border-radius: 6px; font-size: .72rem; font-weight: 700; letter-spacing: .3px; }
@@ -668,6 +671,14 @@ function renderClassificacao() {
   const elegiveis = ativos.filter(p => p.jogos >= minJogos);
   const inativos  = ativos.filter(p => p.jogos < minJogos);
 
+  const cartCell = (p) => {
+    const c = p.cartoes || {CA:0,CAz:0,CV:0};
+    const total = (c.CA||0)+(c.CAz||0)+(c.CV||0);
+    if (!total) return `<td style="color:var(--text-faint);">—</td>`;
+    const tip = `🟨 ${c.CA||0}  🟦 ${c.CAz||0}  🟥 ${c.CV||0}`;
+    return `<td><span class="cart-badge" data-tip="${tip}">${total}</span></td>`;
+  };
+
   const tabela = (lista, startPos = 1) => lista.map((p, i) => {
     const pos = startPos + i;
     const pv = pct(p.vitorias, p.jogos);
@@ -680,6 +691,7 @@ function renderClassificacao() {
       <td>${p.derrotas ?? 0}</td>
       <td class="pts-val">${pts(p)}</td>
       <td class="gols-val">${p.gols}</td>
+      ${cartCell(p)}
       <td style="color:var(--text-dim);">${pv}</td>
     </tr>`;
   }).join('');
@@ -695,7 +707,7 @@ function renderClassificacao() {
     <div class="card">
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th>%Vit</th></tr></thead>
+          <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th title="Cartões: 🟨 Amarelo  🟦 Azul  🟥 Vermelho">Cart.</th><th>%Vit</th></tr></thead>
           <tbody>${tabela(ativos)}</tbody>
         </table>
       </div>
@@ -712,7 +724,7 @@ function renderClassificacao() {
       <div class="card">
         <div class="table-wrap">
           <table>
-            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th>%Vit</th></tr></thead>
+            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>PTS</th><th>Gols</th><th title="Cartões: 🟨 Amarelo  🟦 Azul  🟥 Vermelho">Cart.</th><th>%Vit</th></tr></thead>
             <tbody>${tabela(rankPct)}</tbody>
           </table>
         </div>
@@ -722,9 +734,9 @@ function renderClassificacao() {
         <div class="card-header" style="background:rgba(240,180,41,.07);color:var(--amber);">Amostra insuficiente — menos de ${minJogos} jogos</div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>Gols</th><th>%Vit</th></tr></thead>
-            <tbody>${inativos.map((p) => `<tr style="opacity:.5;cursor:pointer;" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.currentSeason}'})">
-              <td>—</td><td>${p.apelido}</td><td>${p.jogos}</td><td>${p.vitorias}</td><td>${p.empates??0}</td><td>${p.derrotas??0}</td><td>${p.gols}</td><td>${pct(p.vitorias,p.jogos)}</td></tr>`).join('')}
+            <thead><tr><th>#</th><th>Jogador</th><th>J</th><th>V</th><th>E</th><th>D</th><th>Gols</th><th title="Cartões">Cart.</th><th>%Vit</th></tr></thead>
+            <tbody>${inativos.map((p) => { const ci=p.cartoes||{CA:0,CAz:0,CV:0}; const ti=(ci.CA||0)+(ci.CAz||0)+(ci.CV||0); return `<tr style="opacity:.5;cursor:pointer;" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.currentSeason}'})">
+              <td>—</td><td>${p.apelido}</td><td>${p.jogos}</td><td>${p.vitorias}</td><td>${p.empates??0}</td><td>${p.derrotas??0}</td><td>${p.gols}</td><td>${ti>0?`<span class="cart-badge" data-tip="🟨 ${ci.CA||0}  🟦 ${ci.CAz||0}  🟥 ${ci.CV||0}">${ti}</span>`:'—'}</td><td>${pct(p.vitorias,p.jogos)}</td></tr>`; }).join('')}
             </tbody>
           </table>
         </div>
@@ -961,7 +973,7 @@ function renderPlayerRounds(apelido, season) {
     return all.some(x => x === ap || x.includes(ap) || ap.includes(x));
   });
 
-  if (!played.length) return '<p style="color:var(--text-dim);">Não há rodadas registradas.</p>';
+  if (!played.length) return '<p style="color:var(--text-dim);">Não h� rodadas registradas.</p>';
 
   return `<div style="display:flex;flex-direction:column;gap:.5rem;">
     ${played.map(r => {
