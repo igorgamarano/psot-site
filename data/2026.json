@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "total_rodadas": 6,
+  "total_rodadas": 8,
   "rounds": [
     {
       "rodada": 1,
@@ -18,8 +18,8 @@
         "ALEXANDRE",
         "HUMBERTO",
         "LEO",
-        "ZÉ RENATO",
-        "ZÉ ANTÔNIO"
+        "ZÃ RENATO",
+        "ZÃ ANTÃNIO"
       ],
       "time_azul": [
         "GABRIEL",
@@ -63,7 +63,7 @@
         "?",
         "RAPHAEL",
         "ROMILDO",
-        "ZÉ RENATO",
+        "ZÃ RENATO",
         "GAMARANO",
         "LUCAS",
         "MARCOS",
@@ -76,7 +76,7 @@
         "GIU",
         "ERILDO",
         "FAFAH",
-        "ZEZÉ",
+        "ZEZÃ",
         "HUMBERTO",
         "VINICIUS",
         "LEO",
@@ -86,12 +86,12 @@
         "WAGNER",
         "MARRECO",
         "WASHINGTON",
-        "FABRÍCIO",
+        "FABRÃCIO",
         "MONKEY",
-        "MOSÉ"
+        "MOSÃ"
       ],
       "gols": {
-        "ZÉ RENATO": 1,
+        "ZÃ RENATO": 1,
         "IGOR": 1,
         "LIPIN": 1,
         "HUMBERTO": 1,
@@ -123,7 +123,7 @@
       "time_preto": [
         "LUCIANO",
         "GIU",
-        "ZÉ RENATO",
+        "ZÃ RENATO",
         "FAFAH",
         "ERIL",
         "GAMARANO",
@@ -135,15 +135,15 @@
         "RICARDO",
         "RAPHAEL",
         "ROMILDO",
-        "ZEZÉ",
-        "MÁRCIO",
+        "ZEZÃ",
+        "MÃRCIO",
         "VINICIUS",
         "GABRIEL",
         "HUMBERTO",
         "ALEXANDRE",
         "RODRIGO",
         "GABI MELO",
-        "MOSÉ",
+        "MOSÃ",
         "MARRECO",
         "LIPIN"
       ],
@@ -151,7 +151,7 @@
         "GAMARANO": 2,
         "LEO": 1,
         "IGOR": 2,
-        "FABRÍCIO": 2,
+        "FABRÃCIO": 2,
         "MONKEY": 1,
         "VINICIUS": 1,
         "GABRIEL": 1,
@@ -193,15 +193,15 @@
       "time_preto": [
         "LUCIANO",
         "GIU",
-        "MOSÉ",
-        "ZEZÉ",
-        "ZÉ RENATO",
+        "MOSÃ",
+        "ZEZÃ",
+        "ZÃ RENATO",
         "IGOR",
         "VINICIUS",
         "GAMA",
         "ALEXANDRE",
         "RODRIGO",
-        "FABRÍCIO",
+        "FABRÃCIO",
         "WAGNER",
         "LUCAS"
       ],
@@ -272,7 +272,7 @@
         "ROMILDO",
         "KIKO",
         "FAFAH",
-        "ZÉ RENATO",
+        "ZÃ RENATO",
         "LEO",
         "IGOR",
         "HUMBERTO",
@@ -286,13 +286,13 @@
         "JHONATAS",
         "GIU",
         "WAGNER",
-        "ZEZÉ",
-        "MOSÉ",
+        "ZEZÃ",
+        "MOSÃ",
         "GABI MELO",
         "VINICIUS",
         "GABRIEL",
         "MONKEY",
-        "FABRÍCIO",
+        "FABRÃCIO",
         "WASHINGTON",
         "MARCOS",
         "LUCAS",
@@ -303,7 +303,7 @@
         "HUMBERTO": 1,
         "ALEXANDRE": 3,
         "GOL CONTRA": 1,
-        "MOSÉ": 3,
+        "MOSÃ": 3,
         "VINICIUS": 1,
         "GABRIEL": 5,
         "MONKEY": 1,
@@ -330,14 +330,14 @@
         "LUCIANO",
         "GIU",
         "KIKO",
-        "MOSÉ",
-        "ZEZÉ",
+        "MOSÃ",
+        "ZEZÃ",
         "IGOR",
         "GABRIEL",
         "LIPIN",
         "MONKEY",
         "ERILDO",
-        "FABRÍCIO",
+        "FABRÃCIO",
         "GABI MELO",
         "MICHEL",
         "GAMA"
@@ -345,7 +345,7 @@
       "time_azul": [
         "JHONATAS",
         "FAFAH",
-        "ZÉ RENATO",
+        "ZÃ RENATO",
         "DR. WAGNER",
         "ROMILDO",
         "HUMBERTO",
@@ -374,7 +374,7 @@
           "time": "PRETO"
         },
         {
-          "jogador": "ZEZÉ",
+          "jogador": "ZEZÃ",
           "tipo": "CA",
           "time": "PRETO"
         },
@@ -389,6 +389,137 @@
           "time": "AZUL"
         }
       ]
+    },
+    {
+      "rodada": 7,
+      "data": "18.04.2026",
+      "placar_final": [
+        8,
+        8
+      ],
+      "intervalo": [
+        4,
+        4
+      ],
+      "vencedor": "EMPATE",
+      "time_preto": [
+        "GIU",
+        "DR. WAGNER",
+        "KIKO",
+        "ZÃ RENATO",
+        "GABI MELO",
+        "IGOR",
+        "MONKEY",
+        "LEO",
+        "PERIN",
+        "WASHINGTON",
+        "PS",
+        "FAFAH",
+        "MARCOS",
+        "LIPIN",
+        "MICHEL"
+      ],
+      "time_azul": [
+        "LUCIANO",
+        "MOSÃ",
+        "ROMILDO",
+        "ZEZÃ",
+        "MÃRCIO",
+        "HUMBERTO",
+        "GABRIEL",
+        "VINICIUS",
+        "ALEXANDRE",
+        "DR. MAURO",
+        "RODRIGO",
+        "FABRÃCIO",
+        "LUCAS",
+        "ERILDO",
+        "GUSTAVO"
+      ],
+      "gols": {
+        "IGOR": 3,
+        "MONKEY": 1,
+        "LEO": 2,
+        "LIPIN": 2,
+        "HUMBERTO": 1,
+        "GABRIEL": 4,
+        "VINICIUS": 3
+      },
+      "reconstituida": false,
+      "cartoes": [
+        {
+          "jogador": "MARCOS",
+          "tipo": "CA",
+          "time": "PRETO"
+        }
+      ]
+    },
+    {
+      "rodada": 8,
+      "data": "25.04.2026",
+      "placar_final": [
+        10,
+        10
+      ],
+      "intervalo": [
+        4,
+        5
+      ],
+      "vencedor": "EMPATE",
+      "time_preto": [
+        "LUCIANO",
+        "GIU",
+        "DR. WAGNER",
+        "ZÃ RENATO",
+        "FAFAH",
+        "LIPIN",
+        "GABRIEL",
+        "GAMA",
+        "MONKEY",
+        "PERIN",
+        "IGOR",
+        "GABI MELO",
+        "MARCOS",
+        "FABRÃCIO"
+      ],
+      "time_azul": [
+        "JHONATAS",
+        "MICHEL",
+        "ROMILDO",
+        "MÃRCIO",
+        "WASHINGTON",
+        "LEO",
+        "HUMBERTO",
+        "VINICIUS",
+        "ALEXANDRE",
+        "PS",
+        "MOSÃ",
+        "LUCAS",
+        "GUSTAVO",
+        "RODRIGO"
+      ],
+      "gols": {
+        "GABRIEL": 5,
+        "MONKEY": 2,
+        "IGOR": 1,
+        "GABI MELO": 1,
+        "MARCOS": 1,
+        "LEO": 2,
+        "HUMBERTO": 1,
+        "VINICIUS": 1,
+        "ALEXANDRE": 1,
+        "PS": 1,
+        "LUCAS": 3,
+        "RODRIGO": 1
+      },
+      "reconstituida": false,
+      "cartoes": [
+        {
+          "jogador": "MARCOS",
+          "tipo": "CA",
+          "time": "PRETO"
+        }
+      ]
     }
   ],
   "players": [
@@ -398,9 +529,9 @@
       "numero": "1",
       "gols": 0,
       "vitorias": 0,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 1,
-      "jogos": 2,
+      "jogos": 4,
       "data_nasc": "20/08/1944",
       "faltas": 2,
       "cartoes": {
@@ -410,8 +541,8 @@
       }
     },
     {
-      "nome": "Flávio Lugon",
-      "apelido": "FLÁVIO",
+      "nome": "FlÃ¡vio Lugon",
+      "apelido": "FLÃVIO",
       "numero": "2",
       "gols": 0,
       "vitorias": 0,
@@ -427,14 +558,14 @@
       }
     },
     {
-      "nome": "José Renato Monjardim",
-      "apelido": "ZÉ RENATO",
+      "nome": "JosÃ© Renato Monjardim",
+      "apelido": "ZÃ RENATO",
       "numero": "3",
       "gols": 1,
       "vitorias": 1,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 4,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "07/10/1956",
       "faltas": 0,
       "cartoes": {
@@ -444,14 +575,14 @@
       }
     },
     {
-      "nome": "José Antônio Neves Teixeira",
-      "apelido": "ZEZÉ",
+      "nome": "JosÃ© AntÃ´nio Neves Teixeira",
+      "apelido": "ZEZÃ",
       "numero": "5",
       "gols": 0,
       "vitorias": 3,
-      "empates": 1,
+      "empates": 2,
       "derrotas": 2,
-      "jogos": 6,
+      "jogos": 7,
       "data_nasc": "28/10/1952",
       "faltas": 0,
       "cartoes": {
@@ -466,9 +597,9 @@
       "numero": "7",
       "gols": 0,
       "vitorias": 1,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 4,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "20/07/1963",
       "faltas": 0,
       "cartoes": {
@@ -478,14 +609,14 @@
       }
     },
     {
-      "nome": "Márcio Augusto dos Santos",
-      "apelido": "MÁRCIO",
+      "nome": "MÃ¡rcio Augusto dos Santos",
+      "apelido": "MÃRCIO",
       "numero": "14",
       "gols": 0,
       "vitorias": 0,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 1,
-      "jogos": 2,
+      "jogos": 4,
       "data_nasc": "22/12/1965",
       "faltas": 6,
       "cartoes": {
@@ -498,11 +629,11 @@
       "nome": "Alexandre Guasti Monjardim",
       "apelido": "ALEXANDRE",
       "numero": "6",
-      "gols": 6,
+      "gols": 7,
       "vitorias": 0,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 5,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "30/01/1984",
       "faltas": 0,
       "cartoes": {
@@ -512,14 +643,14 @@
       }
     },
     {
-      "nome": "Igor Colodetti Prudêncio",
+      "nome": "Igor Colodetti PrudÃªncio",
       "apelido": "IGOR",
       "numero": "10",
-      "gols": 12,
+      "gols": 16,
       "vitorias": 2,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 3,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "07/02/1995",
       "faltas": 0,
       "cartoes": {
@@ -534,9 +665,9 @@
       "numero": "4",
       "gols": 0,
       "vitorias": 4,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 1,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "06/02/1970",
       "faltas": 0,
       "cartoes": {
@@ -546,14 +677,14 @@
       }
     },
     {
-      "nome": "Gabriel Leão Marques de Faria",
+      "nome": "Gabriel LeÃ£o Marques de Faria",
       "apelido": "GABRIEL",
       "numero": "20",
-      "gols": 13,
+      "gols": 22,
       "vitorias": 4,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 1,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "20/07/1989",
       "faltas": 0,
       "cartoes": {
@@ -566,11 +697,11 @@
       "nome": "Vinicius Sattler Barroso",
       "apelido": "VINICIUS",
       "numero": "18",
-      "gols": 9,
+      "gols": 13,
       "vitorias": 2,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 3,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "21/07/2000",
       "faltas": 0,
       "cartoes": {
@@ -585,9 +716,9 @@
       "numero": "27",
       "gols": 2,
       "vitorias": 2,
-      "empates": 1,
+      "empates": 2,
       "derrotas": 2,
-      "jogos": 5,
+      "jogos": 6,
       "data_nasc": "16/09/1990",
       "faltas": 0,
       "cartoes": {
@@ -602,9 +733,9 @@
       "numero": "12",
       "gols": 0,
       "vitorias": 4,
-      "empates": 1,
+      "empates": 2,
       "derrotas": 0,
-      "jogos": 5,
+      "jogos": 6,
       "data_nasc": "28/09/1981",
       "faltas": 0,
       "cartoes": {
@@ -619,9 +750,9 @@
       "numero": "34",
       "gols": 1,
       "vitorias": 3,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 2,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "28/12/1984",
       "faltas": 0,
       "cartoes": {
@@ -634,11 +765,11 @@
       "nome": "Humberto Gameiro Larciprete",
       "apelido": "HUMBERTO",
       "numero": "17",
-      "gols": 4,
+      "gols": 6,
       "vitorias": 2,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 3,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "29/11/1988",
       "faltas": 0,
       "cartoes": {
@@ -651,11 +782,11 @@
       "nome": "Leonardo Moreira Gomes",
       "apelido": "LEO",
       "numero": "31",
-      "gols": 4,
+      "gols": 8,
       "vitorias": 3,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 2,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "28/04/1995",
       "faltas": 0,
       "cartoes": {
@@ -670,9 +801,9 @@
       "numero": "28",
       "gols": 0,
       "vitorias": 4,
-      "empates": 1,
+      "empates": 2,
       "derrotas": 1,
-      "jogos": 6,
+      "jogos": 7,
       "data_nasc": "01/12/1991",
       "faltas": 0,
       "cartoes": {
@@ -682,14 +813,14 @@
       }
     },
     {
-      "nome": "Filipe Zaccé de Sá Cardoso",
+      "nome": "Filipe ZacchÃ© de SÃ¡ Cardoso",
       "apelido": "LIPIN",
       "numero": "30",
-      "gols": 5,
+      "gols": 7,
       "vitorias": 3,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 2,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "30/03/1990",
       "faltas": 0,
       "cartoes": {
@@ -699,14 +830,14 @@
       }
     },
     {
-      "nome": "Filipe Nascimento Mosé",
-      "apelido": "MOSÉ",
+      "nome": "Filipe Nascimento MosÃ©",
+      "apelido": "MOSÃ",
       "numero": "39",
       "gols": 3,
       "vitorias": 3,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 2,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "17/08/1991",
       "faltas": 0,
       "cartoes": {
@@ -733,14 +864,14 @@
       }
     },
     {
-      "nome": "Bruno Nascimento Mosé",
+      "nome": "Bruno Nascimento MosÃ©",
       "apelido": "MONKEY",
       "numero": "33",
-      "gols": 5,
+      "gols": 8,
       "vitorias": 5,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 0,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "03/08/1987",
       "faltas": 0,
       "cartoes": {
@@ -750,14 +881,14 @@
       }
     },
     {
-      "nome": "Wagner Mendonça Cassoli",
+      "nome": "Wagner MendonÃ§a Cassoli",
       "apelido": "DR. WAGNER",
       "numero": "15",
       "gols": 0,
       "vitorias": 3,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 2,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "10/03/1979",
       "faltas": 0,
       "cartoes": {
@@ -770,11 +901,11 @@
       "nome": "Gabriel Pereira de Melo",
       "apelido": "GABI MELO",
       "numero": "40",
-      "gols": 0,
+      "gols": 1,
       "vitorias": 4,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 1,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "12/09/2006",
       "faltas": 0,
       "cartoes": {
@@ -789,9 +920,9 @@
       "numero": "13",
       "gols": 0,
       "vitorias": 3,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 2,
-      "jogos": 6,
+      "jogos": 8,
       "data_nasc": "04/11/2000",
       "faltas": 0,
       "cartoes": {
@@ -804,15 +935,15 @@
       "nome": "Marcos Vinicius de Oliveira",
       "apelido": "MARCOS",
       "numero": "11",
-      "gols": 1,
+      "gols": 2,
       "vitorias": 2,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 1,
-      "jogos": 4,
+      "jogos": 6,
       "data_nasc": "29/11/1985",
       "faltas": 3,
       "cartoes": {
-        "CA": 0,
+        "CA": 2,
         "CAz": 0,
         "CV": 0
       }
@@ -838,11 +969,11 @@
       "nome": "Lucas Andrade Monjardim",
       "apelido": "LUCAS",
       "numero": "29",
-      "gols": 2,
+      "gols": 5,
       "vitorias": 1,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 3,
-      "jogos": 5,
+      "jogos": 7,
       "data_nasc": "25/08/2008",
       "faltas": 4,
       "cartoes": {
@@ -852,14 +983,14 @@
       }
     },
     {
-      "nome": "Fabrício Pimentel de Siqueira",
-      "apelido": "FABRÍCIO",
+      "nome": "FabrÃ­cio Pimentel de Siqueira",
+      "apelido": "FABRÃCIO",
       "numero": "36",
       "gols": 2,
       "vitorias": 4,
-      "empates": 0,
+      "empates": 2,
       "derrotas": 1,
-      "jogos": 5,
+      "jogos": 7,
       "data_nasc": "22/03/1974",
       "faltas": 4,
       "cartoes": {
@@ -874,9 +1005,9 @@
       "numero": "23",
       "gols": 0,
       "vitorias": 2,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 1,
-      "jogos": 4,
+      "jogos": 6,
       "data_nasc": "24/08/1971",
       "faltas": 6,
       "cartoes": {
@@ -891,9 +1022,9 @@
       "numero": "8",
       "gols": 0,
       "vitorias": 1,
-      "empates": 0,
+      "empates": 2,
       "derrotas": 3,
-      "jogos": 4,
+      "jogos": 6,
       "data_nasc": "23/03/1989",
       "faltas": 6,
       "cartoes": {
@@ -906,11 +1037,11 @@
       "nome": "Rodrigo Augusto Pereira Mattos",
       "apelido": "RODRIGO",
       "numero": "22",
-      "gols": 1,
+      "gols": 2,
       "vitorias": 0,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 4,
-      "jogos": 5,
+      "jogos": 7,
       "data_nasc": "14/02/1996",
       "faltas": 6,
       "cartoes": {
@@ -920,14 +1051,14 @@
       }
     },
     {
-      "nome": "Antônio Mauro Bof",
+      "nome": "AntÃ´nio Mauro Bof",
       "apelido": "DR. MAURO",
       "numero": "9",
       "gols": 0,
       "vitorias": 0,
-      "empates": 1,
+      "empates": 2,
       "derrotas": 1,
-      "jogos": 2,
+      "jogos": 3,
       "data_nasc": "29/01/1971",
       "faltas": 7,
       "cartoes": {
@@ -937,14 +1068,14 @@
       }
     },
     {
-      "nome": "Paulo Sérgio",
+      "nome": "Paulo SÃ©rgio",
       "apelido": "PS",
       "numero": "38",
-      "gols": 1,
+      "gols": 2,
       "vitorias": 1,
-      "empates": 1,
+      "empates": 3,
       "derrotas": 2,
-      "jogos": 4,
+      "jogos": 6,
       "data_nasc": "02/06/1993",
       "faltas": 8,
       "cartoes": {
@@ -992,10 +1123,10 @@
       "apelido": "JHONATAS",
       "numero": "",
       "gols": 0,
-      "vitorias": 0,
-      "empates": 0,
+      "vitorias": 2,
+      "empates": 1,
       "derrotas": 1,
-      "jogos": 1,
+      "jogos": 4,
       "data_nasc": "",
       "faltas": 0,
       "cartoes": {
@@ -1009,10 +1140,10 @@
       "apelido": "LUCIANO",
       "numero": "",
       "gols": 0,
-      "vitorias": 2,
-      "empates": 1,
-      "derrotas": 1,
-      "jogos": 4,
+      "vitorias": 3,
+      "empates": 3,
+      "derrotas": 2,
+      "jogos": 8,
       "data_nasc": "",
       "faltas": 0,
       "cartoes": {
@@ -1025,38 +1156,42 @@
   "artilharia": [
     {
       "apelido": "GABRIEL",
-      "gols": 13
+      "gols": 22
     },
     {
       "apelido": "IGOR",
-      "gols": 12
+      "gols": 16
     },
     {
       "apelido": "VINICIUS",
-      "gols": 9
-    },
-    {
-      "apelido": "ALEXANDRE",
-      "gols": 6
-    },
-    {
-      "apelido": "LIPIN",
-      "gols": 5
+      "gols": 13
     },
     {
       "apelido": "MONKEY",
-      "gols": 5
+      "gols": 8
     },
     {
       "apelido": "LEO",
-      "gols": 4
+      "gols": 8
+    },
+    {
+      "apelido": "ALEXANDRE",
+      "gols": 7
+    },
+    {
+      "apelido": "LIPIN",
+      "gols": 7
     },
     {
       "apelido": "HUMBERTO",
-      "gols": 4
+      "gols": 6
     },
     {
-      "apelido": "MOSÉ",
+      "apelido": "LUCAS",
+      "gols": 5
+    },
+    {
+      "apelido": "MOSÃ",
       "gols": 3
     },
     {
@@ -1064,19 +1199,23 @@
       "gols": 2
     },
     {
-      "apelido": "FABRÍCIO",
+      "apelido": "FABRÃCIO",
       "gols": 2
     },
     {
-      "apelido": "LUCAS",
+      "apelido": "RODRIGO",
       "gols": 2
     },
     {
-      "apelido": "GOL CONTRA",
+      "apelido": "PS",
       "gols": 2
     },
     {
-      "apelido": "ZÉ RENATO",
+      "apelido": "MARCOS",
+      "gols": 2
+    },
+    {
+      "apelido": "ZÃ RENATO",
       "gols": 1
     },
     {
@@ -1084,24 +1223,16 @@
       "gols": 1
     },
     {
-      "apelido": "RODRIGO",
-      "gols": 1
-    },
-    {
-      "apelido": "PS",
-      "gols": 1
-    },
-    {
-      "apelido": "MARCOS",
+      "apelido": "GABI MELO",
       "gols": 1
     }
   ],
   "stats": {
-    "total_gols": 74,
-    "media_gols": 12.3,
+    "total_gols": 110,
+    "media_gols": 13.8,
     "vitoria_preto": 2,
     "vitoria_azul": 3,
-    "empates": 1,
-    "rodadas_com_dados": 6
+    "empates": 3,
+    "rodadas_com_dados": 8
   }
 }
