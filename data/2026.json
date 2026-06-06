@@ -176,7 +176,37 @@
           "tipo": "CA",
           "time": "AZUL"
         }
-      ]
+      ],
+      "resultados": {
+        "ZÉ RENATO": "V",
+        "ZEZÉ": "D",
+        "ROMILDO": "D",
+        "MÁRCIO": "D",
+        "ALEXANDRE": "D",
+        "IGOR": "V",
+        "GIU": "V",
+        "GABRIEL": "D",
+        "VINICIUS": "D",
+        "GAMA": "V",
+        "ERILDO": "V",
+        "MARCOS": "V",
+        "FAFAH": "V",
+        "HUMBERTO": "D",
+        "LEO": "V",
+        "RAPHAEL": "D",
+        "KIKO": "V",
+        "LIPIN": "D",
+        "MOSÉ": "D",
+        "MARRECO": "D",
+        "MONKEY": "V",
+        "DR. WAGNER": "V",
+        "GABI MELO": "D",
+        "MICHEL": "V",
+        "RODRIGO": "D",
+        "GUSTAVO": "V",
+        "FABRÍCIO": "V",
+        "LUCIANO": "V"
+      }
     },
     {
       "rodada": 4,
@@ -253,7 +283,36 @@
           "tipo": "CA",
           "time": "AZUL"
         }
-      ]
+      ],
+      "resultados": {
+        "ZÉ RENATO": "D",
+        "ZEZÉ": "D",
+        "ROMILDO": "V",
+        "ALEXANDRE": "D",
+        "IGOR": "D",
+        "GIU": "D",
+        "GABRIEL": "V",
+        "VINICIUS": "D",
+        "GAMA": "D",
+        "ERILDO": "V",
+        "FAFAH": "V",
+        "HUMBERTO": "V",
+        "LEO": "V",
+        "KIKO": "V",
+        "LIPIN": "V",
+        "MOSÉ": "D",
+        "MARRECO": "V",
+        "MONKEY": "V",
+        "DR. WAGNER": "D",
+        "GABI MELO": "V",
+        "MICHEL": "V",
+        "LUCAS": "D",
+        "FABRÍCIO": "D",
+        "RODRIGO": "D",
+        "PS": "V",
+        "JHONATAS": "V",
+        "LUCIANO": "D"
+      }
     },
     {
       "rodada": 5,
@@ -312,7 +371,36 @@
         "LIPIN": 1
       },
       "reconstituida": false,
-      "cartoes": []
+      "cartoes": [],
+      "resultados": {
+        "ZÉ RENATO": "D",
+        "ZEZÉ": "V",
+        "ROMILDO": "D",
+        "ALEXANDRE": "D",
+        "IGOR": "D",
+        "GIU": "V",
+        "GABRIEL": "V",
+        "VINICIUS": "V",
+        "FAFAH": "D",
+        "HUMBERTO": "D",
+        "LEO": "D",
+        "KIKO": "D",
+        "LIPIN": "V",
+        "MOSÉ": "V",
+        "MONKEY": "V",
+        "DR. WAGNER": "V",
+        "GABI MELO": "V",
+        "MICHEL": "D",
+        "MARCOS": "V",
+        "LUCAS": "V",
+        "FABRÍCIO": "V",
+        "WASHINGTON": "V",
+        "GUSTAVO": "D",
+        "RODRIGO": "D",
+        "PS": "D",
+        "JHONATAS": "V",
+        "LUCIANO": "D"
+      }
     },
     {
       "rodada": 6,
@@ -388,7 +476,38 @@
           "tipo": "CAz",
           "time": "AZUL"
         }
-      ]
+      ],
+      "resultados": {
+        "PERIN": "V",
+        "ZÉ RENATO": "D",
+        "ZEZÉ": "V",
+        "ROMILDO": "D",
+        "ALEXANDRE": "D",
+        "IGOR": "V",
+        "GIU": "V",
+        "GABRIEL": "V",
+        "VINICIUS": "D",
+        "FAFAH": "D",
+        "HUMBERTO": "D",
+        "LEO": "D",
+        "KIKO": "V",
+        "LIPIN": "V",
+        "MOSÉ": "V",
+        "MONKEY": "V",
+        "DR. WAGNER": "D",
+        "GABI MELO": "V",
+        "MICHEL": "V",
+        "GAMA": "V",
+        "ERILDO": "V",
+        "LUCAS": "D",
+        "FABRÍCIO": "V",
+        "WASHINGTON": "D",
+        "GUSTAVO": "D",
+        "RODRIGO": "D",
+        "PS": "D",
+        "JHONATAS": "D",
+        "LUCIANO": "V"
+      }
     },
     {
       "rodada": 7,
@@ -452,7 +571,39 @@
           "tipo": "CA",
           "time": "PRETO"
         }
-      ]
+      ],
+      "resultados": {
+        "PERIN": "E",
+        "ZÉ RENATO": "E",
+        "ZEZÉ": "E",
+        "ROMILDO": "E",
+        "MÁRCIO": "E",
+        "ALEXANDRE": "E",
+        "IGOR": "E",
+        "GIU": "E",
+        "GABRIEL": "E",
+        "VINICIUS": "E",
+        "FAFAH": "E",
+        "HUMBERTO": "E",
+        "LEO": "E",
+        "KIKO": "E",
+        "LIPIN": "E",
+        "MOSÉ": "E",
+        "MONKEY": "E",
+        "DR. WAGNER": "E",
+        "GABI MELO": "E",
+        "MICHEL": "E",
+        "ERILDO": "E",
+        "LUCAS": "E",
+        "FABRÍCIO": "E",
+        "MARCOS": "E",
+        "WASHINGTON": "E",
+        "GUSTAVO": "E",
+        "RODRIGO": "E",
+        "PS": "E",
+        "DR. MAURO": "E",
+        "LUCIANO": "E"
+      }
     },
     {
       "rodada": 8,
@@ -519,7 +670,37 @@
           "tipo": "CA",
           "time": "PRETO"
         }
-      ]
+      ],
+      "resultados": {
+        "PERIN": "E",
+        "ZÉ RENATO": "E",
+        "ROMILDO": "E",
+        "MÁRCIO": "E",
+        "ALEXANDRE": "E",
+        "IGOR": "E",
+        "GIU": "E",
+        "GABRIEL": "E",
+        "VINICIUS": "E",
+        "FAFAH": "E",
+        "HUMBERTO": "E",
+        "LEO": "E",
+        "LIPIN": "E",
+        "MOSÉ": "E",
+        "MONKEY": "E",
+        "DR. WAGNER": "E",
+        "GABI MELO": "E",
+        "MICHEL": "E",
+        "LUCAS": "E",
+        "FABRÍCIO": "E",
+        "GAMA": "E",
+        "MARCOS": "E",
+        "WASHINGTON": "E",
+        "GUSTAVO": "E",
+        "RODRIGO": "E",
+        "PS": "E",
+        "JHONATAS": "E",
+        "LUCIANO": "E"
+      }
     },
     {
       "rodada": 9,
@@ -574,7 +755,36 @@
         "LUCAS": 1
       },
       "reconstituida": false,
-      "cartoes": []
+      "cartoes": [],
+      "resultados": {
+        "ZÉ RENATO": "D",
+        "ROMILDO": "V",
+        "ALEXANDRE": "V",
+        "IGOR": "V",
+        "GIU": "D",
+        "GABRIEL": "D",
+        "VINICIUS": "V",
+        "FAFAH": "D",
+        "HUMBERTO": "D",
+        "LEO": "V",
+        "LIPIN": "D",
+        "MOSÉ": "D",
+        "MONKEY": "D",
+        "GABI MELO": "V",
+        "MICHEL": "V",
+        "KIKO": "V",
+        "LUCAS": "V",
+        "FABRÍCIO": "D",
+        "ERILDO": "V",
+        "GAMA": "D",
+        "MARCOS": "V",
+        "GUSTAVO": "V",
+        "RODRIGO": "V",
+        "PS": "D",
+        "DR. MAURO": "V",
+        "JHONATAS": "D",
+        "LUCIANO": "V"
+      }
     },
     {
       "rodada": 10,
@@ -639,7 +849,36 @@
           "tipo": "CA",
           "time": "AZUL"
         }
-      ]
+      ],
+      "resultados": {
+        "PERIN": "D",
+        "ZÉ RENATO": "D",
+        "ROMILDO": "V",
+        "MÁRCIO": "V",
+        "ALEXANDRE": "V",
+        "IGOR": "D",
+        "GIU": "V",
+        "GABRIEL": "V",
+        "VINICIUS": "V",
+        "FAFAH": "V",
+        "HUMBERTO": "D",
+        "LEO": "D",
+        "LIPIN": "V",
+        "MOSÉ": "D",
+        "MONKEY": "D",
+        "GABI MELO": "D",
+        "MICHEL": "D",
+        "LUCAS": "D",
+        "FABRÍCIO": "D",
+        "ERILDO": "V",
+        "GAMA": "V",
+        "MARCOS": "D",
+        "GUSTAVO": "V",
+        "RODRIGO": "D",
+        "PS": "D",
+        "JHONATAS": "V",
+        "LUCIANO": "D"
+      }
     },
     {
       "rodada": 11,
@@ -705,7 +944,36 @@
           "tipo": "CA",
           "time": "AZUL"
         }
-      ]
+      ],
+      "resultados": {
+        "ZÉ RENATO": "D",
+        "ROMILDO": "V",
+        "MÁRCIO": "D",
+        "ALEXANDRE": "V",
+        "IGOR": "V",
+        "GIU": "V",
+        "GABRIEL": "D",
+        "VINICIUS": "V",
+        "FAFAH": "V",
+        "HUMBERTO": "D",
+        "LEO": "D",
+        "LIPIN": "V",
+        "MOSÉ": "V",
+        "MONKEY": "D",
+        "GABI MELO": "D",
+        "MICHEL": "D",
+        "LUCAS": "D",
+        "FABRÍCIO": "D",
+        "KIKO": "V",
+        "ERILDO": "D",
+        "GAMA": "V",
+        "MARCOS": "V",
+        "RODRIGO": "D",
+        "PS": "V",
+        "MARRECO": "V",
+        "JHONATAS": "D",
+        "LUCIANO": "V"
+      }
     },
     {
       "rodada": 12,
@@ -751,7 +1019,32 @@
         "PS": 2
       },
       "reconstituida": false,
-      "cartoes": []
+      "cartoes": [],
+      "resultados": {
+        "PERIN": "E",
+        "ZÉ RENATO": "E",
+        "ROMILDO": "E",
+        "MÁRCIO": "E",
+        "ALEXANDRE": "E",
+        "IGOR": "E",
+        "GIU": "E",
+        "HUMBERTO": "E",
+        "LEO": "E",
+        "LIPIN": "E",
+        "MOSÉ": "E",
+        "MONKEY": "E",
+        "GABI MELO": "E",
+        "MICHEL": "E",
+        "LUCAS": "E",
+        "FABRÍCIO": "E",
+        "KIKO": "E",
+        "ERILDO": "E",
+        "RODRIGO": "E",
+        "GUSTAVO": "E",
+        "PS": "E",
+        "JHONATAS": "E",
+        "LUCIANO": "E"
+      }
     }
   ],
   "players": [
