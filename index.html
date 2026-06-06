@@ -807,6 +807,11 @@ function playerRounds(apelido,season){
   }).join('');
   return `<div style="display:flex;flex-direction:column;gap:.5rem">${rows}</div>`;
 }
+const GOL_ALIAS={'GAMARANO':'GAMA','IGOR C':'IGOR','LEONARDO':'LEO'};
+const AP_ALIAS={'IGOR C':'IGOR','IGOR G':'GAMA','GAMARANO':'GAMA','LEONARDO':'LEO','ERIL':'ERILDO','WAGNER':'DR. WAGNER'};
+function normGoal(k,season){if(!k)return null;const u=k.trim().toUpperCase();if(/GOL CONTRA|^GC$/.test(u))return null;if(GOL_ALIAS[u])return GOL_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a.includes(u)||u.includes(a);});return m?m.apelido:k.trim();}
+function normAp(name,season){if(!name)return '';let u=name.trim().toUpperCase();if(u==='?'||u==='APP'||u==='OS')return '';if(AP_ALIAS[u])return AP_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a===u||a.includes(u)||u.includes(a);});return m?m.apelido:name.trim();}
+function goalsThisRound(r,ap,season){let g=0;const A=ap.toUpperCase();Object.entries(r.gols||{}).forEach(([k,v])=>{const a=normGoal(k,season);if(a&&a.toUpperCase()===A)g+=v;});return g;}
 function playerSeries(ap,season){
   const s=state.seasons[season];if(!s)return [];
   const A=ap.toUpperCase();const cum={};const out=[];let myCum=0,myPts=0,myJ=0,myV=0;
@@ -836,15 +841,18 @@ function chemistry(ap,season){
 }
 function classPosSeries(ap,season){
   const s=state.seasons[season];if(!s)return [];
-  const A=ap.toUpperCase();const acc={};const out=[];const P0=o=>o.V*3+o.E;
-  s.rounds.forEach(r=>{
-    const pf=r.placar_final;
-    const teams=[[ (r.time_preto||[]).map(x=>normAp(x,season)).filter(Boolean),0],[ (r.time_azul||[]).map(x=>normAp(x,season)).filter(Boolean),1]];
-    teams.forEach(([list,t])=>{const res=pf[0]===pf[1]?'E':((t===0&&pf[0]>pf[1])||(t===1&&pf[1]>pf[0]))?'V':'D';
-      list.forEach(nm=>{const k=nm.toUpperCase();(acc[k]=acc[k]||{V:0,E:0,D:0,gols:0,jogos:0});acc[k][res]++;acc[k].jogos++;});});
-    Object.entries(r.gols||{}).forEach(([gk,gv])=>{const a=normGoal(gk,season);if(a){const k=a.toUpperCase();(acc[k]=acc[k]||{V:0,E:0,D:0,gols:0,jogos:0}).gols+=gv;}});
-    const arr=Object.entries(acc).filter(([,o])=>o.jogos>0).map(([k,o])=>({k,pts:P0(o),gols:o.gols,jogos:o.jogos}));
-    arr.sort((a,b)=>b.pts-a.pts||b.gols-a.gols||b.jogos-a.jogos||a.k.localeCompare(b.k));
+  const A=ap.toUpperCase();
+  const resRounds=s.rounds.filter(r=>r.resultados&&Object.keys(r.resultados).length);
+  if(!resRounds.length)return [];
+  const off={};s.players.forEach(p=>{if(p.jogos>0)off[p.apelido.toUpperCase()]={V:p.vitorias,E:p.empates,D:p.derrotas,gols:p.gols};});
+  const sumr={};Object.keys(off).forEach(k=>sumr[k]={V:0,E:0,D:0,gols:0});
+  resRounds.forEach(r=>{Object.entries(r.resultados).forEach(([nm,rv])=>{const k=(normAp(nm,season)||nm).toUpperCase();if(sumr[k]&&(rv==='V'||rv==='E'||rv==='D'))sumr[k][rv]++;});Object.entries(r.gols||{}).forEach(([gk,gv])=>{const a=normGoal(gk,season);if(a){const k=a.toUpperCase();if(sumr[k])sumr[k].gols+=gv;}});});
+  const acc={};Object.keys(off).forEach(k=>{acc[k]={V:off[k].V-sumr[k].V,E:off[k].E-sumr[k].E,D:off[k].D-sumr[k].D,gols:off[k].gols-sumr[k].gols};});
+  const P0=o=>o.V*3+o.E;const out=[];
+  resRounds.forEach(r=>{
+    Object.entries(r.resultados).forEach(([nm,rv])=>{const k=(normAp(nm,season)||nm).toUpperCase();if(acc[k]&&(rv==='V'||rv==='E'||rv==='D'))acc[k][rv]++;});
+    Object.entries(r.gols||{}).forEach(([gk,gv])=>{const a=normGoal(gk,season);if(a){const k=a.toUpperCase();if(acc[k])acc[k].gols+=gv;}});
+    const arr=Object.entries(acc).map(([k,o])=>({k,pts:P0(o),gols:o.gols})).sort((a,b)=>b.pts-a.pts||b.gols-a.gols||a.k.localeCompare(b.k));
     const idx=arr.findIndex(x=>x.k===A);
     out.push({r:r.rodada,pos:idx>=0?idx+1:null,total:arr.length});
   });
