@@ -750,9 +750,9 @@ function renderJogadorDetail(apelido,initSeason){
   return `
   <button class="back" onclick="navigate('jogadores')">← Estatísticas</button>
   <div class="p-hero">
-    <div class="p-av">${initial(found.apelido)}</div>
+    <div class="p-av">${initial((p&&p.apelido)||found.apelido)}</div>
     <div class="p-info">
-      <h1>${found.apelido}</h1>
+      <h1>${(p&&p.apelido)||found.apelido}</h1>
       ${nome!==found.apelido?`<div class="nm">${nome}</div>`:''}
       <div class="mt">${p?.numero?`<span><b>Camisa</b> #${p.numero}</span>`:''}${p?.data_nasc?`<span><b>Nasc.</b> ${p.data_nasc}</span>`:''}
       ${form.length?`<span class="form" title="Últimos jogos">${form.map(f=>`<i class="${f}"></i>`).join('')}</span>`:''}</div>
@@ -804,18 +804,18 @@ const GOL_ALIAS={'GAMARANO':'GAMA','IGOR C':'IGOR','LEONARDO':'LEO'};
 const AP_ALIAS={'IGOR C':'IGOR','IGOR G':'GAMA','GAMARANO':'GAMA','LEONARDO':'LEO','ERIL':'ERILDO','WAGNER':'DR. WAGNER'};
 function normGoal(k,season){if(!k)return null;const u=k.trim().toUpperCase();if(/GOL CONTRA|^GC$/.test(u))return null;if(GOL_ALIAS[u])return GOL_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a.includes(u)||u.includes(a);});return m?m.apelido:k.trim();}
 function normAp(name,season){if(!name)return '';let u=name.trim().toUpperCase();if(u==='?'||u==='APP'||u==='OS')return '';if(AP_ALIAS[u])return AP_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a===u||a.includes(u)||u.includes(a);});return m?m.apelido:name.trim();}
-function goalsThisRound(r,ap,season){let g=0;Object.entries(r.gols||{}).forEach(([k,v])=>{if(normGoal(k,season)===ap)g+=v;});return g;}
+function goalsThisRound(r,ap,season){let g=0;const A=ap.toUpperCase();Object.entries(r.gols||{}).forEach(([k,v])=>{const a=normGoal(k,season);if(a&&a.toUpperCase()===A)g+=v;});return g;}
 function playerSeries(ap,season){
   const s=state.seasons[season];if(!s)return [];
   const A=ap.toUpperCase();const cum={};const out=[];let myCum=0,myPts=0,myJ=0,myV=0;
   s.rounds.forEach(r=>{
-    Object.entries(r.gols||{}).forEach(([k,v])=>{const a=normGoal(k,season);if(a)cum[a]=(cum[a]||0)+v;});
+    Object.entries(r.gols||{}).forEach(([k,v])=>{const a=normGoal(k,season);if(a){const ak=a.toUpperCase();cum[ak]=(cum[ak]||0)+v;}});
     const P=(r.time_preto||[]).map(x=>normAp(x,season).toUpperCase());
     const Z=(r.time_azul||[]).map(x=>normAp(x,season).toUpperCase());
     const inP=P.includes(A),inZ=Z.includes(A),played=inP||inZ;
     const g=goalsThisRound(r,ap,season);myCum+=g;
     if(played){myJ++;const pf=r.placar_final;const res=pf[0]===pf[1]?'E':((inP&&pf[0]>pf[1])||(inZ&&pf[1]>pf[0]))?'V':'D';myPts+=res==='V'?3:res==='E'?1:0;if(res==='V')myV++;}
-    const myG=cum[ap]||0;const better=Object.values(cum).filter(v=>v>myG).length;
+    const myG=cum[A]||0;const better=Object.values(cum).filter(v=>v>myG).length;
     out.push({r:r.rodada,played,g,cum:myCum,pts:myPts,aprov:myJ?Math.round(myV/myJ*100):0,posArt:myG>0?better+1:null});
   });
   return out;
