@@ -719,10 +719,10 @@ function renderJogadores(){
   const s=S();const players=[...s.players].filter(p=>p.jogos>0).sort((a,b)=>a.apelido.localeCompare(b.apelido));
   return `
   <div class="sec-head"><div class="ic">${I.users}</div><div><h2>Estatísticas</h2><small>${players.length} peladeiros · toque pra ver o dossiê completo</small></div></div>
-  <div class="search">${I.search}<input id="psearch" placeholder="Buscar peladeiro..." oninput="filterPlayers()"></div>
+  <div class="search">${I.search}<input id="psearch" placeholder="Buscar por nome ou apelido..." oninput="filterPlayers()"></div>
   <div class="pgrid" id="pgrid">
     ${players.map(p=>`
-    <div class="pcard" data-name="${p.apelido.toLowerCase()}" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.season}'})">
+    <div class="pcard" data-name="${(p.apelido+' '+(p.nome||'')).toLowerCase()}" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.season}'})">
       <div class="pcard-top"><span class="av" style="width:30px;height:30px;font-size:.78rem">${initial(p.apelido)}</span><b style="font-size:.92rem">${p.apelido}</b>${p.numero?`<span class="num">#${p.numero}</span>`:''}</div>
       <div class="pcard-grid">
         <div><div class="v" style="color:var(--green)">${p.gols}</div><div class="l">Gols</div></div>
@@ -784,27 +784,29 @@ function renderJogadorDetail(apelido,initSeason){
 function playerRounds(apelido,season){
   const s=state.seasons[season];if(!s)return '<p style="color:var(--txt-2)">Sem dados</p>';
   const A=apelido.toUpperCase();
-  const played=s.rounds.filter(r=>[...(r.time_preto||[]),...(r.time_azul||[])].map(x=>x.toUpperCase()).some(x=>x===A||x.includes(A)||A.includes(x)));
-  if(!played.length)return '<p style="color:var(--txt-2)">Não há rodadas registradas.</p>';
-  return `<div style="display:flex;flex-direction:column;gap:.5rem">${played.map(r=>{const pf=r.placar_final;
-    const inP=(r.time_preto||[]).map(x=>x.toUpperCase()).some(x=>x===A||x.includes(A)||A.includes(x));const team=inP?'PRETO':'AZUL';
-    const won=(inP&&pf[0]>pf[1])||(!inP&&pf[1]>pf[0]);const drew=pf[0]===pf[1];const res=drew?'E':won?'V':'D';
-    const g=(r.gols||{})[apelido]||Object.entries(r.gols||{}).find(([k])=>k.toUpperCase()===A)?.[1]||0;
+  const rows=[...s.rounds].reverse().map(r=>{
+    const pf=r.placar_final;
+    const inP=(r.time_preto||[]).map(x=>normAp(x,season).toUpperCase()).includes(A);
+    const inZ=(r.time_azul||[]).map(x=>normAp(x,season).toUpperCase()).includes(A);
+    if(!inP&&!inZ){
+      return `<div class="rank-row clk" style="background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:12px;padding:.55rem .8rem;opacity:.55" onclick="navigate('rodada',{num:${r.rodada}})">
+        <span style="font-size:.78rem;font-weight:700;color:var(--txt-3);min-width:64px">R${r.rodada} · ${fmtShort(r.data)}</span>
+        <span class="num" style="color:var(--txt-3)">${pf[0]} × ${pf[1]}</span>
+        <span style="margin-left:auto;font-size:.72rem;color:var(--txt-3);font-weight:700;letter-spacing:.3px">FALTANTE</span></div>`;
+    }
+    const team=inP?'PRETO':'AZUL';
+    const won=(inP&&pf[0]>pf[1])||(inZ&&pf[1]>pf[0]);const drew=pf[0]===pf[1];const res=drew?'E':won?'V':'D';
+    const g=goalsThisRound(r,apelido,season);
     const bc=res==='V'?'b-v':res==='D'?'b-d':'b-e';
     return `<div class="rank-row clk" style="background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:.55rem .8rem" onclick="navigate('rodada',{num:${r.rodada}})">
       <span style="font-size:.78rem;font-weight:700;color:var(--txt-2);min-width:64px">R${r.rodada} · ${fmtShort(r.data)}</span>
       <span class="num" style="font-weight:700">${pf[0]} × ${pf[1]}</span>
       <span style="font-size:.72rem;color:var(--txt-3)">${team}</span>
       <span class="${bc}" style="margin-left:auto">${res}</span>
-      ${g>0?`<span style="color:var(--green);font-weight:700;font-size:.82rem">⚽${g>1?' '+g:''}</span>`:''}</div>`;}).join('')}</div>`;
+      ${g>0?`<span style="color:var(--green);font-weight:700;font-size:.82rem">⚽${g>1?' '+g:''}</span>`:''}</div>`;
+  }).join('');
+  return `<div style="display:flex;flex-direction:column;gap:.5rem">${rows}</div>`;
 }
-
-// ── Estatísticas: normalização, séries, química, gráficos ─────────
-const GOL_ALIAS={'GAMARANO':'GAMA','IGOR C':'IGOR','LEONARDO':'LEO'};
-const AP_ALIAS={'IGOR C':'IGOR','IGOR G':'GAMA','GAMARANO':'GAMA','LEONARDO':'LEO','ERIL':'ERILDO','WAGNER':'DR. WAGNER'};
-function normGoal(k,season){if(!k)return null;const u=k.trim().toUpperCase();if(/GOL CONTRA|^GC$/.test(u))return null;if(GOL_ALIAS[u])return GOL_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a.includes(u)||u.includes(a);});return m?m.apelido:k.trim();}
-function normAp(name,season){if(!name)return '';let u=name.trim().toUpperCase();if(u==='?'||u==='APP'||u==='OS')return '';if(AP_ALIAS[u])return AP_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a===u||a.includes(u)||u.includes(a);});return m?m.apelido:name.trim();}
-function goalsThisRound(r,ap,season){let g=0;const A=ap.toUpperCase();Object.entries(r.gols||{}).forEach(([k,v])=>{const a=normGoal(k,season);if(a&&a.toUpperCase()===A)g+=v;});return g;}
 function playerSeries(ap,season){
   const s=state.seasons[season];if(!s)return [];
   const A=ap.toUpperCase();const cum={};const out=[];let myCum=0,myPts=0,myJ=0,myV=0;
@@ -832,56 +834,70 @@ function chemistry(ap,season){
   });
   return {mate,riv};
 }
+function classPosSeries(ap,season){
+  const s=state.seasons[season];if(!s)return [];
+  const A=ap.toUpperCase();const acc={};const out=[];const P0=o=>o.V*3+o.E;
+  s.rounds.forEach(r=>{
+    const pf=r.placar_final;
+    const teams=[[ (r.time_preto||[]).map(x=>normAp(x,season)).filter(Boolean),0],[ (r.time_azul||[]).map(x=>normAp(x,season)).filter(Boolean),1]];
+    teams.forEach(([list,t])=>{const res=pf[0]===pf[1]?'E':((t===0&&pf[0]>pf[1])||(t===1&&pf[1]>pf[0]))?'V':'D';
+      list.forEach(nm=>{const k=nm.toUpperCase();(acc[k]=acc[k]||{V:0,E:0,D:0,gols:0,jogos:0});acc[k][res]++;acc[k].jogos++;});});
+    Object.entries(r.gols||{}).forEach(([gk,gv])=>{const a=normGoal(gk,season);if(a){const k=a.toUpperCase();(acc[k]=acc[k]||{V:0,E:0,D:0,gols:0,jogos:0}).gols+=gv;}});
+    const arr=Object.entries(acc).filter(([,o])=>o.jogos>0).map(([k,o])=>({k,pts:P0(o),gols:o.gols,jogos:o.jogos}));
+    arr.sort((a,b)=>b.pts-a.pts||b.gols-a.gols||b.jogos-a.jogos||a.k.localeCompare(b.k));
+    const idx=arr.findIndex(x=>x.k===A);
+    out.push({r:r.rodada,pos:idx>=0?idx+1:null,total:arr.length});
+  });
+  return out;
+}
 function svgGoals(series){
   const n=series.length;if(!n)return '';
-  const W=Math.max(300,n*30),H=150,padL=22,padR=18,padT=18,padB=20,iw=W-padL-padR,ih=H-padT-padB;
-  const maxG=Math.max(1,...series.map(s=>s.g)),maxC=Math.max(1,...series.map(s=>s.cum));
-  const bw=Math.min(20,(iw/n)*0.55),cx=i=>padL+(iw/n)*(i+0.5),yB=v=>padT+ih-(v/maxG)*ih,yC=v=>padT+ih-(v/maxC)*ih;
-  let bars='',xl='';
-  series.forEach((s,i)=>{const by=yB(s.g);
-    bars+=`<rect x="${(cx(i)-bw/2).toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${(padT+ih-by).toFixed(1)}" rx="2.5" fill="#2fae84"/>`;
-    if(s.g>0)bars+=`<text x="${cx(i).toFixed(1)}" y="${(by-3).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">${s.g}</text>`;
-    if(n<=14||i%2===0)xl+=`<text x="${cx(i).toFixed(1)}" y="${H-5}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.42)">${s.r}</text>`;});
+  const W=Math.max(320,n*32),H=164,padL=30,padR=14,padT=16,padB=24,iw=W-padL-padR,ih=H-padT-padB;
+  const maxC=Math.max(1,...series.map(s=>s.cum)),maxG=Math.max(1,...series.map(s=>s.g));
+  const cx=i=>padL+(iw/n)*(i+0.5),yC=v=>padT+ih-(v/maxC)*ih,yB=v=>padT+ih-(v/maxG)*(ih*0.82),bw=Math.min(20,(iw/n)*0.5);
+  const ticks=[0,Math.round(maxC/2),maxC];let grid='',yl='';
+  ticks.forEach(tv=>{const yy=yC(tv);grid+=`<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W-padR}" y2="${yy.toFixed(1)}" stroke="rgba(255,255,255,.08)"/>`;yl+=`<text x="${padL-5}" y="${(yy+3).toFixed(1)}" text-anchor="end" font-size="9" fill="rgba(255,255,255,.5)">${tv}</text>`;});
+  let bars='',xl='';series.forEach((s,i)=>{const by=yB(s.g);
+    if(s.g>0){bars+=`<rect x="${(cx(i)-bw/2).toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${(padT+ih-by).toFixed(1)}" rx="2.5" fill="#2fae84"/><text x="${cx(i).toFixed(1)}" y="${(by-3).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">${s.g}</text>`;}
+    if(n<=16||i%2===0)xl+=`<text x="${cx(i).toFixed(1)}" y="${H-7}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.45)">R${s.r}</text>`;});
   const pts=series.map((s,i)=>`${cx(i).toFixed(1)},${yC(s.cum).toFixed(1)}`).join(' ');
-  let dots='';series.forEach((s,i)=>{dots+=`<circle cx="${cx(i).toFixed(1)}" cy="${yC(s.cum).toFixed(1)}" r="2.2" fill="#f4b62c"/>`;});
+  let dots='';series.forEach((s,i)=>{dots+=`<circle cx="${cx(i).toFixed(1)}" cy="${yC(s.cum).toFixed(1)}" r="2.4" fill="#f4b62c"/>`;});
   const last=series[n-1];
-  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">${bars}<polyline points="${pts}" fill="none" stroke="#f4b62c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>${dots}<text x="${cx(n-1).toFixed(1)}" y="${(yC(last.cum)-6).toFixed(1)}" text-anchor="end" font-size="10" font-weight="800" fill="#f4b62c">${last.cum}</text>${xl}</svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">${grid}${bars}<polyline points="${pts}" fill="none" stroke="#f4b62c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>${dots}<text x="${cx(n-1).toFixed(1)}" y="${(yC(last.cum)-7).toFixed(1)}" text-anchor="end" font-size="11" font-weight="800" fill="#f4b62c">${last.cum}</text>${yl}${xl}</svg>`;
 }
 function svgLine(vals,labels,opt){
   opt=opt||{};const n=vals.length;if(!n)return '<div style="color:var(--txt-3);font-size:.8rem;padding:.4rem 0">Sem dados suficientes</div>';
-  const W=Math.max(300,n*30),H=140,padL=28,padR=18,padT=18,padB=20,iw=W-padL-padR,ih=H-padT-padB;
+  const W=Math.max(320,n*32),H=164,padL=34,padR=14,padT=16,padB=24,iw=W-padL-padR,ih=H-padT-padB;
   let ymin=opt.ymin!=null?opt.ymin:Math.min(...vals),ymax=opt.ymax!=null?opt.ymax:Math.max(...vals);if(ymin===ymax)ymax=ymin+1;
   const x=i=>n===1?padL+iw/2:padL+(iw/(n-1))*i,y=v=>{let t=(v-ymin)/(ymax-ymin);if(opt.invert)t=1-t;return padT+ih-t*ih;};
   const col=opt.color||'#f4b62c',uid='g'+Math.random().toString(36).slice(2,7);
+  const ticks=opt.ticks||[ymin,(ymin+ymax)/2,ymax];let grid='',yl='';
+  ticks.forEach(tv=>{const yy=y(tv);grid+=`<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W-padR}" y2="${yy.toFixed(1)}" stroke="rgba(255,255,255,.08)"/>`;yl+=`<text x="${padL-5}" y="${(yy+3).toFixed(1)}" text-anchor="end" font-size="9" fill="rgba(255,255,255,.5)">${opt.fmtY?opt.fmtY(tv):Math.round(tv)}</text>`;});
   const pts=vals.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
   const area=`${x(0).toFixed(1)},${(padT+ih).toFixed(1)} ${pts} ${x(n-1).toFixed(1)},${(padT+ih).toFixed(1)}`;
-  let dots='',xl='';vals.forEach((v,i)=>{dots+=`<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="2.3" fill="${col}"/>`;
-    if(n<=14||i%2===0||i===n-1)xl+=`<text x="${x(i).toFixed(1)}" y="${H-5}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.42)">${labels[i]}</text>`;});
-  const fmt=v=>(opt.prefix||'')+(opt.intRank?Math.round(v):v)+(opt.suffix||'');
-  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".26"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs><polygon points="${area}" fill="url(#${uid})"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>${dots}<text x="${x(n-1).toFixed(1)}" y="${(y(vals[n-1])-6).toFixed(1)}" text-anchor="end" font-size="10" font-weight="800" fill="${col}">${fmt(vals[n-1])}</text>${xl}</svg>`;
+  let dots='',xl='';vals.forEach((v,i)=>{dots+=`<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="2.6" fill="${col}"/>`;
+    if(n<=16||i%2===0||i===n-1)xl+=`<text x="${x(i).toFixed(1)}" y="${H-7}" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.45)">R${labels[i]}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".26"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>${grid}<polygon points="${area}" fill="url(#${uid})"/><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>${dots}${yl}${xl}</svg>`;
 }
 function chartsBlock(ap,season){
-  const sr=playerSeries(ap,season);if(!sr.length)return '';
-  const played=sr.filter(s=>s.played);
-  let h=`<div class="card" style="margin-bottom:.9rem"><div class="card-h gold">${I.fire}Evolução na temporada</div><div class="card-b">`;
-  h+=`<div class="chart-t">Gols por rodada <span>(barras verdes)</span> + acumulado <span>(linha dourada)</span></div>${svgGoals(sr)}`;
-  if(played.length>1)h+=`<div class="chart-t" style="margin-top:1.1rem">Aproveitamento acumulado <span>(% de pontos por jogo)</span></div>${svgLine(played.map(s=>s.aprov),played.map(s=>s.r),{color:'#2f6bd6',ymin:0,ymax:100,suffix:'%'})}`;
-  const ps=sr.filter(s=>s.posArt);
-  if(ps.length>1){const mx=Math.max(...ps.map(s=>s.posArt));h+=`<div class="chart-t" style="margin-top:1.1rem">Posição na artilharia <span>(rodada a rodada)</span></div>${svgLine(ps.map(s=>s.posArt),ps.map(s=>s.r),{color:'#f4b62c',ymin:1,ymax:Math.max(2,mx),invert:true,prefix:'#',intRank:true})}`;}
-  h+='</div></div>';return h;
+  const cp=classPosSeries(ap,season).filter(s=>s.pos);const sr=playerSeries(ap,season);let h='';
+  if(cp.length>1){const total=Math.max(...cp.map(s=>s.total));
+    h+=`<div class="card" style="margin-bottom:.9rem;border-color:rgba(244,182,44,.35)"><div class="card-h gold">${I.trophy}Posição na Classificação <span style="font-weight:500;color:var(--txt-3);font-size:.72rem">· rodada a rodada</span></div><div class="card-b"><div class="chart-t">Quanto mais alto, melhor a colocação <span>(entre ${total} peladeiros)</span></div>${svgLine(cp.map(s=>s.pos),cp.map(s=>s.r),{color:'#f4b62c',ymin:1,ymax:Math.max(2,total),invert:true,ticks:[1,Math.round(total/2),total],fmtY:v=>'#'+Math.round(v)})}<div style="text-align:center;margin-top:.4rem;font-size:.78rem;color:var(--txt-2)">Posição atual: <b style="color:var(--gold);font-family:var(--fd)">#${cp[cp.length-1].pos}</b> de ${total}</div></div></div>`;}
+  if(sr.length){h+=`<div class="card" style="margin-bottom:.9rem"><div class="card-h green">${I.ball}Gols na temporada</div><div class="card-b"><div class="chart-t">Gols por rodada <span>(barras verdes)</span> + total acumulado <span>(linha dourada)</span></div>${svgGoals(sr)}</div></div>`;}
+  return h;
 }
 function chemistryBlock(ap,season){
-  const {mate,riv}=chemistry(ap,season);
-  const top=(o,k)=>Object.entries(o).filter(([,v])=>v[k]>0).sort((a,b)=>b[1][k]-a[1][k]||b[1].J-a[1].J).slice(0,3);
-  const bm=top(mate,'V'),wm=top(mate,'D'),br=top(riv,'V'),wr=top(riv,'D');
-  if(!bm.length&&!wm.length&&!br.length&&!wr.length)return '';
-  const li=(arr,k,blue)=>arr.length?arr.map(([n,v])=>`<div class="chem-row"><span class="av${blue?' b':''}" style="width:26px;height:26px;font-size:.66rem">${initial(n)}</span><span class="rn">${n}</span><b style="color:${k==='V'?'var(--green)':'var(--red)'}">${v[k]}${k==='V'?'V':'D'}</b><span style="color:var(--txt-3);font-size:.72rem">/${v.J}j</span></div>`).join(''):'<div style="color:var(--txt-3);font-size:.8rem;padding:.3rem 0">—</div>';
+  const {mate,riv}=chemistry(ap,season);const saldo=o=>o.V-o.D;
+  const rank=(obj,dir)=>Object.entries(obj).filter(([,v])=>v.J>=2).map(([n,v])=>[n,v,saldo(v)]).sort((a,b)=>dir*(b[2]-a[2])||b[1].J-a[1].J).slice(0,3).filter(x=>dir>0?x[2]>0:x[2]<0);
+  const bM=rank(mate,1),wM=rank(mate,-1),bR=rank(riv,1),wR=rank(riv,-1);
+  if(!bM.length&&!wM.length&&!bR.length&&!wR.length)return '';
+  const li=(arr,blue)=>arr.length?arr.map(([n,v,sd])=>`<div class="chem-row"><span class="av${blue?' b':''}" style="width:26px;height:26px;font-size:.66rem">${initial(n)}</span><span class="rn">${n}</span><span style="color:var(--txt-3);font-size:.7rem">${v.V}V·${v.E}E·${v.D}D</span><b style="color:${sd>0?'var(--green)':sd<0?'var(--red)':'var(--txt-2)'}">${sd>0?'+':''}${sd}</b></div>`).join(''):'<div style="color:var(--txt-3);font-size:.8rem;padding:.3rem 0">—</div>';
   return `<div class="card" style="margin-bottom:.9rem"><div class="card-h blue">${I.users}Química &amp; Rivais</div><div class="card-b"><div class="chem-grid">
-    <div><div class="chem-h" style="color:var(--green)">🤝 Mais vence junto</div>${li(bm,'V',false)}</div>
-    <div><div class="chem-h" style="color:var(--red)">💔 Mais perde junto</div>${li(wm,'D',false)}</div>
-    <div><div class="chem-h" style="color:var(--green)">😈 Freguês (mais venceu contra)</div>${li(br,'V',true)}</div>
-    <div><div class="chem-h" style="color:var(--red)">🧱 Pedra no sapato</div>${li(wr,'D',true)}</div>
-  </div><p class="note">Parceiros = mesmo time · Rivais = times opostos</p></div></div>`;
+    <div><div class="chem-h" style="color:var(--green)">🤝 Melhores duplas</div>${li(bM,false)}</div>
+    <div><div class="chem-h" style="color:var(--red)">🧊 Duplas que travam</div>${li(wM,false)}</div>
+    <div><div class="chem-h" style="color:var(--green)">😈 Freguês</div>${li(bR,true)}</div>
+    <div><div class="chem-h" style="color:var(--red)">🧱 Pedra no sapato</div>${li(wR,true)}</div>
+  </div><p class="note">Saldo = vitórias − derrotas (mín. 2 jogos juntos/contra). Parceiros = mesmo time · Rivais = times opostos.</p></div></div>`;
 }
 
 // ── GALERIA ───────────────────────────────────────────────────────
@@ -905,7 +921,7 @@ function tab(id,btn){
 }
 
 // ── Init ──────────────────────────────────────────────────────────
-loadData().catch(e=>{document.getElementById('view').innerHTML=`<div class="empty"><div class="e">⚠️</div><p>Erro ao carregar dados.<br><small style="color:var(--txt-3)">${e.message}</small></p></div>`;});
+loadData().catch(e=>{document.getElementById("view").innerHTML=`<div class="empty"><div class="e">⚠️</div><p>Erro ao carregar dados.<br><small style="color:var(--txt-3)">${e.message}</small></p></div>`;});
 </script>
 </body>
 </html>
