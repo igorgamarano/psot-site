@@ -40,7 +40,7 @@
         "ALEXANDRE",
         "PRIMEIRO",
         "DR. WAGNER",
-        "KIKO"
+        "Henrique (convidado)"
       ],
       "gols": {
         "LIPIN": 2,
@@ -76,7 +76,7 @@
         "ALEXANDRE": "D",
         "PRIMEIRO": "D",
         "DR. WAGNER": "D",
-        "KIKO": "D"
+        "Henrique (convidado)": "D"
       },
       "reconstituida": false,
       "rodada": 1
@@ -295,7 +295,7 @@
         "GAMA",
         "LIPIN",
         "FRANCISCO",
-        "KIKO",
+        "Henrique (convidado)",
         "GABRIEL",
         "RODRIGO"
       ],
@@ -319,7 +319,7 @@
         "ZÉ RENATO": 1,
         "Ricardo (convidado)": 1,
         "LIPIN": 1,
-        "KIKO": 2,
+        "Henrique (convidado)": 2,
         "GUSTAVO": 2,
         "IGOR": 3,
         "ALEXANDRE": 1
@@ -347,7 +347,7 @@
         "GAMA": "D",
         "LIPIN": "D",
         "FRANCISCO": "D",
-        "KIKO": "D",
+        "Henrique (convidado)": "D",
         "GABRIEL": "V",
         "RODRIGO": "D",
         "JHONATAS": "V",
@@ -476,7 +476,7 @@
         "LEO",
         "ALEXANDRE",
         "DR. WAGNER",
-        "KIKO",
+        "Henrique (convidado)",
         "Afonso (convidado)"
       ],
       "time_azul": [
@@ -495,7 +495,7 @@
       "gols": {
         "IGOR": 5,
         "ALEXANDRE": 4,
-        "KIKO": 1,
+        "Henrique (convidado)": 1,
         "VINICIUS": 1,
         "GABRIEL": 2,
         "LIPIN": 2,
@@ -513,7 +513,7 @@
         "LEO": "V",
         "ALEXANDRE": "V",
         "DR. WAGNER": "V",
-        "KIKO": "V",
+        "Henrique (convidado)": "V",
         "Afonso (convidado)": "V",
         "Matheus (convidado)": "D",
         "ZÉ RENATO": "D",
@@ -769,7 +769,7 @@
         "FAFAH",
         "PRIMEIRO",
         "GABRIEL",
-        "KIKO",
+        "Henrique (convidado)",
         "VINICIUS",
         "DR. WAGNER"
       ],
@@ -781,7 +781,7 @@
         "LUCAS": 3,
         "GAMA": 2,
         "MARCOS": 2,
-        "KIKO": 1,
+        "Henrique (convidado)": 1,
         "VINICIUS": 4
       },
       "cartoes": [],
@@ -813,7 +813,7 @@
         "FAFAH": "V",
         "PRIMEIRO": "V",
         "GABRIEL": "V",
-        "KIKO": "V",
+        "Henrique (convidado)": "V",
         "VINICIUS": "V",
         "DR. WAGNER": "V"
       },
@@ -1152,7 +1152,7 @@
         "MARCOS",
         "ALEXANDRE",
         "PS",
-        "KIKO"
+        "Henrique (convidado)"
       ],
       "time_azul": [
         "LUCIANO",
@@ -1169,7 +1169,7 @@
         "IGOR": 3,
         "MARCOS": 1,
         "ALEXANDRE": 1,
-        "KIKO": 1,
+        "Henrique (convidado)": 1,
         "LEO": 2,
         "LUCAS": 2,
         "VINICIUS": 2
@@ -1186,7 +1186,7 @@
         "MARCOS": "E",
         "ALEXANDRE": "E",
         "PS": "E",
-        "KIKO": "E",
+        "Henrique (convidado)": "E",
         "LUCIANO": "E",
         "ROMILDO": "E",
         "RODRIGO": "E",
@@ -1236,13 +1236,13 @@
         "ALEXANDRE",
         "DR. RODRIGO",
         "DR. MAURO",
-        "KIKO",
+        "Henrique (convidado)",
         "PS"
       ],
       "gols": {
         "MONKEY": 1,
         "ALEXANDRE": 1,
-        "KIKO": 2
+        "Henrique (convidado)": 2
       },
       "cartoes": [
         {
@@ -1279,7 +1279,7 @@
         "ALEXANDRE": "V",
         "DR. RODRIGO": "V",
         "DR. MAURO": "V",
-        "KIKO": "V",
+        "Henrique (convidado)": "V",
         "PS": "V"
       },
       "reconstituida": false,
@@ -1982,7 +1982,7 @@
         "MONKEY",
         "GABRIEL",
         "MOSÉ",
-        "KIKO",
+        "Henrique (convidado)",
         "Farid (convidado)",
         "LIPIN"
       ],
@@ -2030,6 +2030,7 @@
         "LUCAS": "E",
         "MONKEY": "E",
         "MOSÉ": "E",
+        "Henrique (convidado)": "E",
         "Farid (convidado)": "E",
         "LIPIN": "E"
       },
@@ -2073,7 +2074,7 @@
         "HUMBERTO",
         "PS",
         "Chuchu (convidado)",
-        "KIKO"
+        "Henrique (convidado)"
       ],
       "gols": {
         "IGOR": 1,
@@ -2109,7 +2110,7 @@
         "HUMBERTO": "V",
         "PS": "V",
         "Chuchu (convidado)": "V",
-        "KIKO": "V"
+        "Henrique (convidado)": "V"
       },
       "reconstituida": false,
       "rodada": 25
@@ -3265,23 +3266,6 @@
       }
     },
     {
-      "nome": "Henrique Rommel",
-      "apelido": "KIKO",
-      "numero": "28",
-      "gols": 7,
-      "vitorias": 7,
-      "empates": 6,
-      "derrotas": 5,
-      "jogos": 18,
-      "data_nasc": "01/12/1991",
-      "faltas": 42,
-      "cartoes": {
-        "CA": 0,
-        "CAz": 0,
-        "CV": 0
-      }
-    },
-    {
       "nome": "Humberto Gameiro Laciprete",
       "apelido": "HUMBERTO",
       "numero": "17",
@@ -3707,6 +3691,23 @@
       }
     },
     {
+      "nome": "Henrique Rommel",
+      "apelido": "KIKO",
+      "numero": "28",
+      "gols": 0,
+      "vitorias": 3,
+      "empates": 5,
+      "derrotas": 3,
+      "jogos": 11,
+      "data_nasc": "01/12/1991",
+      "faltas": 42,
+      "cartoes": {
+        "CA": 0,
+        "CAz": 0,
+        "CV": 0
+      }
+    },
+    {
       "nome": "Michel Lemos Souza",
       "apelido": "MICHEL",
       "numero": "13",
@@ -3804,6 +3805,24 @@
       "empates": 2,
       "derrotas": 0,
       "jogos": 2,
+      "data_nasc": "",
+      "faltas": 0,
+      "cartoes": {
+        "CA": 0,
+        "CAz": 0,
+        "CV": 0
+      },
+      "convidado": true
+    },
+    {
+      "nome": "Henrique (convidado)",
+      "apelido": "Henrique (convidado)",
+      "numero": "",
+      "gols": 7,
+      "vitorias": 4,
+      "empates": 2,
+      "derrotas": 2,
+      "jogos": 8,
       "data_nasc": "",
       "faltas": 0,
       "cartoes": {
@@ -3952,10 +3971,6 @@
     {
       "apelido": "FRANCISCO",
       "gols": 8
-    },
-    {
-      "apelido": "KIKO",
-      "gols": 7
     },
     {
       "apelido": "HUMBERTO",
