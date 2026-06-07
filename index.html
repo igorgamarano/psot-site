@@ -524,7 +524,7 @@ function renderHome(){
   const s=S(),st=s.stats;
   const last=s.rounds[s.rounds.length-1];
   const top3=s.artilharia.slice(0,3);
-  const top5=[...s.players].filter(p=>p.jogos>0).sort((a,b)=>pts(b)-pts(a)||b.gols-a.gols).slice(0,5);
+  const top5=[...s.players].filter(p=>p.jogos>0&&!p.convidado).sort((a,b)=>pts(b)-pts(a)||b.gols-a.gols).slice(0,5);
   const leader=top5[0];
   const aviso=state.config?.proximo_aviso_ativo&&state.config?.proximo_aviso?`<div class="aviso">📢 ${state.config.proximo_aviso}</div>`:'';
   const v=last?venc(last.placar_final,last.vencedor):null;
@@ -546,7 +546,7 @@ function renderHome(){
     <div class="stat"><div class="v num">${s.total_rodadas}</div><div class="l">Rodadas</div><div class="ic">📅</div></div>
     <div class="stat green"><div class="v num">${st.total_gols}</div><div class="l">Gols</div><div class="ic">⚽</div></div>
     <div class="stat gold"><div class="v num">${st.media_gols}</div><div class="l">Média/Jogo</div><div class="ic">📈</div></div>
-    <div class="stat blue"><div class="v num">${s.players.filter(p=>p.jogos>0).length}</div><div class="l">Peladeiros</div><div class="ic">👥</div></div>
+    <div class="stat blue"><div class="v num">${s.players.filter(p=>p.jogos>0&&!p.convidado).length}</div><div class="l">Peladeiros</div><div class="ic">👥</div></div>
     <div class="stat white"><div class="v num">${st.vitoria_preto}</div><div class="l">Vitórias Preto</div></div>
     <div class="stat blue"><div class="v num">${st.vitoria_azul}</div><div class="l">Vitórias Azul</div></div>
     <div class="stat gold"><div class="v num">${st.empates}</div><div class="l">Empates</div></div>
@@ -612,7 +612,7 @@ function ghost(label,onclick){return `<button class="ghost" onclick="${onclick}"
 // ── CLASSIFICAÇÃO ─────────────────────────────────────────────────
 function renderClassificacao(){
   const s=S();const tot=s.total_rodadas;const minJ=Math.floor(tot/2);
-  const ativos=[...s.players].filter(p=>p.jogos>0).sort((a,b)=>pts(b)-pts(a)||b.gols-a.gols||a.apelido.localeCompare(b.apelido));
+  const ativos=[...s.players].filter(p=>p.jogos>0&&!p.convidado).sort((a,b)=>pts(b)-pts(a)||b.gols-a.gols||a.apelido.localeCompare(b.apelido));
   const eleg=ativos.filter(p=>p.jogos>=minJ);const inel=ativos.filter(p=>p.jogos<minJ);
   const cart=p=>{const c=p.cartoes||{CA:0,CAz:0,CV:0};const t=(c.CA||0)+(c.CAz||0)+(c.CV||0);
     return t?`<td><span class="cart" data-tip="🟨 ${c.CA||0}  🟦 ${c.CAz||0}  🟥 ${c.CV||0}">${t}</span></td>`:'<td style="color:var(--txt-3)">—</td>';};
@@ -716,7 +716,7 @@ function renderRodadaDetail(num){
 
 // ── JOGADORES ─────────────────────────────────────────────────────
 function renderJogadores(){
-  const s=S();const players=[...s.players].filter(p=>p.jogos>0).sort((a,b)=>a.apelido.localeCompare(b.apelido));
+  const s=S();const players=[...s.players].filter(p=>p.jogos>0&&!p.convidado).sort((a,b)=>a.apelido.localeCompare(b.apelido));
   return `
   <div class="sec-head"><div class="ic">${I.users}</div><div><h2>Estatísticas</h2><small>${players.length} peladeiros · toque pra ver o dossiê completo</small></div></div>
   <div class="search">${I.search}<input id="psearch" placeholder="Buscar por nome ou apelido..." oninput="filterPlayers()"></div>
@@ -844,7 +844,7 @@ function classPosSeries(ap,season){
   const A=ap.toUpperCase();
   const resRounds=s.rounds.filter(r=>r.resultados&&Object.keys(r.resultados).length);
   if(!resRounds.length)return [];
-  const off={};s.players.forEach(p=>{if(p.jogos>0)off[p.apelido.toUpperCase()]={V:p.vitorias,E:p.empates,D:p.derrotas,gols:p.gols};});
+  const off={};s.players.forEach(p=>{if(p.jogos>0&&!p.convidado)off[p.apelido.toUpperCase()]={V:p.vitorias,E:p.empates,D:p.derrotas,gols:p.gols};});
   const sumr={};Object.keys(off).forEach(k=>sumr[k]={V:0,E:0,D:0,gols:0});
   resRounds.forEach(r=>{Object.entries(r.resultados).forEach(([nm,rv])=>{const k=(normAp(nm,season)||nm).toUpperCase();if(sumr[k]&&(rv==='V'||rv==='E'||rv==='D'))sumr[k][rv]++;});Object.entries(r.gols||{}).forEach(([gk,gv])=>{const a=normGoal(gk,season);if(a){const k=a.toUpperCase();if(sumr[k])sumr[k].gols+=gv;}});});
   const acc={};Object.keys(off).forEach(k=>{acc[k]={V:off[k].V-sumr[k].V,E:off[k].E-sumr[k].E,D:off[k].D-sumr[k].D,gols:off[k].gols-sumr[k].gols};});
