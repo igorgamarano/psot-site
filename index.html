@@ -1048,8 +1048,8 @@ function renderAuth(){
     if(menu){menu.classList.remove('open');menu.innerHTML='';}
   }else{
     const ph=userPhoto();
-    box.innerHTML=`<button class="av-btn" onclick="toggleAuthMenu(event)">${ph?`<img src="${ph}" alt="">`:initial(userName())}</button>`;
-    menu.innerHTML=`<div class="am-head"><b>${userName()}</b><span>${state.user.email||''}</span>${state.isMaster?'<span class="badge">MASTER</span>':(state.isAdmin?'<span class="badge">ADMIN</span>':'')}</div>
+    box.innerHTML=`<button class="av-btn" onclick="toggleAuthMenu(event)">${ph?`<img src="${escH(ph)}" alt="">`:initial(userName())}</button>`;
+    menu.innerHTML=`<div class="am-head"><b>${escH(userName())}</b><span>${escH(state.user.email||'')}</span>${state.isMaster?'<span class="badge">MASTER</span>':(state.isAdmin?'<span class="badge">ADMIN</span>':'')}</div>
       <button class="am-item" onclick="closeAuthMenu();navigate('perfil')">${I.users} Perfil</button>
       <button class="am-item" onclick="signOut()">${ICO_LOGOUT} Sair</button>`;
   }
@@ -1069,10 +1069,10 @@ function renderPerfil(){
   return `
   <div class="sec-head"><div class="ic">${I.users}</div><div><h2>Meu Perfil</h2><small>Edite sua foto e seu apelido</small></div></div>
   <div class="card perfil-card"><div class="card-b">
-    <div class="perfil-av" id="pf-av">${ph?`<img src="${ph}">`:initial(userName())}<div class="perfil-cam" onclick="document.getElementById('pf-file').click()">${I.cam}</div></div>
+    <div class="perfil-av" id="pf-av">${ph?`<img src="${escH(ph)}">`:initial(userName())}<div class="perfil-cam" onclick="document.getElementById('pf-file').click()">${I.cam}</div></div>
     <input type="file" id="pf-file" accept="image/*" style="display:none" onchange="onPerfilPhoto(event)">
     <div class="center" style="margin:.5rem 0 1.2rem;font-size:.78rem;color:var(--txt-3)">Toque na câmera pra trocar a foto</div>
-    <div class="pf-field"><label>Apelido (como aparece na pelada)</label><input id="pf-apelido" maxlength="20" value="${(userName()||'').replace(/"/g,'&quot;')}"></div>
+    <div class="pf-field"><label>Apelido (como aparece na pelada)</label><input id="pf-apelido" maxlength="20" value="${escH(userName())}"></div>
     <div class="pf-field"><label>E-mail</label><input class="ro" value="${state.user.email||''}" readonly></div>
     <div class="pf-field"><label>Senha</label><input class="ro" value="Gerenciada pelo Google" readonly></div>
     <button class="btn-primary" id="pf-save" onclick="savePerfil()">Salvar alterações</button>
@@ -1157,7 +1157,7 @@ function escH(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</
 function nextSaturday(){const d=new Date();let add=(6-d.getDay()+7)%7;d.setDate(d.getDate()+add);return d.toISOString().slice(0,10);}
 function fmtBR(iso){if(!iso)return'';const p=iso.split('-');return `${p[2]}/${p[1]}/${p[0]}`;}
 function pelById(id){return escState.pel.find(p=>p.id===id);}
-function pelAv(p){if(!p)return'';return p.foto_url?`<img src="${p.foto_url}">`:initial(p.nome);}
+function pelAv(p){if(!p)return'';return p.foto_url?`<img src="${escH(p.foto_url)}">`:initial(p.nome);}
 function renderEscalacao(){requestAnimationFrame(loadEscalacao);return `<div id="esc-root"><div class="loading"><div class="ball">⚽</div><div class="sh"></div><div class="tx">Carregando escalação...</div></div></div>`;}
 async function loadEscalacao(){
   const root=document.getElementById('esc-root'); if(!root)return;
