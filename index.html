@@ -375,7 +375,37 @@ footer .upd{font-size:.72rem}
   .pgrid{grid-template-columns:1fr 1fr}
   .hero-logo{width:74px;height:74px}
 }
+/* ── Auth (topbar) ── */
+.right-area{display:flex;align-items:center;gap:.5rem;justify-self:end}
+#auth-wrap{position:relative}
+.auth-btn{display:flex;align-items:center;gap:7px;background:#fff;color:#1f2533;border:none;padding:.5rem .85rem;border-radius:var(--pill);font-size:.8rem;font-weight:700;transition:.18s;white-space:nowrap}
+.auth-btn:hover{background:#e9edf3}
+.auth-btn svg{width:16px;height:16px;flex-shrink:0}
+.av-btn{width:38px;height:38px;border-radius:50%;overflow:hidden;border:2px solid var(--bd-2);background:linear-gradient(135deg,var(--gold-soft),var(--gold));display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.95rem;color:#06101f;cursor:pointer;padding:0}
+.av-btn img{width:100%;height:100%;object-fit:cover}
+#authmenu{position:absolute;right:0;top:calc(100% + 8px);min-width:210px;background:rgba(10,20,38,.98);border:1px solid var(--bd-2);border-radius:var(--r);box-shadow:var(--sh-lg);overflow:hidden;display:none;z-index:400}
+#authmenu.open{display:block;animation:pop .16s ease}
+.am-head{padding:.7rem .9rem;border-bottom:1px solid var(--bd)}
+.am-head b{display:block;font-size:.85rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.am-head span{font-size:.72rem;color:var(--txt-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.am-head .badge{display:inline-block;margin-top:.4rem;font-size:.58rem;font-weight:800;letter-spacing:.5px;color:#06101f;background:var(--gold);padding:.12rem .45rem;border-radius:5px}
+.am-item{display:flex;align-items:center;gap:.55rem;width:100%;text-align:left;padding:.65rem .9rem;background:transparent;color:var(--txt-2);font-size:.86rem;font-weight:600;transition:.14s}
+.am-item:hover{background:var(--glass);color:#fff}
+.am-item svg{width:16px;height:16px}
+/* perfil */
+.perfil-card{max-width:480px;margin:0 auto}
+.perfil-av{width:100px;height:100px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);margin:.4rem auto 0;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:2.3rem;color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));position:relative}
+.perfil-av img{width:100%;height:100%;object-fit:cover}
+.perfil-cam{position:absolute;bottom:2px;right:2px;width:30px;height:30px;border-radius:50%;background:var(--royal);border:2px solid var(--bg1);display:grid;place-items:center;cursor:pointer;color:#fff}
+.pf-field{margin-bottom:1rem}
+.pf-field label{display:block;font-size:.7rem;color:var(--txt-2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.35rem}
+.pf-field input{width:100%;padding:.7rem 1rem;background:var(--glass);border:1px solid var(--bd);border-radius:12px;color:#fff;font-size:.92rem;outline:none;font-family:inherit}
+.pf-field input:focus{border-color:rgba(244,182,44,.5)}
+.pf-field .ro{color:var(--txt-2)}
+.btn-primary{width:100%;padding:.8rem;background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#06101f;border:none;border-radius:12px;font-weight:800;font-size:.92rem;cursor:pointer;font-family:inherit}
+.btn-primary:disabled{opacity:.5}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div id="app">
@@ -398,12 +428,15 @@ footer .upd{font-size:.72rem}
       <button class="nav-btn" data-page="jogadores" onclick="navigate('jogadores')">Estatísticas</button>
       <button class="nav-btn" data-page="galeria" onclick="navigate('galeria')">Galeria</button>
     </nav>
-    <div id="season">
-      <button class="season-btn" id="season-btn" onclick="toggleSeason()">
-        <span id="season-lbl">2026</span>
-        <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="season-menu" id="season-menu"></div>
+    <div class="right-area">
+      <div id="season">
+        <button class="season-btn" id="season-btn" onclick="toggleSeason()">
+          <span id="season-lbl">2026</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="season-menu" id="season-menu"></div>
+      </div>
+      <div id="auth-wrap"><span id="authbox"></span><div id="authmenu"></div></div>
     </div>
    </div>
   </header>
@@ -450,7 +483,7 @@ const I={
 };
 
 // ── State ─────────────────────────────────────────────────────────
-const state={page:'home',season:'2026',seasons:{},config:null,ddOpen:false};
+const state={page:'home',season:'2026',seasons:{},config:null,ddOpen:false,user:null,isAdmin:false};
 
 // ── Season dropdown ───────────────────────────────────────────────
 function toggleSeason(){state.ddOpen=!state.ddOpen;document.getElementById('season-menu').classList.toggle('open',state.ddOpen);document.getElementById('season-btn').classList.toggle('open',state.ddOpen);}
@@ -483,7 +516,7 @@ function navigate(page,params={}){
   const el=document.getElementById('view');
   const R={home:renderHome,classificacao:renderClassificacao,artilharia:renderArtilharia,rodadas:renderRodadas,
     rodada:()=>renderRodadaDetail(params.num),jogadores:renderJogadores,
-    jogador:()=>renderJogadorDetail(params.apelido,params.season),galeria:renderGaleria};
+    jogador:()=>renderJogadorDetail(params.apelido,params.season),galeria:renderGaleria,perfil:renderPerfil};
   el.innerHTML=`<div class="view">${(R[state.page]||renderHome)()}</div>`;
   window.scrollTo(0,0);
   requestAnimationFrame(()=>document.querySelectorAll('.bar>i[data-w]').forEach(b=>b.style.width=b.dataset.w+'%'));
@@ -929,7 +962,89 @@ function tab(id,btn){
 }
 
 // ── Init ──────────────────────────────────────────────────────────
+// ── SUPABASE / AUTH ───────────────────────────────────────────────
+const SB_URL='https://ndgbwaoeuqtscdzfaucm.supabase.co';
+const SB_KEY='sb_publishable_luSz6f-8XZ24TkUeN16NCg_rl2XkDfw';
+const sb = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+const ICO_LOGOUT='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>';
+
+async function initAuth(){
+  if(!sb){return;}
+  try{ const { data:{ session } } = await sb.auth.getSession(); await setUser(session?.user||null); }catch(e){ renderAuth(); }
+  sb.auth.onAuthStateChange(async (_e, sess)=>{ await setUser(sess?.user||null); });
+}
+async function setUser(u){
+  state.user=u; state.isAdmin=false;
+  if(u){ try{ const { data } = await sb.rpc('is_admin'); state.isAdmin=!!data; }catch(e){} }
+  renderAuth(); renderNavVisibility();
+  if(!u && (state.page==='perfil'||state.page==='escalacao')) navigate('home');
+}
+function userName(){const u=state.user;if(!u)return'';const m=u.user_metadata||{};return m.apelido||m.name||m.full_name||(u.email||'').split('@')[0];}
+function userPhoto(){const u=state.user;if(!u)return null;const m=u.user_metadata||{};return m.foto||m.avatar_url||m.picture||null;}
+function renderAuth(){
+  const box=document.getElementById('authbox'); const menu=document.getElementById('authmenu');
+  if(!box)return;
+  if(!state.user){
+    box.innerHTML=`<button class="auth-btn" onclick="signInGoogle()"><svg viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.6 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.2 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7C43.9 38 46.5 31.8 46.5 24.5z"/><path fill="#FBBC05" d="M10.4 28.3a14.5 14.5 0 0 1 0-8.6l-7.8-6.1a24 24 0 0 0 0 20.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.2 0 11.5-2 15.3-5.5l-7.4-5.7c-2 1.4-4.7 2.3-7.9 2.3-6.3 0-11.7-3.7-13.6-9l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></svg><span class="lbl-entrar">Entrar</span></button>`;
+    if(menu){menu.classList.remove('open');menu.innerHTML='';}
+  }else{
+    const ph=userPhoto();
+    box.innerHTML=`<button class="av-btn" onclick="toggleAuthMenu(event)">${ph?`<img src="${ph}" alt="">`:initial(userName())}</button>`;
+    menu.innerHTML=`<div class="am-head"><b>${userName()}</b><span>${state.user.email||''}</span>${state.isAdmin?'<span class="badge">ADMIN</span>':''}</div>
+      <button class="am-item" onclick="closeAuthMenu();navigate('perfil')">${I.users} Perfil</button>
+      <button class="am-item" onclick="signOut()">${ICO_LOGOUT} Sair</button>`;
+  }
+}
+function toggleAuthMenu(e){e&&e.stopPropagation();const m=document.getElementById('authmenu');if(m)m.classList.toggle('open');}
+function closeAuthMenu(){const m=document.getElementById('authmenu');if(m)m.classList.remove('open');}
+document.addEventListener('click',e=>{const w=document.getElementById('auth-wrap');if(w&&!w.contains(e.target))closeAuthMenu();});
+async function signInGoogle(){ if(!sb)return alert('Login indisponível no momento.'); await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}}); }
+async function signOut(){ closeAuthMenu(); if(sb)await sb.auth.signOut(); navigate('home'); }
+function renderNavVisibility(){ document.querySelectorAll('[data-auth="in"]').forEach(el=>el.style.display=state.user?'':'none'); }
+
+// ── PERFIL ────────────────────────────────────────────────────────
+function renderPerfil(){
+  if(!state.user) return `<div class="empty"><div class="e">🔒</div>Faça login pra ver seu perfil.<div class="center" style="margin-top:1rem"><button class="ghost" onclick="signInGoogle()">Entrar com Google</button></div></div>`;
+  const ph=userPhoto();
+  return `
+  <div class="sec-head"><div class="ic">${I.users}</div><div><h2>Meu Perfil</h2><small>Edite sua foto e seu apelido</small></div></div>
+  <div class="card perfil-card"><div class="card-b">
+    <div class="perfil-av" id="pf-av">${ph?`<img src="${ph}">`:initial(userName())}<div class="perfil-cam" onclick="document.getElementById('pf-file').click()">${I.cam}</div></div>
+    <input type="file" id="pf-file" accept="image/*" style="display:none" onchange="onPerfilPhoto(event)">
+    <div class="center" style="margin:.5rem 0 1.2rem;font-size:.78rem;color:var(--txt-3)">Toque na câmera pra trocar a foto</div>
+    <div class="pf-field"><label>Apelido (como aparece na pelada)</label><input id="pf-apelido" maxlength="20" value="${(userName()||'').replace(/"/g,'&quot;')}"></div>
+    <div class="pf-field"><label>E-mail</label><input class="ro" value="${state.user.email||''}" readonly></div>
+    <div class="pf-field"><label>Senha</label><input class="ro" value="Gerenciada pelo Google" readonly></div>
+    <button class="btn-primary" id="pf-save" onclick="savePerfil()">Salvar alterações</button>
+    <div class="center" style="margin-top:.8rem"><a href="https://myaccount.google.com/security" target="_blank" rel="noopener" style="font-size:.78rem">Gerenciar conta Google ↗</a></div>
+  </div></div>`;
+}
+async function onPerfilPhoto(e){
+  const file=e.target.files[0]; if(!file||!sb)return;
+  try{
+    const dataUrl=await compressImg(file,256);
+    const blob=await (await fetch(dataUrl)).blob();
+    const path=state.user.id+'/avatar.jpg';
+    const up=await sb.storage.from('avatars').upload(path,blob,{contentType:'image/jpeg',upsert:true});
+    if(up.error)throw up.error;
+    const pub=sb.storage.from('avatars').getPublicUrl(path).data.publicUrl+'?t='+Date.now();
+    await sb.auth.updateUser({ data:{ foto: pub } });
+    const av=document.getElementById('pf-av'); if(av)av.innerHTML=`<img src="${pub}"><div class="perfil-cam" onclick="document.getElementById('pf-file').click()">${I.cam}</div>`;
+    renderAuth();
+  }catch(err){ alert('Erro ao enviar foto: '+(err.message||err)); }
+  e.target.value='';
+}
+function compressImg(file,max){return new Promise((res,rej)=>{const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');let w=img.naturalWidth,h=img.naturalHeight;const k=Math.min(max/w,max/h,1);c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',0.85));};img.onerror=rej;img.src=ev.target.result;};r.onerror=rej;r.readAsDataURL(file);});}
+async function savePerfil(){
+  if(!sb)return; const btn=document.getElementById('pf-save'); const ap=document.getElementById('pf-apelido').value.trim();
+  btn.disabled=true; btn.textContent='Salvando...';
+  try{ await sb.auth.updateUser({ data:{ apelido: ap } }); renderAuth(); btn.textContent='Salvo ✓'; setTimeout(()=>{btn.textContent='Salvar alterações';btn.disabled=false;},1500); }
+  catch(err){ alert('Erro: '+(err.message||err)); btn.textContent='Salvar alterações'; btn.disabled=false; }
+}
+
+
 loadData().catch(e=>{document.getElementById("view").innerHTML=`<div class="empty"><div class="e">⚠️</div><p>Erro ao carregar dados.<br><small style="color:var(--txt-3)">${e.message}</small></p></div>`;});
+initAuth();
 </script>
 </body>
 </html>
