@@ -404,6 +404,22 @@ footer .upd{font-size:.72rem}
 .pf-field .ro{color:var(--txt-2)}
 .btn-primary{width:100%;padding:.8rem;background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#06101f;border:none;border-radius:12px;font-weight:800;font-size:.92rem;cursor:pointer;font-family:inherit}
 .btn-primary:disabled{opacity:.5}
+/* ── Painel de admins ── */
+.adm-add{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.adm-add input{flex:1;min-width:160px;padding:.7rem 1rem;background:var(--glass);border:1px solid var(--bd);border-radius:12px;color:#fff;font-size:.9rem;outline:none;font-family:inherit}
+.adm-add input:focus{border-color:rgba(244,182,44,.5)}
+.adm-add select{padding:.7rem .8rem;background:var(--glass);border:1px solid var(--bd);border-radius:12px;color:#fff;font-size:.9rem;outline:none;font-family:inherit}
+.adm-add .btn-primary{width:auto;padding:.7rem 1.2rem}
+.adm-list{display:flex;flex-direction:column;gap:.5rem}
+.adm-row{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.7rem .9rem;background:var(--glass);border:1px solid var(--bd);border-radius:12px}
+.adm-row b{font-size:.88rem;word-break:break-all}
+.adm-rt{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
+.adm-row .badge{display:inline-block;font-size:.58rem;font-weight:800;letter-spacing:.5px;color:#06101f;background:var(--txt-2);padding:.18rem .5rem;border-radius:5px}
+.adm-row .badge.b-master{background:var(--gold)}
+.adm-rm{background:rgba(220,70,70,.15);border:1px solid rgba(220,70,70,.4);color:#ff8b8b;padding:.4rem .8rem;border-radius:9px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit}
+.adm-rm:hover{background:rgba(220,70,70,.28)}
+.muted{color:var(--txt-3)}
+@media(max-width:560px){.adm-add .btn-primary{width:100%}}
 /* ── Escalação ── */
 .esc-tabs{display:flex;gap:.3rem;background:var(--glass);border:1px solid var(--bd);border-radius:var(--pill);padding:4px;margin-bottom:1rem;width:fit-content}
 .esc-tab{padding:.5rem 1rem;border-radius:40px;background:transparent;color:var(--txt-2);font-weight:600;font-size:.84rem}
@@ -1015,9 +1031,11 @@ async function initAuth(){
   sb.auth.onAuthStateChange(async (_e, sess)=>{ await setUser(sess?.user||null); });
 }
 async function setUser(u){
-  state.user=u; state.isAdmin=false;
-  if(u){ try{ const { data } = await sb.rpc('is_admin'); state.isAdmin=!!data; }catch(e){} }
+  state.user=u; state.isAdmin=false; state.isMaster=false;
+  if(u){ try{ const { data } = await sb.rpc('is_admin'); state.isAdmin=!!data; }catch(e){}
+         try{ const { data:dm } = await sb.rpc('is_master'); state.isMaster=!!dm; }catch(e){} }
   renderAuth(); renderNavVisibility();
+  if(u && state.page==='perfil') navigate('perfil');
   if(!u && (state.page==='perfil'||state.page==='escalacao')) navigate('home');
 }
 function userName(){const u=state.user;if(!u)return'';const m=u.user_metadata||{};return m.apelido||m.name||m.full_name||(u.email||'').split('@')[0];}
@@ -1031,7 +1049,7 @@ function renderAuth(){
   }else{
     const ph=userPhoto();
     box.innerHTML=`<button class="av-btn" onclick="toggleAuthMenu(event)">${ph?`<img src="${ph}" alt="">`:initial(userName())}</button>`;
-    menu.innerHTML=`<div class="am-head"><b>${userName()}</b><span>${state.user.email||''}</span>${state.isAdmin?'<span class="badge">ADMIN</span>':''}</div>
+    menu.innerHTML=`<div class="am-head"><b>${userName()}</b><span>${state.user.email||''}</span>${state.isMaster?'<span class="badge">MASTER</span>':(state.isAdmin?'<span class="badge">ADMIN</span>':'')}</div>
       <button class="am-item" onclick="closeAuthMenu();navigate('perfil')">${I.users} Perfil</button>
       <button class="am-item" onclick="signOut()">${ICO_LOGOUT} Sair</button>`;
   }
@@ -1059,7 +1077,55 @@ function renderPerfil(){
     <div class="pf-field"><label>Senha</label><input class="ro" value="Gerenciada pelo Google" readonly></div>
     <button class="btn-primary" id="pf-save" onclick="savePerfil()">Salvar alterações</button>
     <div class="center" style="margin-top:.8rem"><a href="https://myaccount.google.com/security" target="_blank" rel="noopener" style="font-size:.78rem">Gerenciar conta Google ↗</a></div>
+  </div></div>
+  ${state.isMaster?adminPanelHTML():''}`;
+}
+function adminPanelHTML(){requestAnimationFrame(loadAdmins);return `
+  <div class="sec-head" style="margin-top:1.6rem"><div class="ic">${I.users}</div><div><h2>Gerenciar admins</h2><small>Incluir ou remover administradores do site</small></div></div>
+  <div class="card"><div class="card-b">
+    <div class="adm-add">
+      <input id="adm-email" type="email" placeholder="email@exemplo.com" autocomplete="off">
+      <select id="adm-role"><option value="admin">Admin</option><option value="master">Master</option></select>
+      <button class="btn-primary" id="adm-add-btn" onclick="addAdmin()">Adicionar</button>
+    </div>
+    <div id="adm-list" class="adm-list"><div class="muted" style="padding:.6rem">Carregando...</div></div>
+    <div class="muted" style="font-size:.74rem;margin-top:.8rem">Admins editam a escalação. Masters não podem ser removidos por aqui (segurança).</div>
   </div></div>`;
+}
+async function loadAdmins(){
+  const box=document.getElementById('adm-list'); if(!box||!sb)return;
+  try{
+    const { data, error } = await sb.from('admins').select('email,role,created_at').order('role',{ascending:true}).order('created_at');
+    if(error)throw error;
+    if(!data||!data.length){box.innerHTML='<div class="muted" style="padding:.6rem">Nenhum admin.</div>';return;}
+    const me=((state.user&&state.user.email)||'').toLowerCase();
+    box.innerHTML=data.map(a=>{
+      const isM=a.role==='master';
+      const self=a.email.toLowerCase()===me;
+      const rm=isM?'<span class="muted" style="font-size:.72rem">protegido</span>':`<button class="adm-rm" onclick="removeAdmin('${escH(a.email)}')">Remover</button>`;
+      return `<div class="adm-row"><div><b>${escH(a.email)}</b>${self?' <span class="muted">(você)</span>':''}</div><div class="adm-rt"><span class="badge ${isM?'b-master':''}">${isM?'MASTER':'ADMIN'}</span>${rm}</div></div>`;
+    }).join('');
+  }catch(err){ box.innerHTML='<div class="muted" style="padding:.6rem;color:#ff8b8b">Erro: '+escH(err.message||String(err))+'</div>'; }
+}
+async function addAdmin(){
+  const ie=document.getElementById('adm-email'), ir=document.getElementById('adm-role'), btn=document.getElementById('adm-add-btn');
+  const email=((ie.value)||'').trim().toLowerCase(), role=ir.value;
+  if(!email||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){alert('Informe um email válido.');return;}
+  btn.disabled=true; btn.textContent='...';
+  try{
+    const { error } = await sb.from('admins').upsert({email,role},{onConflict:'email'});
+    if(error)throw error;
+    ie.value=''; ir.value='admin'; await loadAdmins();
+  }catch(err){ alert('Erro ao adicionar: '+(err.message||err)); }
+  btn.disabled=false; btn.textContent='Adicionar';
+}
+async function removeAdmin(email){
+  if(!confirm('Remover '+email+' dos admins?'))return;
+  try{
+    const { error } = await sb.from('admins').delete().eq('email',email);
+    if(error)throw error;
+    await loadAdmins();
+  }catch(err){ alert('Erro ao remover: '+(err.message||err)); }
 }
 async function onPerfilPhoto(e){
   const file=e.target.files[0]; if(!file||!sb)return;
@@ -1165,7 +1231,6 @@ function escEnd(e){
   }else if(d.kind==='tok'){escRemove(d.id,d.team);}
 }
 function escRemove(id,team){escState[team]=escState[team].filter(en=>en.id!==id);renderEscBoard();}
-
 loadData().catch(e=>{document.getElementById("view").innerHTML=`<div class="empty"><div class="e">⚠️</div><p>Erro ao carregar dados.<br><small style="color:var(--txt-3)">${e.message}</small></p></div>`;});
 initAuth();
 </script>
