@@ -452,6 +452,11 @@ footer .upd{font-size:.72rem}
 .pchip.used{opacity:.35;cursor:default}
 .pchip .pa{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.64rem;color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));overflow:hidden}
 .pchip .pa img{width:100%;height:100%;object-fit:cover}
+.pchip .pn{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 4px;margin-right:.15rem;background:rgba(255,255,255,.08);border-radius:50%;font-family:var(--fd);font-weight:800;font-size:.68rem;color:var(--txt-2)}
+.pchip.top16 .pn{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#06101f}
+.pchip.goleiro .pn{background:rgba(126,184,255,.2);color:var(--blue-light);font-size:.55rem}
+.pool-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent);margin:.7rem 0 .5rem;position:relative}
+.pool-divider::before{content:'⇣ substitutos ⇣';position:absolute;left:50%;top:-.6rem;transform:translateX(-50%);background:var(--bg-1);padding:0 .8rem;color:var(--txt-3);font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
 .esc-ghost{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;left:0;top:0}
 .esc-ghost .gi{width:50px;height:50px;border-radius:50%;border:3px solid var(--gold);overflow:hidden;background:#15151f;display:grid;place-items:center;font-family:var(--fd);font-weight:800;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.6)}
 .esc-ghost .gi img{width:100%;height:100%;object-fit:cover}
@@ -1192,7 +1197,10 @@ function renderEscBoard(){
   const placed=new Set([...escState.preto,...escState.azul].map(e=>e.id));
   const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
   const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'arraste jogadores aqui':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
-  const pool=ed?`<div class="pool2"><div class="pool-h">Peladeiros — arraste pro campo (${escState.pel.filter(p=>!placed.has(p.id)).length} disponíveis)</div><div class="pool-grid">${escState.pel.map(p=>`<div class="pchip ${placed.has(p.id)?'used':''}" data-pid="${p.id}"><span class="pa">${pelAv(p)}</span>${escH(p.nome)}</div>`).join('')}</div></div>`:'';
+  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const top16=!isGol && ord>=1 && ord<=16;const label=isGol?'G':String(ord);return `<div class="pchip ${placed.has(p.id)?'used':''} ${top16?'top16':''} ${isGol?'goleiro':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span>${escH(p.nome)}</div>`;};
+  const peladeirosOrd=[...escState.pel].sort((a,b)=>(a.ordem||999)-(b.ordem||999));
+  const poolInner=peladeirosOrd.map((p,i)=>{const prev=peladeirosOrd[i-1];const showDiv = prev && (prev.ordem||0)<=16 && (p.ordem||0)>16 && (p.ordem||0)<100;return (showDiv?'<div class="pool-divider"></div>':'')+poolChip(p,i);}).join('');
+  const pool=ed?`<div class="pool2"><div class="pool-h">Peladeiros — arraste pro campo (${escState.pel.filter(p=>!placed.has(p.id)).length} disponíveis · ordem da última pelada)</div><div class="pool-grid">${poolInner}</div></div>`:'';
   const hist=`<div>${escState.allDates.length?escState.allDates.map(d=>`<div class="hist-item" data-hist="${d.data_jogo}"><span style="font-weight:800;font-family:var(--fd)">${fmtBR(d.data_jogo)}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(d.preto||[]).length} · Azul ${(d.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Nenhuma escalação salva ainda.</div>'}</div>`;
   // Aba MINHAS: lista de propostas do usuário OU editor
   const minhasList=`<div>
