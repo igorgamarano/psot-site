@@ -460,6 +460,7 @@ footer .upd{font-size:.72rem}
 @media(max-width:680px){.pitches2{grid-template-columns:1fr}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -1150,8 +1151,8 @@ async function savePerfil(){
   catch(err){ alert('Erro: '+(err.message||err)); btn.textContent='Salvar alterações'; btn.disabled=false; }
 }
 
-// ── ESCALAÇÃO (prancheta + histórico) ─────────────────────────────
-let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[]};
+// ── ESCALAÇÃO (prancheta + histórico + pessoal) ─────────────────────────────
+let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:''};
 let escDrag=null;
 function escH(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function nextSaturday(){const d=new Date();let add=(6-d.getDay()+7)%7;d.setDate(d.getDate()+add);return d.toISOString().slice(0,10);}
@@ -1166,12 +1167,21 @@ async function loadEscalacao(){
     const r1=await sb.from('peladeiros').select('*').order('ordem');
     const r2=await sb.from('escalacoes').select('*').order('data_jogo',{ascending:false});
     escState.pel=r1.data||[]; escState.allDates=r2.data||[];
-    if(escState.view!=='hist'){
+    if(state.user){
+      const r3=await sb.from('escalacoes_pessoais').select('*').order('updated_at',{ascending:false});
+      escState.myList=r3.data||[];
+    } else { escState.myList=[]; }
+    if(escState.view==='atual'){
       const cur=escState.allDates[0];
       if(cur){escState.date=cur.data_jogo;escState.preto=cur.preto||[];escState.azul=cur.azul||[];}
       else{escState.date=nextSaturday();escState.preto=[];escState.azul=[];}
+      escState.editable=!!state.isAdmin;
+    } else if(escState.view==='minhas'){
+      // se estamos editando uma (currentId), preserva; senão limpa
+      escState.editable = escState.currentId!==null;
+    } else {
+      escState.editable=false;
     }
-    escState.editable=!!state.isAdmin && escState.view==='atual';
     renderEscBoard();
   }catch(e){root.innerHTML='<div class="empty"><div class="e">⚠️</div>Erro: '+escH(e.message||e)+'</div>';}
 }
@@ -1184,21 +1194,118 @@ function renderEscBoard(){
   const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'arraste jogadores aqui':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
   const pool=ed?`<div class="pool2"><div class="pool-h">Peladeiros — arraste pro campo (${escState.pel.filter(p=>!placed.has(p.id)).length} disponíveis)</div><div class="pool-grid">${escState.pel.map(p=>`<div class="pchip ${placed.has(p.id)?'used':''}" data-pid="${p.id}"><span class="pa">${pelAv(p)}</span>${escH(p.nome)}</div>`).join('')}</div></div>`:'';
   const hist=`<div>${escState.allDates.length?escState.allDates.map(d=>`<div class="hist-item" data-hist="${d.data_jogo}"><span style="font-weight:800;font-family:var(--fd)">${fmtBR(d.data_jogo)}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(d.preto||[]).length} · Azul ${(d.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Nenhuma escalação salva ainda.</div>'}</div>`;
-  root.innerHTML=`
-    <div class="sec-head"><div class="ic">${I.users}</div><div><h2>Escalação</h2><small>${escState.view==='hist'?'Histórico dos sábados':'Time do dia '+fmtBR(escState.date)}</small></div></div>
-    <div class="esc-tabs"><button class="esc-tab ${escState.view!=='hist'?'active':''}" onclick="escSetView('atual')">Atual</button><button class="esc-tab ${escState.view==='hist'?'active':''}" onclick="escSetView('hist')">Histórico</button></div>
-    ${escState.view==='hist'?hist:`
-      ${ed?`<div class="esc-bar"><span class="esc-date">📅 ${fmtBR(escState.date)}</span><button class="ghost" onclick="escNova()">Nova semana</button><button class="ghost" onclick="escLimpar('preto')">Limpar Preto</button><button class="ghost" onclick="escLimpar('azul')">Limpar Azul</button><button class="btn-primary" style="width:auto;padding:.5rem 1.3rem" onclick="escSalvar()">Salvar</button></div>`:`<div class="esc-bar"><span class="esc-date">📅 ${fmtBR(escState.date)}</span>${state.isAdmin?'':'<span style="color:var(--txt-3);font-size:.8rem">Só admins editam a escalação</span>'}</div>`}
+  // Aba MINHAS: lista de propostas do usuário OU editor
+  const minhasList=`<div>
+    <div class="esc-bar"><span class="esc-date">👤 Suas escalações</span><button class="btn-primary" style="width:auto;padding:.5rem 1.3rem" onclick="escMinhasNova()">+ Nova escalação</button></div>
+    ${escState.myList.length?escState.myList.map(m=>`<div class="hist-item" data-mine="${m.id}"><span style="font-weight:800;font-family:var(--fd)">${escH(m.titulo||'Sem título')}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(m.preto||[]).length} · Azul ${(m.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Você ainda não montou nenhuma escalação.<br><small>Clique em <b>+ Nova escalação</b> para começar.</small></div>'}
+  </div>`;
+  const minhasEdit=`
+    <div class="esc-bar" style="flex-wrap:wrap;gap:.6rem">
+      <input id="esc-titulo" style="min-width:180px;flex:1;padding:.5rem .8rem;border:1px solid var(--bd);border-radius:8px;background:var(--bg-2);color:var(--txt-1);font:inherit" placeholder="Título (opcional)" value="${escH(escState.titulo||'')}">
+      <button class="ghost" onclick="escLimpar('preto')">Limpar Preto</button>
+      <button class="ghost" onclick="escLimpar('azul')">Limpar Azul</button>
+      <button class="ghost" onclick="escMinhasVoltar()">← Voltar</button>
+      ${escState.currentId && escState.currentId!=='new'?`<button class="ghost" style="color:#f87171" onclick="escMinhasExcluir()">Excluir</button>`:''}
+      <button class="btn-primary" style="width:auto;padding:.5rem 1.3rem" onclick="escMinhasSalvar()">💾 Salvar</button>
+      <button class="btn-primary" style="width:auto;padding:.5rem 1.3rem;background:#25D366;border-color:#25D366" onclick="escCompartilhar()">📤 WhatsApp</button>
+    </div>
+    <div class="pitches2" id="esc-pitches">${pitch('preto')}${pitch('azul')}</div>
+    ${pool}`;
+
+  const tabsHTML=`<div class="esc-tabs">
+    <button class="esc-tab ${escState.view==='atual'?'active':''}" onclick="escSetView('atual')">⭐ Oficial</button>
+    <button class="esc-tab ${escState.view==='hist'?'active':''}" onclick="escSetView('hist')">📋 Histórico</button>
+    ${state.user?`<button class="esc-tab ${escState.view==='minhas'?'active':''}" onclick="escSetView('minhas')">👤 Minhas</button>`:''}
+  </div>`;
+
+  let content='';
+  if(escState.view==='hist'){content=hist;}
+  else if(escState.view==='minhas'){content = escState.currentId!==null ? minhasEdit : minhasList;}
+  else {content=`
+      ${ed?`<div class="esc-bar"><span class="esc-date">📅 ${fmtBR(escState.date)}</span><button class="ghost" onclick="escNova()">Nova semana</button><button class="ghost" onclick="escLimpar('preto')">Limpar Preto</button><button class="ghost" onclick="escLimpar('azul')">Limpar Azul</button><button class="btn-primary" style="width:auto;padding:.5rem 1.3rem" onclick="escSalvar()">Salvar</button></div>`:`<div class="esc-bar"><span class="esc-date">📅 ${fmtBR(escState.date)}</span>${state.isAdmin?'':'<span style="color:var(--txt-3);font-size:.8rem">Só admins editam a escalação oficial</span>'}</div>`}
       <div class="pitches2">${pitch('preto')}${pitch('azul')}</div>
-      ${pool}`}
+      ${pool}`;}
+
+  const subtitle = escState.view==='hist'?'Histórico dos sábados' : escState.view==='minhas'?(escState.currentId!==null?'Suas escalações · editando':'Suas escalações pessoais') : 'Escalação oficial · '+fmtBR(escState.date);
+
+  root.innerHTML=`
+    <div class="sec-head"><div class="ic">${I.users}</div><div><h2>Escalação</h2><small>${subtitle}</small></div></div>
+    ${tabsHTML}
+    ${content}
     <div class="esc-ghost" id="esc-ghost"><div class="gi" id="esc-ghost-i"></div></div>`;
   root.querySelectorAll('[data-hist]').forEach(el=>el.onclick=()=>escViewHist(el.dataset.hist));
+  root.querySelectorAll('[data-mine]').forEach(el=>el.onclick=()=>escMinhasEditar(el.dataset.mine));
+  const ti=document.getElementById('esc-titulo'); if(ti)ti.addEventListener('input',e=>{escState.titulo=e.target.value;});
   if(ed)escBindDrag();
 }
-function escSetView(v){if(v==='hist'){escState.view='hist';escState.editable=false;renderEscBoard();}else{escState.view='atual';loadEscalacao();}}
-function escViewHist(dateISO){const row=escState.allDates.find(d=>d.data_jogo===dateISO);if(!row)return;escState.view='atual';escState.date=dateISO;escState.preto=row.preto||[];escState.azul=row.azul||[];escState.editable=false;renderEscBoard();}
-function escNova(){const d=prompt('Data do jogo (AAAA-MM-DD):',nextSaturday());if(!d)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){alert('Formato inválido. Use AAAA-MM-DD.');return;}escState.date=d;escState.preto=[];escState.azul=[];escState.view='atual';escState.editable=!!state.isAdmin;renderEscBoard();}
-function escLimpar(team){if(!confirm('Limpar time '+team+'?'))return;escState[team]=[];renderEscBoard();}
+function escSetView(v){
+  if(v==='hist'){escState.view='hist';escState.editable=false;escState.currentId=null;renderEscBoard();return;}
+  if(v==='minhas'){escState.view='minhas';escState.currentId=null;escState.editable=false;loadEscalacao();return;}
+  escState.view='atual';escState.currentId=null;loadEscalacao();
+}
+// ── MINHAS (pessoais) — CRUD e edição
+function escMinhasNova(){  if(!state.user){alert('Você precisa estar logado.');return;}
+  escState.currentId='new'; escState.titulo='Minha escalação';
+  escState.preto=[]; escState.azul=[]; escState.editable=true;
+  renderEscBoard();
+}
+function escMinhasEditar(id){
+  const m=escState.myList.find(x=>x.id===id); if(!m)return;
+  escState.currentId=id; escState.titulo=m.titulo||'';
+  escState.preto=m.preto||[]; escState.azul=m.azul||[];
+  escState.editable=true; renderEscBoard();
+}
+function escMinhasVoltar(){escState.currentId=null;escState.editable=false;renderEscBoard();}
+async function escMinhasSalvar(){
+  if(!sb||!state.user)return;
+  const t=document.getElementById('esc-titulo'); if(t)escState.titulo=t.value;
+  try{
+    const payload={user_id:state.user.id,titulo:escState.titulo||'',preto:escState.preto,azul:escState.azul};
+    let resp;
+    if(escState.currentId && escState.currentId!=='new'){
+      resp=await sb.from('escalacoes_pessoais').update(payload).eq('id',escState.currentId).select().single();
+    } else {
+      resp=await sb.from('escalacoes_pessoais').insert(payload).select().single();
+    }
+    if(resp.error)throw resp.error;
+    escState.currentId=resp.data.id;
+    const r=await sb.from('escalacoes_pessoais').select('*').order('updated_at',{ascending:false}); escState.myList=r.data||[];
+    alert('Escalação salva!');
+    renderEscBoard();
+  }catch(e){alert('Erro ao salvar: '+(e.message||e));}
+}
+async function escMinhasExcluir(){
+  if(!sb||!state.user||!escState.currentId||escState.currentId==='new')return;
+  if(!confirm('Excluir esta escalação?'))return;
+  try{
+    const del=await sb.from('escalacoes_pessoais').delete().eq('id',escState.currentId);
+    if(del.error)throw del.error;
+    escState.currentId=null; escState.preto=[]; escState.azul=[]; escState.titulo=''; escState.editable=false;
+    const r=await sb.from('escalacoes_pessoais').select('*').order('updated_at',{ascending:false}); escState.myList=r.data||[];
+    renderEscBoard();
+  }catch(e){alert('Erro ao excluir: '+(e.message||e));}
+}
+async function escCompartilhar(){
+  const el=document.getElementById('esc-pitches')||document.querySelector('.pitches2');
+  if(!el){alert('Nada pra compartilhar.');return;}
+  if(typeof html2canvas==='undefined'){alert('Biblioteca de imagem não carregou. Tente atualizar a página.');return;}
+  try{
+    const canvas=await html2canvas(el,{backgroundColor:'#0a1424',useCORS:true,scale:2,logging:false});
+    canvas.toBlob(async(blob)=>{
+      if(!blob){alert('Falha ao gerar imagem.');return;}
+      const file=new File([blob],'escalacao_psot.png',{type:'image/png'});
+      const nome=escState.titulo||('Escalação PSOT '+fmtBR(new Date().toISOString().slice(0,10)));
+      const texto='⚽ '+nome+' — PSOT';
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        try{await navigator.share({files:[file],title:'Escalação PSOT',text:texto});return;}catch(e){if(e.name==='AbortError')return;}
+      }
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=url; a.download='escalacao_psot.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),3000);
+      window.open('https://wa.me/?text='+encodeURIComponent(texto+' (imagem baixada — anexe manualmente no chat)'),'_blank');
+    },'image/png');
+  }catch(e){alert('Erro ao gerar imagem: '+(e.message||e));}
+}
 async function escSalvar(){
   if(!sb||!state.isAdmin)return;
   try{
@@ -1209,6 +1316,9 @@ async function escSalvar(){
     renderEscBoard();
   }catch(e){alert('Erro ao salvar: '+(e.message||e));}
 }
+function escViewHist(dateISO){const row=escState.allDates.find(d=>d.data_jogo===dateISO);if(!row)return;escState.view='atual';escState.date=dateISO;escState.preto=row.preto||[];escState.azul=row.azul||[];escState.editable=false;renderEscBoard();}
+function escNova(){const d=prompt('Data do jogo (AAAA-MM-DD):',nextSaturday());if(!d)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){alert('Formato inválido. Use AAAA-MM-DD.');return;}escState.date=d;escState.preto=[];escState.azul=[];escState.view='atual';escState.editable=!!state.isAdmin;renderEscBoard();}
+function escLimpar(team){if(!confirm('Limpar time '+team+'?'))return;escState[team]=[];renderEscBoard();}
 function escBindDrag(){
   const root=document.getElementById('esc-root'); if(!root)return;
   root.querySelectorAll('.pchip:not(.used)').forEach(ch=>ch.addEventListener('pointerdown',e=>escStart(e,{kind:'pool',id:ch.dataset.pid})));
@@ -1232,6 +1342,11 @@ function escEnd(e){
 }
 function escRemove(id,team){escState[team]=escState[team].filter(en=>en.id!==id);renderEscBoard();}
 loadData().catch(e=>{document.getElementById("view").innerHTML=`<div class="empty"><div class="e">⚠️</div><p>Erro ao carregar dados.<br><small style="color:var(--txt-3)">${e.message}</small></p></div>`;});
+initAuth();
+</script>
+</body>
+</html>
+o carregar dados.<br><small style="color:var(--txt-3)">${e.message}</small></p></div>`;});
 initAuth();
 </script>
 </body>
