@@ -1,6 +1,6 @@
 {
  "season": "2026",
- "total_rodadas": 19,
+ "total_rodadas": 20,
  "rounds": [
   {
    "rodada": 1,
@@ -1626,6 +1626,101 @@
     "JHONATAS": "V",
     "LUCIANO": "D"
    }
+  },
+  {
+   "rodada": 20,
+   "data": "25.07.2026",
+   "placar_final": [
+    5,
+    4
+   ],
+   "intervalo": [
+    2,
+    2
+   ],
+   "vencedor": "PRETO",
+   "time_preto": [
+    "JHONATAS",
+    "RODRIGO",
+    "ZÉ RENATO",
+    "ERILDO",
+    "LIPIN",
+    "HUMBERTO",
+    "VINICIUS",
+    "WASHINGTON",
+    "ALEXANDRE",
+    "MARRECO",
+    "JULIO"
+   ],
+   "time_azul": [
+    "LUCIANO",
+    "ROMILDO",
+    "GIU",
+    "DR. WAGNER",
+    "FABRÍCIO",
+    "FAFAH",
+    "GABRIEL",
+    "LEO",
+    "GUSTAVO",
+    "PERIN",
+    "PS",
+    "DR. MAURO",
+    "ISRAEL"
+   ],
+   "gols": {
+    "FAFAH": 1,
+    "GABRIEL": 3,
+    "LIPIN": 2,
+    "VINICIUS": 2,
+    "ERILDO": 1
+   },
+   "reconstituida": false,
+   "cartoes": [
+    {
+     "jogador": "ERILDO",
+     "tipo": "CA",
+     "time": "PRETO"
+    },
+    {
+     "jogador": "LIPIN",
+     "tipo": "CA",
+     "time": "PRETO"
+    },
+    {
+     "jogador": "FAFAH",
+     "tipo": "CA",
+     "time": "AZUL"
+    },
+    {
+     "jogador": "WASHINGTON",
+     "tipo": "CA",
+     "time": "PRETO"
+    }
+   ],
+   "resultados": {
+    "PERIN": "D",
+    "ZÉ RENATO": "V",
+    "ROMILDO": "D",
+    "ALEXANDRE": "V",
+    "GIU": "D",
+    "HUMBERTO": "V",
+    "LEO": "D",
+    "FAFAH": "D",
+    "GABRIEL": "D",
+    "FABRÍCIO": "D",
+    "RODRIGO": "V",
+    "LIPIN": "V",
+    "VINICIUS": "V",
+    "ERILDO": "V",
+    "DR. WAGNER": "D",
+    "GUSTAVO": "D",
+    "WASHINGTON": "V",
+    "PS": "D",
+    "MARRECO": "V",
+    "DR. MAURO": "D",
+    "JHONATAS": "V",
+    "LUCIANO": "D"
+   }
   }
  ],
  "players": [
@@ -1636,8 +1731,8 @@
    "gols": 1,
    "vitorias": 3,
    "empates": 4,
-   "derrotas": 4,
-   "jogos": 11,
+   "derrotas": 5,
+   "jogos": 12,
    "data_nasc": "20/08/1944",
    "faltas": 14,
    "cartoes": {
@@ -1668,10 +1763,10 @@
    "apelido": "ZÉ RENATO",
    "numero": "3",
    "gols": 2,
-   "vitorias": 3,
+   "vitorias": 4,
    "empates": 4,
    "derrotas": 12,
-   "jogos": 19,
+   "jogos": 20,
    "data_nasc": "07/10/1956",
    "faltas": 0,
    "cartoes": {
@@ -1690,7 +1785,7 @@
    "derrotas": 2,
    "jogos": 7,
    "data_nasc": "28/10/1952",
-   "faltas": 33,
+   "faltas": 36,
    "cartoes": {
     "CA": 1,
     "CAz": 0,
@@ -1704,10 +1799,10 @@
    "gols": 0,
    "vitorias": 7,
    "empates": 4,
-   "derrotas": 7,
-   "jogos": 18,
+   "derrotas": 8,
+   "jogos": 19,
    "data_nasc": "20/07/1963",
-   "faltas": 0,
+   "faltas": 3,
    "cartoes": {
     "CA": 2,
     "CAz": 1,
@@ -1736,10 +1831,10 @@
    "apelido": "ALEXANDRE",
    "numero": "6",
    "gols": 25,
-   "vitorias": 8,
+   "vitorias": 9,
    "empates": 4,
    "derrotas": 7,
-   "jogos": 19,
+   "jogos": 20,
    "data_nasc": "30/01/1984",
    "faltas": 0,
    "cartoes": {
@@ -1758,7 +1853,7 @@
    "derrotas": 4,
    "jogos": 13,
    "data_nasc": "07/02/1995",
-   "faltas": 5,
+   "faltas": 6,
    "cartoes": {
     "CA": 2,
     "CAz": 0,
@@ -1772,8 +1867,8 @@
    "gols": 0,
    "vitorias": 9,
    "empates": 4,
-   "derrotas": 6,
-   "jogos": 19,
+   "derrotas": 7,
+   "jogos": 20,
    "data_nasc": "06/02/1970",
    "faltas": 0,
    "cartoes": {
@@ -1786,11 +1881,11 @@
    "nome": "Gabriel Leão Marques de Faria",
    "apelido": "GABRIEL",
    "numero": "20",
-   "gols": 39,
+   "gols": 42,
    "vitorias": 8,
    "empates": 3,
-   "derrotas": 6,
-   "jogos": 17,
+   "derrotas": 7,
+   "jogos": 18,
    "data_nasc": "20/07/1989",
    "faltas": 6,
    "cartoes": {
@@ -1803,11 +1898,11 @@
    "nome": "Vinicius Sattler Barroso",
    "apelido": "VINICIUS",
    "numero": "18",
-   "gols": 23,
-   "vitorias": 9,
+   "gols": 25,
+   "vitorias": 10,
    "empates": 3,
    "derrotas": 4,
-   "jogos": 16,
+   "jogos": 17,
    "data_nasc": "21/07/2000",
    "faltas": 9,
    "cartoes": {
@@ -1826,7 +1921,7 @@
    "derrotas": 5,
    "jogos": 13,
    "data_nasc": "16/09/1990",
-   "faltas": 13,
+   "faltas": 16,
    "cartoes": {
     "CA": 0,
     "CAz": 0,
@@ -1837,15 +1932,15 @@
    "nome": "Erildo Zamprogno Siqueira",
    "apelido": "ERILDO",
    "numero": "12",
-   "gols": 1,
-   "vitorias": 10,
+   "gols": 2,
+   "vitorias": 11,
    "empates": 3,
    "derrotas": 1,
-   "jogos": 14,
+   "jogos": 15,
    "data_nasc": "28/09/1981",
-   "faltas": 12,
+   "faltas": 15,
    "cartoes": {
-    "CA": 0,
+    "CA": 1,
     "CAz": 0,
     "CV": 0
    }
@@ -1854,15 +1949,15 @@
    "nome": "Felipe Martins Oliveira",
    "apelido": "FAFAH",
    "numero": "34",
-   "gols": 1,
+   "gols": 2,
    "vitorias": 6,
    "empates": 3,
-   "derrotas": 9,
-   "jogos": 18,
+   "derrotas": 10,
+   "jogos": 19,
    "data_nasc": "28/12/1984",
    "faltas": 3,
    "cartoes": {
-    "CA": 1,
+    "CA": 2,
     "CAz": 1,
     "CV": 0
    }
@@ -1872,10 +1967,10 @@
    "apelido": "HUMBERTO",
    "numero": "17",
    "gols": 15,
-   "vitorias": 4,
+   "vitorias": 5,
    "empates": 4,
    "derrotas": 11,
-   "jogos": 19,
+   "jogos": 20,
    "data_nasc": "29/11/1988",
    "faltas": 0,
    "cartoes": {
@@ -1891,8 +1986,8 @@
    "gols": 22,
    "vitorias": 7,
    "empates": 4,
-   "derrotas": 8,
-   "jogos": 19,
+   "derrotas": 9,
+   "jogos": 20,
    "data_nasc": "28/04/1995",
    "faltas": 0,
    "cartoes": {
@@ -1922,15 +2017,15 @@
    "nome": "Filipe Zacché de Sá Cardoso",
    "apelido": "LIPIN",
    "numero": "30",
-   "gols": 15,
-   "vitorias": 7,
+   "gols": 17,
+   "vitorias": 8,
    "empates": 4,
    "derrotas": 5,
-   "jogos": 16,
+   "jogos": 17,
    "data_nasc": "30/03/1990",
-   "faltas": 6,
+   "faltas": 9,
    "cartoes": {
-    "CA": 0,
+    "CA": 1,
     "CAz": 0,
     "CV": 0
    }
@@ -1957,10 +2052,10 @@
    "apelido": "MARRECO",
    "numero": "26",
    "gols": 0,
-   "vitorias": 5,
+   "vitorias": 6,
    "empates": 1,
    "derrotas": 1,
-   "jogos": 7,
+   "jogos": 8,
    "data_nasc": "31/01/1974",
    "faltas": 32,
    "cartoes": {
@@ -1993,10 +2088,10 @@
    "gols": 0,
    "vitorias": 6,
    "empates": 3,
-   "derrotas": 5,
-   "jogos": 14,
+   "derrotas": 6,
+   "jogos": 15,
    "data_nasc": "10/03/1979",
-   "faltas": 13,
+   "faltas": 16,
    "cartoes": {
     "CA": 0,
     "CAz": 0,
@@ -2013,7 +2108,7 @@
    "derrotas": 5,
    "jogos": 17,
    "data_nasc": "12/09/2006",
-   "faltas": 1,
+   "faltas": 4,
    "cartoes": {
     "CA": 1,
     "CAz": 0,
@@ -2030,7 +2125,7 @@
    "derrotas": 6,
    "jogos": 14,
    "data_nasc": "04/11/2000",
-   "faltas": 13,
+   "faltas": 16,
    "cartoes": {
     "CA": 0,
     "CAz": 0,
@@ -2064,7 +2159,7 @@
    "derrotas": 2,
    "jogos": 3,
    "data_nasc": "12/03/1979",
-   "faltas": 37,
+   "faltas": 38,
    "cartoes": {
     "CA": 1,
     "CAz": 0,
@@ -2095,8 +2190,8 @@
    "gols": 2,
    "vitorias": 8,
    "empates": 3,
-   "derrotas": 6,
-   "jogos": 17,
+   "derrotas": 7,
+   "jogos": 18,
    "data_nasc": "22/03/1974",
    "faltas": 7,
    "cartoes": {
@@ -2110,14 +2205,14 @@
    "apelido": "WASHINGTON",
    "numero": "23",
    "gols": 2,
-   "vitorias": 5,
+   "vitorias": 6,
    "empates": 3,
    "derrotas": 1,
-   "jogos": 9,
+   "jogos": 10,
    "data_nasc": "24/08/1971",
    "faltas": 22,
    "cartoes": {
-    "CA": 1,
+    "CA": 2,
     "CAz": 0,
     "CV": 0
    }
@@ -2129,8 +2224,8 @@
    "gols": 3,
    "vitorias": 6,
    "empates": 3,
-   "derrotas": 4,
-   "jogos": 13,
+   "derrotas": 5,
+   "jogos": 14,
    "data_nasc": "23/03/1989",
    "faltas": 18,
    "cartoes": {
@@ -2144,10 +2239,10 @@
    "apelido": "RODRIGO",
    "numero": "22",
    "gols": 2,
-   "vitorias": 6,
+   "vitorias": 7,
    "empates": 4,
    "derrotas": 8,
-   "jogos": 18,
+   "jogos": 19,
    "data_nasc": "14/02/1996",
    "faltas": 8,
    "cartoes": {
@@ -2163,10 +2258,10 @@
    "gols": 0,
    "vitorias": 1,
    "empates": 2,
-   "derrotas": 2,
-   "jogos": 5,
+   "derrotas": 3,
+   "jogos": 6,
    "data_nasc": "29/01/1971",
-   "faltas": 46,
+   "faltas": 49,
    "cartoes": {
     "CA": 0,
     "CAz": 0,
@@ -2180,10 +2275,10 @@
    "gols": 4,
    "vitorias": 3,
    "empates": 4,
-   "derrotas": 7,
-   "jogos": 14,
+   "derrotas": 8,
+   "jogos": 15,
    "data_nasc": "02/06/1993",
-   "faltas": 21,
+   "faltas": 23,
    "cartoes": {
     "CA": 1,
     "CAz": 0,
@@ -2200,7 +2295,7 @@
    "derrotas": 0,
    "jogos": 0,
    "data_nasc": "23/03/1992",
-   "faltas": 48,
+   "faltas": 51,
    "cartoes": {
     "CA": 0,
     "CAz": 0,
@@ -2217,7 +2312,7 @@
    "derrotas": 1,
    "jogos": 1,
    "data_nasc": "02/09/1985",
-   "faltas": 53,
+   "faltas": 56,
    "cartoes": {
     "CA": 0,
     "CAz": 0,
@@ -2229,10 +2324,10 @@
    "apelido": "JHONATAS",
    "numero": "",
    "gols": 0,
-   "vitorias": 6,
+   "vitorias": 7,
    "empates": 2,
    "derrotas": 5,
-   "jogos": 13,
+   "jogos": 14,
    "data_nasc": "",
    "faltas": 15,
    "cartoes": {
@@ -2248,8 +2343,8 @@
    "gols": 0,
    "vitorias": 7,
    "empates": 4,
-   "derrotas": 7,
-   "jogos": 18,
+   "derrotas": 8,
+   "jogos": 19,
    "data_nasc": "",
    "faltas": 3,
    "cartoes": {
@@ -2262,7 +2357,7 @@
  "artilharia": [
   {
    "apelido": "GABRIEL",
-   "gols": 39
+   "gols": 42
   },
   {
    "apelido": "ALEXANDRE",
@@ -2270,7 +2365,7 @@
   },
   {
    "apelido": "VINICIUS",
-   "gols": 23
+   "gols": 25
   },
   {
    "apelido": "LEO",
@@ -2281,11 +2376,11 @@
    "gols": 18
   },
   {
-   "apelido": "HUMBERTO",
-   "gols": 15
+   "apelido": "LIPIN",
+   "gols": 17
   },
   {
-   "apelido": "LIPIN",
+   "apelido": "HUMBERTO",
    "gols": 15
   },
   {
@@ -2317,7 +2412,15 @@
    "gols": 3
   },
   {
+   "apelido": "ERILDO",
+   "gols": 2
+  },
+  {
    "apelido": "FABRÍCIO",
+   "gols": 2
+  },
+  {
+   "apelido": "FAFAH",
    "gols": 2
   },
   {
@@ -2337,14 +2440,6 @@
    "gols": 2
   },
   {
-   "apelido": "ERILDO",
-   "gols": 1
-  },
-  {
-   "apelido": "FAFAH",
-   "gols": 1
-  },
-  {
    "apelido": "KIKO",
    "gols": 1
   },
@@ -2354,11 +2449,11 @@
   }
  ],
  "stats": {
-  "total_gols": 224,
-  "media_gols": 11.8,
-  "vitoria_preto": 7,
+  "total_gols": 233,
+  "media_gols": 11.7,
+  "vitoria_preto": 8,
   "vitoria_azul": 8,
   "empates": 4,
-  "rodadas_com_dados": 19
+  "rodadas_com_dados": 20
  }
 }
