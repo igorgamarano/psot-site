@@ -478,6 +478,8 @@ footer .upd{font-size:.72rem}
 .esc-lista-box textarea{width:100%;min-height:130px;padding:.6rem;border:1px solid var(--bd);border-radius:8px;background:var(--bg-2);color:var(--txt-1);font:inherit;font-size:.82rem;resize:vertical;margin-top:.3rem}
 .esc-lista-actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.55rem}
 .esc-showabs{font-size:.75rem;color:var(--txt-2);display:flex;align-items:center;gap:.35rem;cursor:pointer}
+.t1b{margin-top:1px;font-size:.5rem;font-weight:800;background:var(--gold);color:#06101f;padding:0 4px;border-radius:3px;letter-spacing:.3px}
+.t1chip{margin-left:4px;font-size:.58rem;font-weight:800;background:rgba(244,182,44,.18);color:var(--gold);border:1px solid rgba(244,182,44,.4);padding:0 4px;border-radius:4px;white-space:nowrap}
 .hist-item{display:flex;align-items:center;gap:.7rem;padding:.75rem .9rem;background:var(--glass);border:1px solid var(--bd);border-radius:12px;margin-bottom:.5rem;cursor:pointer;transition:background .15s}
 .hist-item:hover{background:var(--glass-2)}
 @media(max-width:680px){.pitches2{grid-template-columns:1fr}}
@@ -1175,7 +1177,7 @@ async function savePerfil(){
 }
 
 // ── ESCALAÇÃO (prancheta + histórico + pessoal) ─────────────────────────────
-let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false};
+let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false,halfOnly:[]};
 let escDrag=null;
 // ── presença / apelidos / formação ──
 function escStrip(s){return (s==null?'':String(s)).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
@@ -1190,31 +1192,34 @@ function escMatchId(name){
   return hit?hit.id:null;
 }
 function escParseLista(text){
-  const lines=(text==null?'':String(text)).split(/\n/); let absent=false; const present=[]; const unknown=[];
+  const lines=(text==null?'':String(text)).split(/\n/); let absent=false; const present=[]; const unknown=[]; const halfOnly=[];
   for(const raw of lines){
     const line=raw.trim(); if(!line) continue;
     const low=escStrip(line);
     if(low.indexOf('ausente')>=0){absent=true; continue;}
     if(absent) continue;
     if(/^(goleiro|corte|psot|linha|jogador|time preto|time azul|reserva)/.test(low)) continue;
+    const isT1=/1\s*[°ºo]?\s*tempo|primeiro\s+tempo/i.test(line);
     let name=line.replace(/^\s*\d+\s*[-–.)]+\s*/,'').replace(/\([^)]*\)/g,'').replace(/[0-9]/g,'').trim();
     if(!escStrip(name)) continue;
     const id=escMatchId(name);
-    if(id){ if(present.indexOf(id)<0) present.push(id); }
+    if(id){ if(present.indexOf(id)<0) present.push(id); if(isT1&&halfOnly.indexOf(id)<0) halfOnly.push(id); }
     else { const c=name.replace(/[^A-Za-zÀ-ÿ ]/g,'').trim(); if(c) unknown.push(c); }
   }
-  return {present:present, unknown:unknown};
+  return {present:present, unknown:unknown, halfOnly:halfOnly};
 }
 function escAplicarLista(){
   const ta=document.getElementById('esc-lista'); if(!ta) return;
   const r=escParseLista(ta.value);
   escState.present=r.present;
+  escState.halfOnly=r.halfOnly||[];
   let msg='✅ '+r.present.length+' presentes marcados.';
+  if(escState.halfOnly.length) msg+='\n⏱️ Só 1º tempo: '+escState.halfOnly.map(function(i){const p=pelById(i);return p?p.nome:i;}).join(', ');
   if(r.unknown.length) msg+='\n\n⚠️ Não reconhecidos (confira ou trate como convidado):\n• '+r.unknown.join('\n• ');
   alert(msg);
   renderEscBoard();
 }
-function escLimparPresenca(){escState.present=[];escState.showAbsent=false;renderEscBoard();}
+function escLimparPresenca(){escState.present=[];escState.halfOnly=[];escState.showAbsent=false;renderEscBoard();}
 // posições de formação (x,y em %); GK embaixo, ataque em cima
 const ESC_GK=[50,89];
 const ESC_SLOTS=[[22,72],[50,72],[78,72],[18,52],[39,52],[61,52],[82,52],[30,32],[50,32],[70,32],[50,15],[26,16],[74,16]];
@@ -1229,7 +1234,7 @@ function escToggleTeam(id,team){
   const inTeam=escState[team].some(function(e){return e.id===id;});
   escState.preto=escState.preto.filter(function(e){return e.id!==id;});
   escState.azul=escState.azul.filter(function(e){return e.id!==id;});
-  if(!inTeam){ const p=pelById(id); const isGol=(p&&(p.ordem||0)>=100); const s=escNextSlot(team,isGol); escState[team].push({id:id,x:s[0],y:s[1]}); }
+  if(!inTeam){ const p=pelById(id); const isGol=(p&&(p.ordem||0)>=100); const s=escNextSlot(team,isGol); const ne={id:id,x:s[0],y:s[1]}; if(escState.halfOnly.indexOf(id)>=0) ne.t1=true; escState[team].push(ne); }
   renderEscBoard();
 }
 function escH(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1268,9 +1273,9 @@ function renderEscBoard(){
   const root=document.getElementById('esc-root'); if(!root)return;
   const ed=escState.editable;
   const placed=new Set([...escState.preto,...escState.azul].map(e=>e.id));
-  const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
+  const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${e.t1?`<div class="t1b">⏱ 1ºT</div>`:``}${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
   const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'toque ⚫/🔵 nos jogadores abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
-  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const top16=!isGol && ord>=1 && ord<=16;const label=isGol?'G':String(ord);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">⚫</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">🔵</button></span>`:''}</div>`;};
+  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const top16=!isGol && ord>=1 && ord<=16;const label=isGol?'G':String(ord);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">⚫</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">🔵</button></span>`:''}</div>`;};
   const peladeirosOrd=[...escState.pel].sort((a,b)=>(a.ordem||999)-(b.ordem||999));
   const hasPres=escState.present.length>0;
   let poolList=peladeirosOrd;
@@ -1421,8 +1426,11 @@ function escEnd(e){
   document.querySelectorAll('.pdrop2').forEach(dp=>{const r=dp.getBoundingClientRect();if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom)tgt=dp;});
   if(tgt){
     const r=tgt.getBoundingClientRect();const x=Math.max(3,Math.min(97,(e.clientX-r.left)/r.width*100));const y=Math.max(4,Math.min(96,(e.clientY-r.top)/r.height*100));const team=tgt.dataset.team;
+    const prevE=escState.preto.find(en=>en.id===d.id)||escState.azul.find(en=>en.id===d.id);
     escState.preto=escState.preto.filter(en=>en.id!==d.id);escState.azul=escState.azul.filter(en=>en.id!==d.id);
-    escState[team].push({id:d.id,x:+x.toFixed(1),y:+y.toFixed(1)});
+    const ne={id:d.id,x:+x.toFixed(1),y:+y.toFixed(1)};
+    if((prevE&&prevE.t1)||escState.halfOnly.indexOf(d.id)>=0) ne.t1=true;
+    escState[team].push(ne);
     renderEscBoard();
   }else if(d.kind==='tok'){escRemove(d.id,d.team);}
 }
