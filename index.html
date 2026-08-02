@@ -1239,10 +1239,11 @@ function escSugerir(){
   let base=escState.pel.filter(function(p){return hasPres? escState.present.indexOf(p.id)>=0 : true;});
   base=base.slice().sort(function(a,b){return (a.ordem||999)-(b.ordem||999);});
   const gks=base.filter(function(p){return (p.ordem||0)>=100;});
-  const line=base.filter(function(p){return (p.ordem||0)<100;});
+  const isen=base.filter(function(p){return (p.ordem||0)<100 && escIsento(p);});
+  const line=base.filter(function(p){return (p.ordem||0)<100 && !escIsento(p);});
   if(!line.length){alert('Sem jogadores pra sugerir. Cole a lista primeiro.');return;}
   const perT=Math.min(ESC_MAX_LINE, Math.floor(line.length/2));
-  if(!confirm('Montar '+perT+'+'+perT+' na linha (1 goleiro por time) a partir da lista? Isso substitui a escalação atual.')) return;
+  if(!confirm('Montar '+perT+'+'+perT+' na linha (1 goleiro por time'+(isen.length?', + '+isen.map(function(p){return p.nome;}).join('/')+' que não conta':'')+') a partir da lista? Isso substitui a escalação atual.')) return;
   escState.preto=[];escState.azul=[];
   if(gks[0]) escToggleTeam(gks[0].id,'preto');
   if(gks[1]) escToggleTeam(gks[1].id,'azul');
@@ -1255,6 +1256,10 @@ function escSugerir(){
     else if(t==='azul' && na>=perTeam) t='preto';
     if(t==='preto'){ if(np>=perTeam) continue; np++; } else { if(na>=perTeam) continue; na++; }
     escToggleTeam(line[i].id,t);
+  }
+  for(let k=0;k<isen.length;k++){
+    const cp=escCount('preto'), ca=escCount('azul');
+    escToggleTeam(isen[k].id, cp.total<=ca.total?'preto':'azul');
   }
   const fora=line.length-(np+na);
   renderEscBoard();
@@ -1281,13 +1286,18 @@ function escSwapPick(id){
 function escLimparPresenca(){escState.present=[];escState.halfOnly=[];escState.away=[];escState.showAbsent=false;renderEscBoard();}
 // posições de formação (x,y em %); GK embaixo, ataque em cima
 const ESC_GK=[50,89];
-const ESC_MAX_LINE=9, ESC_MAX_GK=1;
+const ESC_MAX_LINE=8, ESC_MAX_GK=1;
+const ESC_ISENTOS=['PERIN'];
+function escIsento(p){return !!p && ESC_ISENTOS.indexOf(String(p.nome||'').trim().toUpperCase())>=0;}
 const ESC_SLOTS=[[22,72],[50,74],[78,72],[20,50],[50,52],[80,50],[30,27],[50,23],[70,27]];
 function escIsGol(p){return !!p && (p.ordem||0)>=100;}
 function escCount(team){
-  let g=0,l=0;
-  escState[team].forEach(function(e){ if(escIsGol(pelById(e.id))) g++; else l++; });
-  return {gk:g, line:l, total:g+l};
+  let g=0,l=0,iso=0;
+  escState[team].forEach(function(e){ const p=pelById(e.id);
+    if(escIsGol(p)) g++;
+    else if(escIsento(p)) iso++;
+    else l++; });
+  return {gk:g, line:l, iso:iso, total:g+l+iso, limite:ESC_MAX_GK+ESC_MAX_LINE+iso};
 }
 function escNextSlot(team,isGol){
   const taken=escState[team].map(function(e){return e.x+','+e.y;});
@@ -1303,7 +1313,7 @@ function escToggleTeam(id,team){
   if(!inTeam){
     const p=pelById(id); const isGol=escIsGol(p); const c=escCount(team);
     if(isGol && c.gk>=ESC_MAX_GK){ alert('O time '+team.toUpperCase()+' já tem goleiro.'); renderEscBoard(); return; }
-    if(!isGol && c.line>=ESC_MAX_LINE){ alert('O time '+team.toUpperCase()+' já está completo ('+ESC_MAX_LINE+' na linha). Tire alguém antes.'); renderEscBoard(); return; }
+    if(!isGol && !escIsento(p) && c.line>=ESC_MAX_LINE){ alert('O time '+team.toUpperCase()+' já está completo ('+ESC_MAX_LINE+' na linha). Tire alguém antes.'); renderEscBoard(); return; }
     const s=escNextSlot(team,isGol); const ne={id:id,x:s[0],y:s[1]}; if(escState.halfOnly.indexOf(id)>=0) ne.t1=true; escState[team].push(ne); }
   renderEscBoard();
 }
@@ -1367,7 +1377,7 @@ function renderEscBoard(){
   }).join('');
   const dispo=poolList.filter(p=>!placed.has(p.id)).length;
   const listaBox=ed?`<div class="esc-lista-box ${hasPres?'':'callout'}"><details ${hasPres?'':'open'}><summary>${hasPres?`📋 Lista aplicada · ${escState.present.length} presentes${escState.away.length?` · ${escState.away.length} ausentes`:''} — trocar`:'📋 Colar a lista do WhatsApp — comece por aqui'}</summary><p class="esc-lista-help">Cole aqui a lista do WhatsApp para facilitar a divisão dos times. Quem estiver em <b>Ausentes</b> é ignorado, e a ordem da lista vira a ordem dos jogadores.</p><textarea id="esc-lista" placeholder="PSOT 25/07&#10;Goleiros&#10;1- Jhonatas&#10;2- Luciano&#10;1- PERIN&#10;2- Humberto&#10;...&#10;Ausentes&#10;1- Igor"></textarea><div class="esc-lista-actions"><button class="btn-primary" style="width:auto;padding:.45rem 1.1rem" onclick="escAplicarLista()">Aplicar lista</button>${hasPres?`<button class="ghost" onclick="escLimparPresenca()">Limpar presença</button><label class="esc-showabs"><input type="checkbox" ${escState.showAbsent?'checked':''} onchange="escState.showAbsent=this.checked;renderEscBoard()"> mostrar quem faltou</label>`:''}</div></details></div>`:'';
-  const countBar=ed?`<div class="esc-count"><span><span class="cP">PRETO <b>${escState.preto.length}</b>/${ESC_MAX_LINE+ESC_MAX_GK}</span> · <span class="cA">AZUL <b>${escState.azul.length}</b>/${ESC_MAX_LINE+ESC_MAX_GK}</span> · <span class="cF">${dispo} fora</span></span><span style="display:flex;gap:.35rem"><button class="ghost" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSugerir()">⚖️ Sugerir</button><button class="ghost ${escState.swap?'swapon':''}" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSwapMode()">⇄ Trocar</button></span></div>`:'';
+  const countBar=ed?`<div class="esc-count"><span><span class="cP">PRETO <b>${escState.preto.length}</b>/${escCount('preto').limite}</span> · <span class="cA">AZUL <b>${escState.azul.length}</b>/${escCount('azul').limite}</span> · <span class="cF">${dispo} fora</span></span><span style="display:flex;gap:.35rem"><button class="ghost" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSugerir()">⚖️ Sugerir</button><button class="ghost ${escState.swap?'swapon':''}" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSwapMode()">⇄ Trocar</button></span></div>`:'';
   const pool=ed?`${listaBox}${countBar}<div class="pool2"><div class="pool-h">${escState.swap?(escState.swapA?'Agora toque no jogador do OUTRO time':'Modo trocar: toque em 2 jogadores escalados, um de cada time'):'Toque em PRETO ou AZUL pra escalar'}${hasPres?` · ${escState.present.length} presentes`:''}</div><div class="pool-grid">${poolInner}</div></div>`:'';
   const hist=`<div>${escState.allDates.length?escState.allDates.map(d=>`<div class="hist-item" data-hist="${d.data_jogo}"><span style="font-weight:800;font-family:var(--fd)">${fmtBR(d.data_jogo)}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(d.preto||[]).length} · Azul ${(d.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Nenhuma escalação salva ainda.</div>'}</div>`;
   // Aba MINHAS: lista de propostas do usuário OU editor
@@ -1492,8 +1502,8 @@ function escIncompletoMsg(){
   const probs=[];
   if(cp.gk<1) probs.push('Preto sem goleiro');
   if(ca.gk<1) probs.push('Azul sem goleiro');
-  if(cp.line!==ca.line) probs.push('times desiguais ('+cp.line+' x '+ca.line+' na linha)');
-  else if(cp.line<8) probs.push('só '+cp.line+' por time na linha');
+  if(cp.line!==ca.line) probs.push('times desiguais ('+cp.line+' x '+ca.line+' na linha, sem contar isentos)');
+  else if(cp.line<ESC_MAX_LINE) probs.push('só '+cp.line+' por time na linha');
   return probs.length?('Atenção: '+probs.join(' · ')+'.\n\nSalvar mesmo assim?'):null;
 }
 async function escSalvar(){
