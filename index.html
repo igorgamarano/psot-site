@@ -426,7 +426,8 @@ footer .upd{font-size:.72rem}
 .esc-tab.active{background:var(--glass-3);color:#fff}
 .esc-bar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
 .esc-date{background:var(--glass);border:1px solid var(--bd);border-radius:var(--pill);padding:.5rem .9rem;color:#fff;font-weight:700;font-size:.82rem}
-.pitches2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.pitches2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;position:sticky;top:0;z-index:20;background:var(--bg-1);padding:.4rem 0 .5rem}
+.pwrap2{max-height:46vh}
 .twrap2{display:flex;flex-direction:column}
 .tlabel2{text-align:center;padding:.5rem;font-weight:800;letter-spacing:1.5px;font-size:.84rem;border-radius:12px 12px 0 0}
 .twrap2.preto .tlabel2{background:linear-gradient(135deg,#2a2a2a,#15151f);color:#ddd;border:1px solid #555;border-bottom:none}
@@ -447,8 +448,9 @@ footer .upd{font-size:.72rem}
 .tok.editable .tx{display:flex}
 .pool2{margin-top:1.1rem}
 .pool2 .pool-h{font-size:.74rem;color:var(--txt-2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem}
-.pool-grid{display:flex;flex-wrap:wrap;gap:.4rem}
-.pchip{display:flex;align-items:center;gap:.4rem;padding:.32rem .65rem .32rem .32rem;background:var(--glass-2);border:1px solid var(--bd);border-radius:var(--pill);font-size:.8rem;font-weight:600;cursor:grab;touch-action:none;user-select:none}
+.pool-grid{display:flex;flex-direction:column;gap:.35rem}
+.pchip{display:flex;align-items:center;gap:.5rem;width:100%;padding:.3rem .4rem .3rem .3rem;background:var(--glass-2);border:1px solid var(--bd);border-radius:10px;font-size:.86rem;font-weight:600;user-select:none}
+.pchip .pnm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .pchip.used{opacity:.35;cursor:default}
 .pchip .pa{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.64rem;color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));overflow:hidden}
 .pchip .pa img{width:100%;height:100%;object-fit:cover}
@@ -465,11 +467,11 @@ footer .upd{font-size:.72rem}
 .pchip.absent{opacity:.32;filter:grayscale(.85)}
 .pchip.in-preto{border-color:#9aa0aa;box-shadow:inset 0 0 0 1px #9aa0aa}
 .pchip.in-azul{border-color:var(--royal);box-shadow:inset 0 0 0 1px var(--royal)}
-.pbtns{display:inline-flex;gap:4px;margin-left:4px}
-.pbtn{width:28px;height:28px;border-radius:50%;border:1px solid var(--bd);background:var(--bg-2);font-size:.85rem;line-height:1;display:grid;place-items:center;cursor:pointer;padding:0;opacity:.45;touch-action:manipulation}
-.pbtn.on{opacity:1}
-.pbtn.bp.on{background:#3a3a3a;box-shadow:0 0 0 2px #9aa0aa}
-.pbtn.ba.on{background:#163467;box-shadow:0 0 0 2px var(--royal)}
+.pbtns{display:inline-flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden;flex:none}
+.pbtn{border:none;background:transparent;color:var(--txt-2);font:inherit;font-size:.72rem;font-weight:800;letter-spacing:.3px;padding:.42rem .6rem;cursor:pointer;touch-action:manipulation;min-width:52px}
+.pbtn+.pbtn{border-left:1px solid var(--bd)}
+.pbtn.bp.on{background:#d7dbe1;color:#10151c}
+.pbtn.ba.on{background:var(--royal);color:#fff}
 .esc-lista-box{margin:.7rem 0}
 .esc-lista-box summary{cursor:pointer;font-size:.8rem;color:var(--txt-2);font-weight:700;padding:.45rem .2rem;list-style:none}
 .esc-lista-box summary::-webkit-details-marker{display:none}
@@ -478,11 +480,14 @@ footer .upd{font-size:.72rem}
 .esc-lista-box textarea{width:100%;min-height:130px;padding:.6rem;border:1px solid var(--bd);border-radius:8px;background:var(--bg-2);color:var(--txt-1);font:inherit;font-size:.82rem;resize:vertical;margin-top:.3rem}
 .esc-lista-actions{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-top:.55rem}
 .esc-showabs{font-size:.75rem;color:var(--txt-2);display:flex;align-items:center;gap:.35rem;cursor:pointer}
+.esc-count{position:sticky;top:0;z-index:19;display:flex;align-items:center;justify-content:space-between;gap:.5rem;background:var(--glass-2);border:1px solid var(--bd);border-radius:10px;padding:.5rem .7rem;margin:.6rem 0 .5rem;font-size:.8rem;font-weight:700}
+.esc-count b{font-family:var(--fd);font-size:.95rem}
+.cP{color:#d7dbe1}.cA{color:var(--blue-light)}.cF{color:var(--txt-3)}
 .t1b{margin-top:1px;font-size:.5rem;font-weight:800;background:var(--gold);color:#06101f;padding:0 4px;border-radius:3px;letter-spacing:.3px}
 .t1chip{margin-left:4px;font-size:.58rem;font-weight:800;background:rgba(244,182,44,.18);color:var(--gold);border:1px solid rgba(244,182,44,.4);padding:0 4px;border-radius:4px;white-space:nowrap}
 .hist-item{display:flex;align-items:center;gap:.7rem;padding:.75rem .9rem;background:var(--glass);border:1px solid var(--bd);border-radius:12px;margin-bottom:.5rem;cursor:pointer;transition:background .15s}
 .hist-item:hover{background:var(--glass-2)}
-@media(max-width:680px){.pitches2{grid-template-columns:1fr}}
+@media(max-width:680px){.pitches2{grid-template-columns:1fr 1fr;gap:.5rem}.tlabel2{font-size:.62rem;letter-spacing:.5px;padding:.35rem .2rem}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -1219,6 +1224,24 @@ function escAplicarLista(){
   alert(msg);
   renderEscBoard();
 }
+function escSugerir(){
+  if(!escState.editable) return;
+  const hasPres=escState.present.length>0;
+  let base=escState.pel.filter(function(p){return hasPres? escState.present.indexOf(p.id)>=0 : true;});
+  base=base.slice().sort(function(a,b){return (a.ordem||999)-(b.ordem||999);});
+  const gks=base.filter(function(p){return (p.ordem||0)>=100;});
+  const line=base.filter(function(p){return (p.ordem||0)<100;});
+  if(!line.length){alert('Sem jogadores pra sugerir. Cole a lista primeiro.');return;}
+  if(!confirm('Sugerir times com '+(line.length+gks.length)+' jogadores? Isso substitui a escalação atual.')) return;
+  escState.preto=[];escState.azul=[];
+  if(gks[0]) escToggleTeam(gks[0].id,'preto');
+  if(gks[1]) escToggleTeam(gks[1].id,'azul');
+  for(let i=0;i<line.length;i++){
+    const t=(Math.floor(i/2)%2===0) ? (i%2===0?'preto':'azul') : (i%2===0?'azul':'preto');
+    escToggleTeam(line[i].id,t);
+  }
+  renderEscBoard();
+}
 function escLimparPresenca(){escState.present=[];escState.halfOnly=[];escState.showAbsent=false;renderEscBoard();}
 // posições de formação (x,y em %); GK embaixo, ataque em cima
 const ESC_GK=[50,89];
@@ -1274,8 +1297,8 @@ function renderEscBoard(){
   const ed=escState.editable;
   const placed=new Set([...escState.preto,...escState.azul].map(e=>e.id));
   const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${e.t1?`<div class="t1b">⏱ 1ºT</div>`:``}${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
-  const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'toque ⚫/🔵 nos jogadores abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
-  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const top16=!isGol && ord>=1 && ord<=16;const label=isGol?'G':String(ord);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">⚫</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">🔵</button></span>`:''}</div>`;};
+  const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'escale abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
+  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const top16=!isGol && ord>=1 && ord<=16;const label=isGol?'G':String(ord);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">PRETO</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">AZUL</button></span>`:''}</div>`;};
   const peladeirosOrd=[...escState.pel].sort((a,b)=>(a.ordem||999)-(b.ordem||999));
   const hasPres=escState.present.length>0;
   let poolList=peladeirosOrd;
@@ -1283,7 +1306,8 @@ function renderEscBoard(){
   const poolInner=poolList.map((p,i)=>{const prev=poolList[i-1];const showDiv = prev && (prev.ordem||0)<=16 && (p.ordem||0)>16 && (p.ordem||0)<100;return (showDiv?'<div class="pool-divider"></div>':'')+poolChip(p,i);}).join('');
   const dispo=poolList.filter(p=>!placed.has(p.id)).length;
   const listaBox=ed?`<div class="esc-lista-box"><details><summary>📋 Colar lista do WhatsApp — marca quem vai jogar</summary><textarea id="esc-lista" placeholder="Cole aqui a lista da pelada (com presentes e a seção Ausentes)..."></textarea><div class="esc-lista-actions"><button class="btn-primary" style="width:auto;padding:.45rem 1.1rem" onclick="escAplicarLista()">Aplicar lista</button>${hasPres?`<button class="ghost" onclick="escLimparPresenca()">Limpar presença</button><label class="esc-showabs"><input type="checkbox" ${escState.showAbsent?'checked':''} onchange="escState.showAbsent=this.checked;renderEscBoard()"> mostrar ausentes</label>`:''}</div></details></div>`:'';
-  const pool=ed?`${listaBox}<div class="pool2"><div class="pool-h">Peladeiros — toque ⚫/🔵 pra escalar${hasPres?` · ${escState.present.length} presentes`:''} (${dispo} livres)</div><div class="pool-grid">${poolInner}</div></div>`:'';
+  const countBar=ed?`<div class="esc-count"><span><span class="cP">PRETO <b>${escState.preto.length}</b></span> · <span class="cA">AZUL <b>${escState.azul.length}</b></span> · <span class="cF">${dispo} fora</span></span><button class="ghost" style="padding:.3rem .7rem;font-size:.72rem" onclick="escSugerir()">⚖️ Sugerir</button></div>`:'';
+  const pool=ed?`${listaBox}${countBar}<div class="pool2"><div class="pool-h">Toque em PRETO ou AZUL pra escalar${hasPres?` · ${escState.present.length} presentes`:''}</div><div class="pool-grid">${poolInner}</div></div>`:'';
   const hist=`<div>${escState.allDates.length?escState.allDates.map(d=>`<div class="hist-item" data-hist="${d.data_jogo}"><span style="font-weight:800;font-family:var(--fd)">${fmtBR(d.data_jogo)}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(d.preto||[]).length} · Azul ${(d.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Nenhuma escalação salva ainda.</div>'}</div>`;
   // Aba MINHAS: lista de propostas do usuário OU editor
   const minhasList=`<div>
