@@ -474,6 +474,8 @@ footer .upd{font-size:.72rem}
 .pbtn.ba.on{background:var(--royal);color:#fff}
 .esc-lista-box{margin:.7rem 0}
 .esc-lista-box summary{cursor:pointer;font-size:.8rem;color:var(--txt-2);font-weight:700;padding:.45rem .2rem;list-style:none}
+.esc-lista-box.callout{border:1px solid rgba(244,182,44,.45);background:rgba(244,182,44,.07);border-radius:10px;padding:.5rem .7rem}
+.esc-lista-box.callout summary{color:var(--gold);font-size:.86rem}
 .esc-lista-box summary::-webkit-details-marker{display:none}
 .esc-lista-box summary::before{content:'▸ ';color:var(--txt-3)}
 .esc-lista-box details[open] summary::before{content:'▾ '}
@@ -1182,7 +1184,7 @@ async function savePerfil(){
 }
 
 // ── ESCALAÇÃO (prancheta + histórico + pessoal) ─────────────────────────────
-let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false,halfOnly:[]};
+let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false,halfOnly:[],away:[]};
 let escDrag=null;
 // ── presença / apelidos / formação ──
 function escStrip(s){return (s==null?'':String(s)).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
@@ -1197,12 +1199,12 @@ function escMatchId(name){
   return hit?hit.id:null;
 }
 function escParseLista(text){
-  const lines=(text==null?'':String(text)).split(/\n/); let absent=false; const present=[]; const unknown=[]; const halfOnly=[];
+  const lines=(text==null?'':String(text)).split(/\n/); let absent=false; const present=[]; const unknown=[]; const halfOnly=[]; const away=[];
   for(const raw of lines){
     const line=raw.trim(); if(!line) continue;
     const low=escStrip(line);
     if(low.indexOf('ausente')>=0){absent=true; continue;}
-    if(absent) continue;
+    if(absent){ const an=line.replace(/^\s*\d+\s*[-–.)]+\s*/,'').replace(/\([^)]*\)/g,'').replace(/[0-9]/g,'').trim(); const aid=escMatchId(an); if(aid&&away.indexOf(aid)<0) away.push(aid); continue; }
     if(/^(goleiro|corte|psot|linha|jogador|time preto|time azul|reserva)/.test(low)) continue;
     const isT1=/1\s*[°ºo]?\s*tempo|primeiro\s+tempo/i.test(line);
     let name=line.replace(/^\s*\d+\s*[-–.)]+\s*/,'').replace(/\([^)]*\)/g,'').replace(/[0-9]/g,'').trim();
@@ -1211,13 +1213,14 @@ function escParseLista(text){
     if(id){ if(present.indexOf(id)<0) present.push(id); if(isT1&&halfOnly.indexOf(id)<0) halfOnly.push(id); }
     else { const c=name.replace(/[^A-Za-zÀ-ÿ ]/g,'').trim(); if(c) unknown.push(c); }
   }
-  return {present:present, unknown:unknown, halfOnly:halfOnly};
+  return {present:present, unknown:unknown, halfOnly:halfOnly, away:away};
 }
 function escAplicarLista(){
   const ta=document.getElementById('esc-lista'); if(!ta) return;
   const r=escParseLista(ta.value);
   escState.present=r.present;
   escState.halfOnly=r.halfOnly||[];
+  escState.away=r.away||[];
   let msg='✅ '+r.present.length+' presentes marcados.';
   if(escState.halfOnly.length) msg+='\n⏱️ Só 1º tempo: '+escState.halfOnly.map(function(i){const p=pelById(i);return p?p.nome:i;}).join(', ');
   if(r.unknown.length) msg+='\n\n⚠️ Não reconhecidos (confira ou trate como convidado):\n• '+r.unknown.join('\n• ');
@@ -1242,7 +1245,7 @@ function escSugerir(){
   }
   renderEscBoard();
 }
-function escLimparPresenca(){escState.present=[];escState.halfOnly=[];escState.showAbsent=false;renderEscBoard();}
+function escLimparPresenca(){escState.present=[];escState.halfOnly=[];escState.away=[];escState.showAbsent=false;renderEscBoard();}
 // posições de formação (x,y em %); GK embaixo, ataque em cima
 const ESC_GK=[50,89];
 const ESC_SLOTS=[[22,72],[50,72],[78,72],[18,52],[39,52],[61,52],[82,52],[30,32],[50,32],[70,32],[50,15],[26,16],[74,16]];
@@ -1298,14 +1301,28 @@ function renderEscBoard(){
   const placed=new Set([...escState.preto,...escState.azul].map(e=>e.id));
   const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${e.t1?`<div class="t1b">⏱ 1ºT</div>`:``}${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
   const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'escale abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
-  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const top16=!isGol && ord>=1 && ord<=16;const label=isGol?'G':String(ord);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">PRETO</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">AZUL</button></span>`:''}</div>`;};
-  const peladeirosOrd=[...escState.pel].sort((a,b)=>(a.ordem||999)-(b.ordem||999));
+  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const usePres=escState.present.length>0;const pos=usePres?idx:ord;const top16=!isGol && pos>=1 && pos<=16;const label=isGol?'G':String(pos);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">PRETO</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">AZUL</button></span>`:''}</div>`;};
   const hasPres=escState.present.length>0;
-  let poolList=peladeirosOrd;
-  if(hasPres && !escState.showAbsent) poolList=poolList.filter(p=>escState.present.indexOf(p.id)>=0);
-  const poolInner=poolList.map((p,i)=>{const prev=poolList[i-1];const showDiv = prev && (prev.ordem||0)<=16 && (p.ordem||0)>16 && (p.ordem||0)<100;return (showDiv?'<div class="pool-divider"></div>':'')+poolChip(p,i);}).join('');
+  let poolList;
+  if(hasPres){
+    poolList=escState.present.map(function(id){return pelById(id);}).filter(Boolean);
+    if(escState.showAbsent){
+      const extra=escState.pel.filter(function(p){return escState.present.indexOf(p.id)<0;}).sort(function(a,b){return (a.ordem||999)-(b.ordem||999);});
+      poolList=poolList.concat(extra);
+    }
+  } else {
+    poolList=escState.pel.slice().sort(function(a,b){return (a.ordem||999)-(b.ordem||999);});
+  }
+  let lineN=0;
+  const poolInner=poolList.map(function(p,i){
+    const isGol=(p.ordem||0)>=100;
+    let showDiv=false;
+    if(hasPres){ if(!isGol){ lineN++; if(lineN===17) showDiv=true; } }
+    else { const prev=poolList[i-1]; showDiv = !!(prev && (prev.ordem||0)<=16 && (p.ordem||0)>16 && (p.ordem||0)<100); }
+    return (showDiv?'<div class="pool-divider"></div>':'')+poolChip(p,hasPres?lineN:0);
+  }).join('');
   const dispo=poolList.filter(p=>!placed.has(p.id)).length;
-  const listaBox=ed?`<div class="esc-lista-box"><details><summary>📋 Colar lista do WhatsApp — marca quem vai jogar</summary><textarea id="esc-lista" placeholder="Cole aqui a lista da pelada (com presentes e a seção Ausentes)..."></textarea><div class="esc-lista-actions"><button class="btn-primary" style="width:auto;padding:.45rem 1.1rem" onclick="escAplicarLista()">Aplicar lista</button>${hasPres?`<button class="ghost" onclick="escLimparPresenca()">Limpar presença</button><label class="esc-showabs"><input type="checkbox" ${escState.showAbsent?'checked':''} onchange="escState.showAbsent=this.checked;renderEscBoard()"> mostrar ausentes</label>`:''}</div></details></div>`:'';
+  const listaBox=ed?`<div class="esc-lista-box ${hasPres?'':'callout'}"><details ${hasPres?'':'open'}><summary>${hasPres?`📋 Lista aplicada · ${escState.present.length} presentes${escState.away.length?` · ${escState.away.length} ausentes`:''} — trocar`:'📋 Colar a lista do WhatsApp — comece por aqui'}</summary><textarea id="esc-lista" placeholder="Cole aqui a lista da pelada (com presentes e a seção Ausentes)..."></textarea><div class="esc-lista-actions"><button class="btn-primary" style="width:auto;padding:.45rem 1.1rem" onclick="escAplicarLista()">Aplicar lista</button>${hasPres?`<button class="ghost" onclick="escLimparPresenca()">Limpar presença</button><label class="esc-showabs"><input type="checkbox" ${escState.showAbsent?'checked':''} onchange="escState.showAbsent=this.checked;renderEscBoard()"> mostrar quem faltou</label>`:''}</div></details></div>`:'';
   const countBar=ed?`<div class="esc-count"><span><span class="cP">PRETO <b>${escState.preto.length}</b></span> · <span class="cA">AZUL <b>${escState.azul.length}</b></span> · <span class="cF">${dispo} fora</span></span><button class="ghost" style="padding:.3rem .7rem;font-size:.72rem" onclick="escSugerir()">⚖️ Sugerir</button></div>`:'';
   const pool=ed?`${listaBox}${countBar}<div class="pool2"><div class="pool-h">Toque em PRETO ou AZUL pra escalar${hasPres?` · ${escState.present.length} presentes`:''}</div><div class="pool-grid">${poolInner}</div></div>`:'';
   const hist=`<div>${escState.allDates.length?escState.allDates.map(d=>`<div class="hist-item" data-hist="${d.data_jogo}"><span style="font-weight:800;font-family:var(--fd)">${fmtBR(d.data_jogo)}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(d.preto||[]).length} · Azul ${(d.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Nenhuma escalação salva ainda.</div>'}</div>`;
