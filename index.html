@@ -486,6 +486,11 @@ footer .upd{font-size:.72rem}
 .esc-count{position:sticky;top:0;z-index:19;display:flex;align-items:center;justify-content:space-between;gap:.5rem;background:var(--glass-2);border:1px solid var(--bd);border-radius:10px;padding:.5rem .7rem;margin:.6rem 0 .5rem;font-size:.8rem;font-weight:700}
 .esc-count b{font-family:var(--fd);font-size:.95rem}
 .cP{color:#d7dbe1}.cA{color:var(--blue-light)}.cF{color:var(--txt-3)}
+.ghost.swapon{background:var(--gold);color:#06101f;border-color:var(--gold)}
+.pchip.swappable{cursor:pointer;border-style:dashed}
+.pitches2.shotmode{position:static!important;display:grid!important;grid-template-columns:1fr 1fr!important;width:760px!important;max-width:none!important;gap:14px}
+.pitches2.shotmode .pwrap2{max-height:none!important}
+.pchip.swapsel{outline:2px solid var(--gold);outline-offset:1px}
 .t1b{margin-top:1px;font-size:.5rem;font-weight:800;background:var(--gold);color:#06101f;padding:0 4px;border-radius:3px;letter-spacing:.3px}
 .t1chip{margin-left:4px;font-size:.58rem;font-weight:800;background:rgba(244,182,44,.18);color:var(--gold);border:1px solid rgba(244,182,44,.4);padding:0 4px;border-radius:4px;white-space:nowrap}
 .hist-item{display:flex;align-items:center;gap:.7rem;padding:.75rem .9rem;background:var(--glass);border:1px solid var(--bd);border-radius:12px;margin-bottom:.5rem;cursor:pointer;transition:background .15s}
@@ -1185,7 +1190,7 @@ async function savePerfil(){
 }
 
 // ── ESCALAÇÃO (prancheta + histórico + pessoal) ─────────────────────────────
-let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false,halfOnly:[],away:[]};
+let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false,halfOnly:[],away:[],swap:false,swapA:null};
 let escDrag=null;
 // ── presença / apelidos / formação ──
 function escStrip(s){return (s==null?'':String(s)).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
@@ -1236,28 +1241,48 @@ function escSugerir(){
   const gks=base.filter(function(p){return (p.ordem||0)>=100;});
   const line=base.filter(function(p){return (p.ordem||0)<100;});
   if(!line.length){alert('Sem jogadores pra sugerir. Cole a lista primeiro.');return;}
-  if(!confirm('Montar '+ESC_MAX_LINE+'+'+ESC_MAX_LINE+' na linha (1 goleiro por time) a partir da lista? Isso substitui a escalação atual.')) return;
+  const perT=Math.min(ESC_MAX_LINE, Math.floor(line.length/2));
+  if(!confirm('Montar '+perT+'+'+perT+' na linha (1 goleiro por time) a partir da lista? Isso substitui a escalação atual.')) return;
   escState.preto=[];escState.azul=[];
   if(gks[0]) escToggleTeam(gks[0].id,'preto');
   if(gks[1]) escToggleTeam(gks[1].id,'azul');
+  const perTeam=Math.min(ESC_MAX_LINE, Math.floor(line.length/2));
   let np=0,na=0;
   for(let i=0;i<line.length;i++){
-    if(np>=ESC_MAX_LINE && na>=ESC_MAX_LINE) break;
+    if(np>=perTeam && na>=perTeam) break;
     let t=(Math.floor(i/2)%2===0) ? (i%2===0?'preto':'azul') : (i%2===0?'azul':'preto');
-    if(t==='preto' && np>=ESC_MAX_LINE) t='azul';
-    else if(t==='azul' && na>=ESC_MAX_LINE) t='preto';
-    if(t==='preto'){ if(np>=ESC_MAX_LINE) continue; np++; } else { if(na>=ESC_MAX_LINE) continue; na++; }
+    if(t==='preto' && np>=perTeam) t='azul';
+    else if(t==='azul' && na>=perTeam) t='preto';
+    if(t==='preto'){ if(np>=perTeam) continue; np++; } else { if(na>=perTeam) continue; na++; }
     escToggleTeam(line[i].id,t);
   }
   const fora=line.length-(np+na);
   renderEscBoard();
-  if(fora>0) alert('Times montados: '+np+'+'+na+' na linha. '+fora+' ficaram como substitutos — escale na mão se quiser trocar.');
+  if(fora>0) alert('Times montados: '+np+'+'+na+' na linha. '+fora+' ficaram de fora — escale na mão se quiser trocar.');
+}
+function escSwapMode(){ escState.swap=!escState.swap; escState.swapA=null; renderEscBoard(); }
+function escSwapPick(id){
+  const teamOf=function(pid){ return escState.preto.some(function(e){return e.id===pid;})?'preto':(escState.azul.some(function(e){return e.id===pid;})?'azul':null); };
+  const t=teamOf(id);
+  if(!t){ alert('Esse jogador não está escalado.'); return; }
+  if(!escState.swapA){ escState.swapA=id; renderEscBoard(); return; }
+  if(escState.swapA===id){ escState.swapA=null; renderEscBoard(); return; }
+  const a=escState.swapA, b=id, ta=teamOf(a), tb=teamOf(b);
+  if(ta===tb){ alert('Escolha um de cada time pra trocar.'); escState.swapA=null; renderEscBoard(); return; }
+  const ea=escState[ta].find(function(e){return e.id===a;});
+  const eb=escState[tb].find(function(e){return e.id===b;});
+  const posA={x:ea.x,y:ea.y}, posB={x:eb.x,y:eb.y};
+  escState[ta]=escState[ta].filter(function(e){return e.id!==a;});
+  escState[tb]=escState[tb].filter(function(e){return e.id!==b;});
+  escState[tb].push({id:a,x:posB.x,y:posB.y,t1:ea.t1});
+  escState[ta].push({id:b,x:posA.x,y:posA.y,t1:eb.t1});
+  escState.swapA=null; renderEscBoard();
 }
 function escLimparPresenca(){escState.present=[];escState.halfOnly=[];escState.away=[];escState.showAbsent=false;renderEscBoard();}
 // posições de formação (x,y em %); GK embaixo, ataque em cima
 const ESC_GK=[50,89];
-const ESC_MAX_LINE=7, ESC_MAX_GK=1;
-const ESC_SLOTS=[[22,70],[50,72],[78,70],[22,48],[50,50],[78,48],[50,26],[32,26],[68,26],[50,38]];
+const ESC_MAX_LINE=9, ESC_MAX_GK=1;
+const ESC_SLOTS=[[22,72],[50,74],[78,72],[20,50],[50,52],[80,50],[30,27],[50,23],[70,27]];
 function escIsGol(p){return !!p && (p.ordem||0)>=100;}
 function escCount(team){
   let g=0,l=0;
@@ -1301,7 +1326,7 @@ async function loadEscalacao(){
     } else { escState.myList=[]; }
     if(escState.view==='atual'){
       const cur=escState.allDates[0];
-      if(cur){escState.date=cur.data_jogo;escState.preto=cur.preto||[];escState.azul=cur.azul||[];}
+      if(cur){escState.date=cur.data_jogo;escState.preto=cur.preto||[];escState.azul=cur.azul||[];const cm=cur.meta||{};escState.present=cm.present||[];escState.halfOnly=cm.halfOnly||[];escState.away=cm.away||[];}
       else{escState.date=nextSaturday();escState.preto=[];escState.azul=[];}
       escState.editable=!!state.isAdmin;
     } else if(escState.view==='minhas'){
@@ -1320,7 +1345,7 @@ function renderEscBoard(){
   const placed=new Set([...escState.preto,...escState.azul].map(e=>e.id));
   const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${e.t1?`<div class="t1b">⏱ 1ºT</div>`:``}${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
   const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'escale abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
-  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const usePres=escState.present.length>0;const pos=usePres?idx:ord;const top16=!isGol && pos>=1 && pos<=16;const label=isGol?'G':String(pos);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''}" data-pid="${p.id}"><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">PRETO</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">AZUL</button></span>`:''}</div>`;};
+  const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const usePres=escState.present.length>0;const pos=usePres?idx:ord;const top16=!isGol && pos>=1 && pos<=16;const label=isGol?'G':String(pos);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;const swapSel=escState.swapA===p.id;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''} ${escState.swap&&(inP||inA)?'swappable':''} ${swapSel?'swapsel':''}" data-pid="${p.id}" ${escState.swap?`onclick="escSwapPick('${p.id}')"`:''}><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">PRETO</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">AZUL</button></span>`:''}</div>`;};
   const hasPres=escState.present.length>0;
   let poolList;
   if(hasPres){
@@ -1342,8 +1367,8 @@ function renderEscBoard(){
   }).join('');
   const dispo=poolList.filter(p=>!placed.has(p.id)).length;
   const listaBox=ed?`<div class="esc-lista-box ${hasPres?'':'callout'}"><details ${hasPres?'':'open'}><summary>${hasPres?`📋 Lista aplicada · ${escState.present.length} presentes${escState.away.length?` · ${escState.away.length} ausentes`:''} — trocar`:'📋 Colar a lista do WhatsApp — comece por aqui'}</summary><p class="esc-lista-help">Cole aqui a lista do WhatsApp para facilitar a divisão dos times. Quem estiver em <b>Ausentes</b> é ignorado, e a ordem da lista vira a ordem dos jogadores.</p><textarea id="esc-lista" placeholder="PSOT 25/07&#10;Goleiros&#10;1- Jhonatas&#10;2- Luciano&#10;1- PERIN&#10;2- Humberto&#10;...&#10;Ausentes&#10;1- Igor"></textarea><div class="esc-lista-actions"><button class="btn-primary" style="width:auto;padding:.45rem 1.1rem" onclick="escAplicarLista()">Aplicar lista</button>${hasPres?`<button class="ghost" onclick="escLimparPresenca()">Limpar presença</button><label class="esc-showabs"><input type="checkbox" ${escState.showAbsent?'checked':''} onchange="escState.showAbsent=this.checked;renderEscBoard()"> mostrar quem faltou</label>`:''}</div></details></div>`:'';
-  const countBar=ed?`<div class="esc-count"><span><span class="cP">PRETO <b>${escState.preto.length}</b>/${ESC_MAX_LINE+ESC_MAX_GK}</span> · <span class="cA">AZUL <b>${escState.azul.length}</b>/${ESC_MAX_LINE+ESC_MAX_GK}</span> · <span class="cF">${dispo} fora</span></span><button class="ghost" style="padding:.3rem .7rem;font-size:.72rem" onclick="escSugerir()">⚖️ Sugerir</button></div>`:'';
-  const pool=ed?`${listaBox}${countBar}<div class="pool2"><div class="pool-h">Toque em PRETO ou AZUL pra escalar${hasPres?` · ${escState.present.length} presentes`:''}</div><div class="pool-grid">${poolInner}</div></div>`:'';
+  const countBar=ed?`<div class="esc-count"><span><span class="cP">PRETO <b>${escState.preto.length}</b>/${ESC_MAX_LINE+ESC_MAX_GK}</span> · <span class="cA">AZUL <b>${escState.azul.length}</b>/${ESC_MAX_LINE+ESC_MAX_GK}</span> · <span class="cF">${dispo} fora</span></span><span style="display:flex;gap:.35rem"><button class="ghost" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSugerir()">⚖️ Sugerir</button><button class="ghost ${escState.swap?'swapon':''}" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSwapMode()">⇄ Trocar</button></span></div>`:'';
+  const pool=ed?`${listaBox}${countBar}<div class="pool2"><div class="pool-h">${escState.swap?(escState.swapA?'Agora toque no jogador do OUTRO time':'Modo trocar: toque em 2 jogadores escalados, um de cada time'):'Toque em PRETO ou AZUL pra escalar'}${hasPres?` · ${escState.present.length} presentes`:''}</div><div class="pool-grid">${poolInner}</div></div>`:'';
   const hist=`<div>${escState.allDates.length?escState.allDates.map(d=>`<div class="hist-item" data-hist="${d.data_jogo}"><span style="font-weight:800;font-family:var(--fd)">${fmtBR(d.data_jogo)}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(d.preto||[]).length} · Azul ${(d.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Nenhuma escalação salva ainda.</div>'}</div>`;
   // Aba MINHAS: lista de propostas do usuário OU editor
   const minhasList=`<div>
@@ -1404,6 +1429,7 @@ function escMinhasEditar(id){
   const m=escState.myList.find(x=>x.id===id); if(!m)return;
   escState.currentId=id; escState.titulo=m.titulo||'';
   escState.preto=m.preto||[]; escState.azul=m.azul||[];
+  const mm=m.meta||{}; escState.present=mm.present||[]; escState.halfOnly=mm.halfOnly||[]; escState.away=mm.away||[];
   escState.editable=true; renderEscBoard();
 }
 function escMinhasVoltar(){escState.currentId=null;escState.editable=false;renderEscBoard();}
@@ -1411,7 +1437,8 @@ async function escMinhasSalvar(){
   if(!sb||!state.user)return;
   const t=document.getElementById('esc-titulo'); if(t)escState.titulo=t.value;
   try{
-    const payload={user_id:state.user.id,titulo:escState.titulo||'',preto:escState.preto,azul:escState.azul};
+    const w=escIncompletoMsg(); if(w && !confirm(w)) return;
+    const payload={user_id:state.user.id,titulo:escState.titulo||'',preto:escState.preto,azul:escState.azul,meta:{present:escState.present,halfOnly:escState.halfOnly,away:escState.away}};
     let resp;
     if(escState.currentId && escState.currentId!=='new'){
       resp=await sb.from('escalacoes_pessoais').update(payload).eq('id',escState.currentId).select().single();
@@ -1441,7 +1468,10 @@ async function escCompartilhar(){
   if(!el){alert('Nada pra compartilhar.');return;}
   if(typeof html2canvas==='undefined'){alert('Biblioteca de imagem não carregou. Tente atualizar a página.');return;}
   try{
-    const canvas=await html2canvas(el,{backgroundColor:'#0a1424',useCORS:true,scale:2,logging:false});
+    el.classList.add('shotmode');
+    let canvas;
+    try{ canvas=await html2canvas(el,{backgroundColor:'#0a1424',useCORS:true,scale:2,logging:false,windowWidth:900}); }
+    finally{ el.classList.remove('shotmode'); }
     canvas.toBlob(async(blob)=>{
       if(!blob){alert('Falha ao gerar imagem.');return;}
       const file=new File([blob],'escalacao_psot.png',{type:'image/png'});
@@ -1457,10 +1487,20 @@ async function escCompartilhar(){
     },'image/png');
   }catch(e){alert('Erro ao gerar imagem: '+(e.message||e));}
 }
+function escIncompletoMsg(){
+  const cp=escCount('preto'), ca=escCount('azul');
+  const probs=[];
+  if(cp.gk<1) probs.push('Preto sem goleiro');
+  if(ca.gk<1) probs.push('Azul sem goleiro');
+  if(cp.line!==ca.line) probs.push('times desiguais ('+cp.line+' x '+ca.line+' na linha)');
+  else if(cp.line<8) probs.push('só '+cp.line+' por time na linha');
+  return probs.length?('Atenção: '+probs.join(' · ')+'.\n\nSalvar mesmo assim?'):null;
+}
 async function escSalvar(){
   if(!sb||!state.isAdmin)return;
+  const w=escIncompletoMsg(); if(w && !confirm(w)) return;
   try{
-    const up=await sb.from('escalacoes').upsert({data_jogo:escState.date,preto:escState.preto,azul:escState.azul,updated_at:new Date().toISOString(),updated_by:state.user.email},{onConflict:'data_jogo'});
+    const up=await sb.from('escalacoes').upsert({data_jogo:escState.date,preto:escState.preto,azul:escState.azul,meta:{present:escState.present,halfOnly:escState.halfOnly,away:escState.away},updated_at:new Date().toISOString(),updated_by:state.user.email},{onConflict:'data_jogo'});
     if(up.error)throw up.error;
     const r=await sb.from('escalacoes').select('*').order('data_jogo',{ascending:false}); escState.allDates=r.data||[];
     alert('Escalação salva! Todos já conseguem ver.');
