@@ -1240,8 +1240,9 @@ function escAplicarLista(){
 function escSugerir(){
   if(!escState.editable) return;
   const hasPres=escState.present.length>0;
-  let base=escState.pel.filter(function(p){return hasPres? escState.present.indexOf(p.id)>=0 : true;});
-  base=base.slice().sort(function(a,b){return (a.ordem||999)-(b.ordem||999);});
+  let base;
+  if(hasPres){ base=escState.present.map(function(id){return pelById(id);}).filter(Boolean); }
+  else { base=escState.pel.slice().sort(function(a,b){return (a.ordem||999)-(b.ordem||999);}); }
   const gks=base.filter(function(p){return (p.ordem||0)>=100;});
   const isen=base.filter(function(p){return (p.ordem||0)<100 && escIsento(p);});
   const line=base.filter(function(p){return (p.ordem||0)<100 && !escIsento(p);});
@@ -1252,8 +1253,9 @@ function escSugerir(){
   if(gks[0]) escToggleTeam(gks[0].id,'preto');
   if(gks[1]) escToggleTeam(gks[1].id,'azul');
   const perTeam=Math.min(ESC_MAX_LINE, Math.floor(line.length/2));
+  const jogam=line.slice(0, perTeam*2);
   const grupos={DEF:[],MEI:[],ATA:[]};
-  line.forEach(function(p){ (grupos[escPos(p)]||grupos.MEI).push(p); });
+  jogam.forEach(function(p){ (grupos[escPos(p)]||grupos.MEI).push(p); });
   Object.keys(grupos).forEach(function(k){ grupos[k].sort(function(a,b){ return escForca(b)-escForca(a) || (a.ordem||999)-(b.ordem||999); }); });
   let np=0,na=0, comeca='preto';
   const escolhidos={preto:[],azul:[]};
@@ -1293,7 +1295,7 @@ function escSugerir(){
     const cp=escCount('preto'), ca=escCount('azul');
     escToggleTeam(isen[k].id, cp.total<=ca.total?'preto':'azul');
   }
-  const fora=line.length-(np+na);
+  const fora=line.length-jogam.length;
   renderEscBoard();
   const cnt=function(t){const o={DEF:0,MEI:0,ATA:0};escState[t].forEach(function(e){const p=pelById(e.id);if(p&&!escIsGol(p)&&!escIsento(p)){o[escPos(p)]=(o[escPos(p)]||0)+1;}});return o.DEF+'-'+o.MEI+'-'+o.ATA;};
   let msg='Times montados: '+np+'+'+na+' na linha.\nFormação (DEF-MEI-ATA) — Preto '+cnt('preto')+' · Azul '+cnt('azul')+'.';
