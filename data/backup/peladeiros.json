@@ -1,0 +1,317 @@
+[
+    {
+        "id": "73f60dff-f9f5-47cd-acc1-4901f4c6d737",
+        "nome": "PERIN",
+        "foto_url": "/peladeiros/perin.jpg",
+        "convidado": false,
+        "ordem": 1,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "43d66911-fde3-4509-95e4-d05cce52f7b5",
+        "nome": "Z\u00c9 RENATO",
+        "foto_url": "/peladeiros/ze_renato.jpg",
+        "convidado": false,
+        "ordem": 2,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "0799a2ba-0c33-45ac-87fa-75b5c49374c3",
+        "nome": "ZEZ\u00c9",
+        "foto_url": "/peladeiros/zeze.jpg",
+        "convidado": false,
+        "ordem": 3,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "52459c0c-ed46-4f53-a4b9-45cd9037436a",
+        "nome": "ROMILDO",
+        "foto_url": "/peladeiros/romildo.jpg",
+        "convidado": false,
+        "ordem": 4,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "c16e559f-a976-4dd3-a26f-2ca6844b77d2",
+        "nome": "M\u00c1RCIO",
+        "foto_url": "/peladeiros/marcio.jpg",
+        "convidado": false,
+        "ordem": 5,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "739e7dea-052e-4946-a9dd-d90032726aa0",
+        "nome": "ALEXANDRE",
+        "foto_url": "/peladeiros/alexandre.jpg",
+        "convidado": false,
+        "ordem": 6,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "f7812ae4-b52e-4f7a-a674-306a03dead8f",
+        "nome": "GIU",
+        "foto_url": "/peladeiros/giu.jpg",
+        "convidado": false,
+        "ordem": 7,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "7cd0cce4-7a79-4be3-9cd4-d0c320c0c225",
+        "nome": "HUMBERTO",
+        "foto_url": "/peladeiros/humberto.jpg",
+        "convidado": false,
+        "ordem": 8,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "2bc5569f-549d-4c82-919d-81c8c484e602",
+        "nome": "LEO",
+        "foto_url": "/peladeiros/leo.jpg",
+        "convidado": false,
+        "ordem": 9,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "b46f7f59-ee48-4c0a-b6be-03298758c3f0",
+        "nome": "MOS\u00c9",
+        "foto_url": "/peladeiros/mose.jpg",
+        "convidado": false,
+        "ordem": 10,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "90b5bdec-ba18-449d-8f5a-d0a55062391d",
+        "nome": "FAFAH",
+        "foto_url": "/peladeiros/fafah.jpg",
+        "convidado": false,
+        "ordem": 11,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "6229415d-212e-4cfb-ac26-845ea2b311af",
+        "nome": "GABI MELO",
+        "foto_url": "/peladeiros/gabi_melo.jpg",
+        "convidado": false,
+        "ordem": 12,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "185c2a01-a2fe-4e0c-89db-fbefe8bdac51",
+        "nome": "MONKEY",
+        "foto_url": "/peladeiros/monkey.jpg",
+        "convidado": false,
+        "ordem": 13,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "173b29b1-2df1-430a-944f-1d817c0f8973",
+        "nome": "GABRIEL",
+        "foto_url": "/peladeiros/gabriel.jpg",
+        "convidado": false,
+        "ordem": 14,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "92784223-46b3-4039-86ba-48a5b4802559",
+        "nome": "IGOR",
+        "foto_url": "/peladeiros/igor.jpg",
+        "convidado": false,
+        "ordem": 15,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "9fddf35b-2ead-4f82-baff-f751e85b53e0",
+        "nome": "RODRIGO",
+        "foto_url": "/peladeiros/rodrigo.jpg",
+        "convidado": false,
+        "ordem": 16,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "68587d63-1bae-44c4-b24b-45bc96435475",
+        "nome": "LIPIN",
+        "foto_url": "/peladeiros/lipin.jpg",
+        "convidado": false,
+        "ordem": 17,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "ff3874cf-a94c-49f8-901d-671505cc55d9",
+        "nome": "VINICIUS",
+        "foto_url": "/peladeiros/vinicius.jpg",
+        "convidado": false,
+        "ordem": 18,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "fc071006-4934-42b8-8868-3c15d86ac3ea",
+        "nome": "FABR\u00cdCIO",
+        "foto_url": "/peladeiros/fabricio.jpg",
+        "convidado": false,
+        "ordem": 19,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "85b07649-75ed-471a-b3d9-e51d6e225ecd",
+        "nome": "KIKO",
+        "foto_url": "/peladeiros/kiko.jpg",
+        "convidado": false,
+        "ordem": 20,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "68b0b808-8248-4450-ab7e-5f7f16f9dbfd",
+        "nome": "LUCAS",
+        "foto_url": "/peladeiros/lucas.jpg",
+        "convidado": false,
+        "ordem": 21,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
+    },
+    {
+        "id": "16cb9774-3428-4910-9599-9b62a717e64e",
+        "nome": "MARCOS",
+        "foto_url": "/peladeiros/marcos.jpg",
+        "convidado": false,
+        "ordem": 22,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "b76c718e-9630-4583-a5e8-155733d3cc93",
+        "nome": "ERILDO",
+        "foto_url": "/peladeiros/erildo.jpg",
+        "convidado": false,
+        "ordem": 23,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "5293f2e0-5337-403b-9dbb-df3a3dfc63ef",
+        "nome": "DR. WAGNER",
+        "foto_url": null,
+        "convidado": false,
+        "ordem": 24,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "90bb446f-82b7-4311-9b1a-98ad4f90323b",
+        "nome": "GUSTAVO",
+        "foto_url": "/peladeiros/gustavo.jpg",
+        "convidado": false,
+        "ordem": 25,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "fd761f16-8208-4d3a-96cb-13d1007b128a",
+        "nome": "MICHEL",
+        "foto_url": "/peladeiros/michel.jpg",
+        "convidado": false,
+        "ordem": 26,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "d69529e7-38c4-4dce-9ad5-8c0a127de45e",
+        "nome": "GAMA",
+        "foto_url": "/peladeiros/gama.jpg",
+        "convidado": false,
+        "ordem": 27,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "2de7ba94-1451-499c-b1bc-3bef6e436dd0",
+        "nome": "PS",
+        "foto_url": "/peladeiros/ps.jpg",
+        "convidado": false,
+        "ordem": 28,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "fe5ca8bc-65cc-46aa-b69b-df600540869c",
+        "nome": "WASHINGTON",
+        "foto_url": "/peladeiros/washington.jpg",
+        "convidado": false,
+        "ordem": 29,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "1bb296a3-d503-4321-a4e5-4a5ec27f3caf",
+        "nome": "MARRECO",
+        "foto_url": "/peladeiros/marreco.jpg",
+        "convidado": false,
+        "ordem": 30,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "74495920-2a82-4e28-85c0-a1b63ee7e3bc",
+        "nome": "RAPHAEL",
+        "foto_url": null,
+        "convidado": false,
+        "ordem": 31,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "7ae027c1-21df-4a9b-be58-c88f89455198",
+        "nome": "DR. MAURO",
+        "foto_url": "/peladeiros/dr_mauro.jpg",
+        "convidado": false,
+        "ordem": 33,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "DEF"
+    },
+    {
+        "id": "aec9b55e-9e92-4a2f-8f94-2c49b1912703",
+        "nome": "LEANDRO",
+        "foto_url": "/peladeiros/leandro.jpg",
+        "convidado": false,
+        "ordem": 35,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "MEI"
+    },
+    {
+        "id": "6475660a-6a70-4125-aa2d-8839cc72dcb0",
+        "nome": "JHONATAS",
+        "foto_url": "/peladeiros/jhonatas.jpg",
+        "convidado": false,
+        "ordem": 100,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "GOL"
+    },
+    {
+        "id": "8644f25e-4602-466b-894a-5339f6dc0800",
+        "nome": "LUCIANO",
+        "foto_url": "/peladeiros/luciano.jpg",
+        "convidado": false,
+        "ordem": 101,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "GOL"
+    }
+]
