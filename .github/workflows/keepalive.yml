@@ -1,0 +1,43 @@
+name: Supabase keepalive + backup
+# 1) Mantem o projeto Supabase (free tier) ativo, evitando a pausa por inatividade.
+# 2) Salva um snapshot do elenco e das escalacoes no proprio repo, para nunca depender
+#    so do banco. NAO inclui a tabela admins (emails pessoais, repo publico).
+on:
+  schedule:
+    - cron: '17 12 */3 * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ping + baixar snapshot
+        run: |
+          KEY="sb_publishable_luSz6f-8XZ24TkUeN16NCg_rl2XkDfw"
+          BASE="https://ndgbwaoeuqtscdzfaucm.supabase.co/rest/v1"
+          mkdir -p data/backup
+          c1=$(curl -sS -o /tmp/pel.json -w "%{http_code}" \
+            "$BASE/peladeiros?select=*&order=ordem" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY")
+          echo "peladeiros HTTP $c1"; test "$c1" = "200"
+          c2=$(curl -sS -o /tmp/esc.json -w "%{http_code}" \
+            "$BASE/escalacoes?select=*&order=data_jogo" \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY")
+          echo "escalacoes HTTP $c2"; test "$c2" = "200"
+          python3 -m json.tool /tmp/pel.json > data/backup/peladeiros.json
+          python3 -m json.tool /tmp/esc.json > data/backup/escalacoes.json
+
+      - name: Commitar se mudou
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/backup
+          if git diff --staged --quiet; then
+            echo "sem mudancas no snapshot"
+          else
+            git commit -m "Backup automatico do Supabase (elenco + escalacoes)"
+            git push
+          fi
