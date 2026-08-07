@@ -279,7 +279,7 @@ tbody td:nth-child(2){text-align:left;font-weight:600}
 .p-hero{display:flex;align-items:center;gap:1.2rem;background:linear-gradient(135deg,rgba(20,41,74,.8),rgba(10,22,40,.55));
   border:1px solid var(--bd-2);border-radius:var(--r-xl);padding:1.5rem 1.4rem;margin-bottom:1.1rem;position:relative;overflow:hidden}
 .p-hero::after{content:'';position:absolute;right:-40px;top:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(244,182,44,.18),transparent 65%)}
-.p-av{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:2.1rem;color:#06101f;
+.p-av{position:relative;overflow:hidden;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:2.1rem;color:#06101f;
   background:linear-gradient(135deg,var(--gold-soft),var(--gold));box-shadow:0 8px 22px rgba(244,182,44,.4);flex-shrink:0;position:relative;z-index:1}
 .p-info{position:relative;z-index:1;min-width:0}
 .p-info h1{font-family:var(--fd);font-size:1.6rem;font-weight:800;color:#fff;line-height:1.05}
@@ -440,7 +440,7 @@ footer .upd{font-size:.72rem}
 .pdrop2.hover{background:rgba(255,255,255,.07)}
 .phint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:rgba(255,255,255,.22);font-size:.72rem;font-weight:600;text-align:center;pointer-events:none;z-index:1}
 .tok{position:absolute;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;align-items:center;touch-action:none}
-.tok .ti{width:clamp(34px,9vw,46px);height:clamp(34px,9vw,46px);border-radius:50%;border:3px solid;overflow:hidden;background:#15151f;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.85rem;color:#fff}
+.tok .ti{position:relative;width:clamp(34px,9vw,46px);height:clamp(34px,9vw,46px);border-radius:50%;border:3px solid;overflow:hidden;background:#15151f;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.85rem;color:#fff}
 .tok.preto .ti{border-color:#9aa0aa}.tok.azul .ti{border-color:var(--royal)}
 .tok.pos-ATA .ti{border-color:#e0433f}
 .tok.pos-MEI .ti{border-color:#2f7fe0}
@@ -456,7 +456,7 @@ footer .upd{font-size:.72rem}
 .pchip{display:flex;align-items:center;gap:.5rem;width:100%;padding:.3rem .4rem .3rem .3rem;background:var(--glass-2);border:1px solid var(--bd);border-radius:10px;font-size:.86rem;font-weight:600;user-select:none}
 .pchip .pnm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .pchip.used{opacity:.35;cursor:default}
-.pchip .pa{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.64rem;color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));overflow:hidden}
+.pchip .pa{position:relative;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.64rem;color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));overflow:hidden}
 .pchip .pa img{width:100%;height:100%;object-fit:cover}
 .pchip .pn{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 4px;margin-right:.15rem;background:rgba(255,255,255,.08);border-radius:50%;font-family:var(--fd);font-weight:800;font-size:.68rem;color:var(--txt-2)}
 .pchip.top16 .pn{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#06101f}
@@ -464,7 +464,7 @@ footer .upd{font-size:.72rem}
 .pool-divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--bd),transparent);margin:.7rem 0 .5rem;position:relative}
 .pool-divider::before{content:'⇣ substitutos ⇣';position:absolute;left:50%;top:-.6rem;transform:translateX(-50%);background:var(--bg-1);padding:0 .8rem;color:var(--txt-3);font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
 .esc-ghost{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);display:none;left:0;top:0}
-.esc-ghost .gi{width:50px;height:50px;border-radius:50%;border:3px solid var(--gold);overflow:hidden;background:#15151f;display:grid;place-items:center;font-family:var(--fd);font-weight:800;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.6)}
+.esc-ghost .gi{position:relative;width:50px;height:50px;border-radius:50%;border:3px solid var(--gold);overflow:hidden;background:#15151f;display:grid;place-items:center;font-family:var(--fd);font-weight:800;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.6)}
 .esc-ghost .gi img{width:100%;height:100%;object-fit:cover}
 .pchip{cursor:pointer}
 .pchip .pnm{white-space:nowrap}
@@ -890,7 +890,7 @@ function renderJogadorDetail(apelido,initSeason){
   return `
   <button class="back" onclick="navigate('jogadores')">← Estatísticas</button>
   <div class="p-hero">
-    <div class="p-av">${initial((p&&p.apelido)||found.apelido)}</div>
+    <div class="p-av">${initial((p&&p.apelido)||found.apelido)}${pAv((p&&p.apelido)||found.apelido)}</div>
     <div class="p-info">
       <h1>${(p&&p.apelido)||found.apelido}</h1>
       ${nome!==found.apelido?`<div class="nm">${nome}</div>`:''}
@@ -1403,7 +1403,7 @@ function escH(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</
 function nextSaturday(){const d=new Date();let add=(6-d.getDay()+7)%7;d.setDate(d.getDate()+add);return d.toISOString().slice(0,10);}
 function fmtBR(iso){if(!iso)return'';const p=iso.split('-');return `${p[2]}/${p[1]}/${p[0]}`;}
 function pelById(id){return escState.pel.find(p=>p.id===id);}
-function pelAv(p){if(!p)return'';return p.foto_url?`<img src="${escH(p.foto_url)}">`:initial(p.nome);}
+function pelAv(p){if(!p)return'';const u=p.foto_url||pFoto(p.nome);return initial(p.nome)+(u?`<img class="pf" src="${escH(u)}" alt="" onerror="this.remove()">`:'');}
 function renderEscalacao(){requestAnimationFrame(loadEscalacao);return `<div id="esc-root"><div class="loading"><div class="ball">⚽</div><div class="sh"></div><div class="tx">Carregando escalação...</div></div></div>`;}
 async function loadEscalacao(){
   const root=document.getElementById('esc-root'); if(!root)return;
@@ -1599,7 +1599,7 @@ async function escSalvar(){
     renderEscBoard();
   }catch(e){alert('Erro ao salvar: '+(e.message||e));}
 }
-function escViewHist(dateISO){const row=escState.allDates.find(d=>d.data_jogo===dateISO);if(!row)return;escState.view='atual';escState.date=dateISO;escState.preto=row.preto||[];escState.azul=row.azul||[];escState.editable=false;renderEscBoard();}
+function escViewHist(dateISO){const row=escState.allDates.find(d=>d.data_jogo===dateISO);if(!row)return;escState.view='atual';escState.date=dateISO;escState.preto=row.preto||[];escState.azul=row.azul||[];const m=row.meta||{};escState.present=m.present||[];escState.halfOnly=m.halfOnly||[];escState.away=m.away||[];escState.editable=false;renderEscBoard();}
 function escNova(){const d=prompt('Data do jogo (AAAA-MM-DD):',nextSaturday());if(!d)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(d)){alert('Formato inválido. Use AAAA-MM-DD.');return;}escState.date=d;escState.preto=[];escState.azul=[];escState.view='atual';escState.editable=!!state.isAdmin;renderEscBoard();}
 function escLimpar(team){if(!confirm('Limpar time '+team+'?'))return;escState[team]=[];renderEscBoard();}
 function escBindDrag(){
