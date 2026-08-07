@@ -188,7 +188,7 @@ main{flex:1;max-width:var(--maxw);margin:0 auto;width:100%;padding:1.4rem clamp(
 .rank-row.clk{cursor:pointer}.rank-row.clk:hover{background:var(--glass)}
 .rk{width:30px;text-align:center;font-family:var(--fd);font-weight:700;font-size:.9rem;color:var(--txt-2);flex-shrink:0}
 .rk.top{font-size:1.05rem}
-.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.85rem;flex-shrink:0;
+.av{position:relative;overflow:hidden;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.85rem;flex-shrink:0;
   color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));box-shadow:0 3px 10px rgba(244,182,44,.3)}
 .av.b{background:linear-gradient(135deg,#7fb4ff,var(--royal));color:#06101f;box-shadow:0 3px 10px rgba(47,107,214,.3)}
 .rn{flex:1;font-weight:600;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -214,7 +214,8 @@ tbody td:nth-child(2){text-align:left;font-weight:600}
 .pts{font-family:var(--fd);font-weight:800;color:var(--gold)}
 .gv{font-family:var(--fd);font-weight:700;color:var(--green)}
 .cell-name{display:flex;align-items:center;gap:.55rem}
-.cell-name .mini{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.7rem;color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));flex-shrink:0}
+.cell-name .mini{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.7rem;color:#06101f;background:linear-gradient(135deg,var(--gold-soft),var(--gold));flex-shrink:0;position:relative;overflow:hidden}
+.pf{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .b-v{background:rgba(52,211,154,.15);color:var(--green);padding:.16rem .5rem;border-radius:6px;font-weight:700;font-size:.78rem}
 .b-d{background:rgba(251,113,133,.15);color:var(--red);padding:.16rem .5rem;border-radius:6px;font-weight:700;font-size:.78rem}
 .b-e{background:rgba(251,191,36,.15);color:var(--amber);padding:.16rem .5rem;border-radius:6px;font-weight:700;font-size:.78rem}
@@ -441,6 +442,9 @@ footer .upd{font-size:.72rem}
 .tok{position:absolute;transform:translate(-50%,-50%);z-index:5;display:flex;flex-direction:column;align-items:center;touch-action:none}
 .tok .ti{width:clamp(34px,9vw,46px);height:clamp(34px,9vw,46px);border-radius:50%;border:3px solid;overflow:hidden;background:#15151f;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.85rem;color:#fff}
 .tok.preto .ti{border-color:#9aa0aa}.tok.azul .ti{border-color:var(--royal)}
+.tok.pos-ATA .ti{border-color:#e0433f}
+.tok.pos-MEI .ti{border-color:#2f7fe0}
+.tok.pos-DEF .ti{border-color:#111318;box-shadow:0 0 0 1px rgba(255,255,255,.5)}
 .tok .ti img{width:100%;height:100%;object-fit:cover}
 .tok .tn{margin-top:2px;font-size:.58rem;font-weight:700;background:rgba(0,0,0,.8);padding:1px 5px;border-radius:4px;max-width:92px;line-height:1.05;text-align:center;white-space:normal;word-break:break-word;overflow:hidden}
 .tok .tx{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:.7rem;display:none;align-items:center;justify-content:center}
@@ -631,6 +635,9 @@ function pct(v,j){return j>0?Math.round(v/j*100)+'%':'—';}
 function medal(p){return p===1?'🥇':p===2?'🥈':p===3?'🥉':p;}
 function rowCls(p){return p===1?'gold':p===2?'silver':p===3?'bronze':'';}
 function initial(ap){return (ap||'?').charAt(0).toUpperCase();}
+function pFotoSlug(ap){return String(ap||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\./g,'').replace(/[^a-z0-9 ]/g,'').trim().replace(/\s+/g,'_');}
+function pFoto(ap){const s=pFotoSlug(ap);return s?('peladeiros/'+s+'.jpg'):'';}
+function pAv(ap){const u=pFoto(ap);return u?('<img class="pf" src="'+u+'" alt="" loading="lazy" onerror="this.remove()">'):'';}
 function escAp(a){return encodeURIComponent(a);}
 function decAp(a){return decodeURIComponent(a);}
 function venc(pf,v){v=v||(pf?(pf[0]>pf[1]?'PRETO':pf[1]>pf[0]?'AZUL':'EMPATE'):'EMPATE');return v;}
@@ -730,7 +737,7 @@ function renderHome(){
         <tbody>${top5.map((p,i)=>`
           <tr class="clk ${rowCls(i+1)}" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.season}'})">
             <td class="num">${medal(i+1)}</td>
-            <td><div class="cell-name"><span class="mini">${initial(p.apelido)}</span>${p.apelido}</div></td>
+            <td><div class="cell-name"><span class="mini">${initial(p.apelido)}${pAv(p.apelido)}</span>${p.apelido}</div></td>
             <td>${p.jogos}</td><td><span class="b-v">${p.vitorias}</span></td><td>${p.empates||0}</td><td>${p.derrotas||0}</td>
             <td class="pts">${pts(p)}</td><td class="gv">${p.gols}</td>
           </tr>`).join('')}</tbody>
@@ -752,7 +759,7 @@ function renderClassificacao(){
   const rows=(list,showPos=true)=>list.map((p,i)=>{const pos=i+1;
     return `<tr class="clk ${showPos?rowCls(pos):''}" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.season}'})">
       <td class="num">${showPos?medal(pos):'—'}</td>
-      <td><div class="cell-name"><span class="mini">${initial(p.apelido)}</span>${p.apelido}</div></td>
+      <td><div class="cell-name"><span class="mini">${initial(p.apelido)}${pAv(p.apelido)}</span>${p.apelido}</div></td>
       <td>${p.jogos}/${tot}</td><td><span class="b-v">${p.vitorias}</span></td><td>${p.empates||0}</td><td>${p.derrotas||0}</td>
       <td class="pts">${pts(p)}</td><td class="gv">${p.gols}</td>${cart(p)}<td style="color:var(--txt-2)">${pct(p.vitorias,p.jogos)}</td></tr>`;}).join('');
   const pctRows=[...eleg].sort((a,b)=>(b.vitorias/b.jogos-a.vitorias/a.jogos)||pts(b)-pts(a)||b.gols-a.gols);
@@ -788,7 +795,7 @@ function renderArtilharia(){
     ${art.map((a,i)=>{const gc=/GOL CONTRA|^GC$/i.test(a.apelido);
       return `<div class="rank-row ${gc?'':'clk'}" ${gc?'':`onclick="navigate('jogador',{apelido:'${escAp(a.apelido)}',season:'${state.season}'})"`}>
         <div class="rk ${i<3?'top':''}">${gc?'—':medal(i+1)}</div>
-        <div class="av ${i%2?'b':''}" style="${gc?'background:var(--glass-2);color:var(--txt-2);box-shadow:none':''}">${gc?'⚽':initial(a.apelido)}</div>
+        <div class="av ${i%2?'b':''}" style="${gc?'background:var(--glass-2);color:var(--txt-2);box-shadow:none':''}">${gc?'⚽':(initial(a.apelido)+pAv(a.apelido))}</div>
         <div class="rn" style="${gc?'color:var(--txt-3)':''}">${a.apelido}</div>
         <div class="bar"><i class="${gc?'gc':''}" data-w="${Math.round(a.gols/max*100)}"></i></div>
         <div class="rv ${gc?'muted':''}">${a.gols}</div></div>`;}).join('')}
@@ -856,7 +863,7 @@ function renderJogadores(){
   <div class="pgrid" id="pgrid">
     ${players.map(p=>`
     <div class="pcard" data-name="${(p.apelido+' '+(p.nome||'')).toLowerCase()}" onclick="navigate('jogador',{apelido:'${escAp(p.apelido)}',season:'${state.season}'})">
-      <div class="pcard-top"><span class="av" style="width:30px;height:30px;font-size:.78rem">${initial(p.apelido)}</span><b style="font-size:.92rem">${p.apelido}</b>${p.numero?`<span class="num">#${p.numero}</span>`:''}</div>
+      <div class="pcard-top"><span class="av" style="width:30px;height:30px;font-size:.78rem">${initial(p.apelido)}${pAv(p.apelido)}</span><b style="font-size:.92rem">${p.apelido}</b>${p.numero?`<span class="num">#${p.numero}</span>`:''}</div>
       <div class="pcard-grid">
         <div><div class="v" style="color:var(--green)">${p.gols}</div><div class="l">Gols</div></div>
         <div><div class="v" style="color:var(--green)">${p.vitorias}</div><div class="l">Vit</div></div>
@@ -1428,7 +1435,7 @@ function renderEscBoard(){
   const root=document.getElementById('esc-root'); if(!root)return;
   const ed=escState.editable;
   const placed=new Set([...escState.preto,...escState.azul].map(e=>e.id));
-  const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${e.t1?`<div class="t1b">⏱ 1ºT</div>`:``}${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
+  const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} pos-${escPos(p)} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${e.t1?`<div class="t1b">⏱ 1ºT</div>`:``}${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
   const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'escale abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
   const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const usePres=escState.present.length>0;const pos=usePres?idx:ord;const top16=!isGol && pos>=1 && pos<=16;const label=isGol?'G':String(pos);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;const swapSel=escState.swapA===p.id;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''} ${escState.swap&&(inP||inA)?'swappable':''} ${swapSel?'swapsel':''}" data-pid="${p.id}" ${escState.swap?`onclick="escSwapPick('${p.id}')"`:''}><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed&&!isGol?`<button class="poschip p-${escPos(p)}" onclick="event.stopPropagation();escCiclaPos('${p.id}')" title="Toque pra mudar a posição (só nesta pelada)">${escPos(p)}</button>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">PRETO</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">AZUL</button></span>`:''}</div>`;};
   const hasPres=escState.present.length>0;
