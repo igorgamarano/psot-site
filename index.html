@@ -1400,7 +1400,7 @@ function escToggleTeam(id,team){
   renderEscBoard();
 }
 function escH(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function nextSaturday(){const d=new Date();let add=(6-d.getDay()+7)%7;d.setDate(d.getDate()+add);return d.toISOString().slice(0,10);}
+function nextSaturday(){const d=new Date();let add=(6-d.getDay()+7)%7;d.setDate(d.getDate()+add);const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 function fmtBR(iso){if(!iso)return'';const p=iso.split('-');return `${p[2]}/${p[1]}/${p[0]}`;}
 function pelById(id){return escState.pel.find(p=>p.id===id);}
 function pelAv(p){if(!p)return'';const u=p.foto_url||pFoto(p.nome);return initial(p.nome)+(u?`<img class="pf" src="${escH(u)}" alt="" onerror="this.remove()">`:'');}
