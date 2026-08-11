@@ -948,7 +948,7 @@ function playerRounds(apelido,season){
   return `<div style="display:flex;flex-direction:column;gap:.5rem">${rows}</div>`;
 }
 const GOL_ALIAS={'GAMARANO':'GAMA','IGOR C':'IGOR','LEONARDO':'LEO'};
-const AP_ALIAS={'IGOR C':'IGOR','IGOR G':'GAMA','GAMARANO':'GAMA','LEONARDO':'LEO','ERIL':'ERILDO','WAGNER':'DR. WAGNER'};
+const AP_ALIAS={'ZÉ ANTÔNIO':'ZEZÉ','IGOR C':'IGOR','IGOR G':'GAMA','GAMARANO':'GAMA','LEONARDO':'LEO','ERIL':'ERILDO','WAGNER':'DR. WAGNER'};
 function normGoal(k,season){if(!k)return null;const u=k.trim().toUpperCase();if(/GOL CONTRA|^GC$/.test(u))return null;if(GOL_ALIAS[u])return GOL_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a.includes(u)||u.includes(a);});return m?m.apelido:k.trim();}
 function normAp(name,season){if(!name)return '';let u=name.trim().toUpperCase();if(u==='?'||u==='APP'||u==='OS')return '';if(AP_ALIAS[u])return AP_ALIAS[u];const ps=state.seasons[season]?.players||[];let m=ps.find(p=>p.apelido.toUpperCase()===u)||ps.find(p=>{const a=p.apelido.toUpperCase();return a===u||a.includes(u)||u.includes(a);});return m?m.apelido:name.trim();}
 function goalsThisRound(r,ap,season){let g=0;const A=ap.toUpperCase();Object.entries(r.gols||{}).forEach(([k,v])=>{const a=normGoal(k,season);if(a&&a.toUpperCase()===A)g+=v;});return g;}
@@ -1629,6 +1629,17 @@ function escEnd(e){
 function escRemove(id,team){escState[team]=escState[team].filter(en=>en.id!==id);renderEscBoard();}
 loadData().catch(e=>{document.getElementById("view").innerHTML=`<div class="empty"><div class="e">⚠️</div><p>Erro ao carregar dados.<br><small style="color:var(--txt-3)">${e.message}</small></p></div>`;});
 initAuth();
+// rodape: data da ultima rodada (em vez do valor fixo do config)
+(function(){let n=0;const t=setInterval(function(){n++;
+  try{const s=state.seasons[state.season];const r=s&&s.rounds&&s.rounds[s.rounds.length-1];
+    if(r){const el=document.getElementById('footer-upd');
+      if(el){el.textContent='Atualizado em '+String(r.data).replace(/\./g,'/');clearInterval(t);}}
+  }catch(e){}
+  if(n>40)clearInterval(t);},300);})();
+// banner: aviso manual do config, senao anuncia a proxima pelada
+(function(){const _rh=renderHome;renderHome=function(){let h=_rh.apply(this,arguments);
+  if(h.indexOf('class="aviso"')<0){h='<div class="aviso">📅 Próxima pelada: sábado '+fmtBR(nextSaturday())+'</div>'+h;}
+  return h;};})();
 </script>
 </body>
 </html>
