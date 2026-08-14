@@ -1255,7 +1255,7 @@ function escSugerir(){
   if(!escState.editable) return;
   const hasPres=escState.present.length>0;
   let base;
-  if(hasPres){ base=escState.present.map(function(id){return pelById(id);}).filter(Boolean); }
+  if(hasPres){ base=escState.present.map(function(id){return pelById(id);}).filter(Boolean).sort(function(a,b){return (a.ordem||999)-(b.ordem||999);}); }
   else { base=escState.pel.slice().sort(function(a,b){return (a.ordem||999)-(b.ordem||999);}); }
   const gks=base.filter(function(p){return (p.ordem||0)>=100;});
   const isen=base.filter(function(p){return (p.ordem||0)<100 && escIsento(p);});
@@ -1451,7 +1451,7 @@ function renderEscBoard(){
   const hasPres=escState.present.length>0;
   let poolList;
   if(hasPres){
-    poolList=escState.present.map(function(id){return pelById(id);}).filter(Boolean);
+    poolList=escState.present.map(function(id){return pelById(id);}).filter(Boolean).sort(function(a,b){return (a.ordem||999)-(b.ordem||999);});
     if(escState.showAbsent){
       const extra=escState.pel.filter(function(p){return escState.present.indexOf(p.id)<0;}).sort(function(a,b){return (a.ordem||999)-(b.ordem||999);});
       poolList=poolList.concat(extra);
@@ -1470,7 +1470,7 @@ function renderEscBoard(){
   const dispo=poolList.filter(p=>!placed.has(p.id)).length;
   const listaBox=ed?`<div class="esc-lista-box ${hasPres?'':'callout'}"><details ${hasPres?'':'open'}><summary>${hasPres?`📋 Lista aplicada · ${escState.present.length} presentes${escState.away.length?` · ${escState.away.length} ausentes`:''} — trocar`:'📋 Colar a lista do WhatsApp — comece por aqui'}</summary><p class="esc-lista-help">Cole aqui a lista do WhatsApp para facilitar a divisão dos times. Quem estiver em <b>Ausentes</b> é ignorado, e a ordem da lista vira a ordem dos jogadores.</p><textarea id="esc-lista" placeholder="PSOT 25/07&#10;Goleiros&#10;1- Jhonatas&#10;2- Luciano&#10;1- PERIN&#10;2- Humberto&#10;...&#10;Ausentes&#10;1- Igor"></textarea><div class="esc-lista-actions"><button class="btn-primary" style="width:auto;padding:.45rem 1.1rem" onclick="escAplicarLista()">Aplicar lista</button>${hasPres?`<button class="ghost" onclick="escLimparPresenca()">Limpar presença</button><label class="esc-showabs"><input type="checkbox" ${escState.showAbsent?'checked':''} onchange="escState.showAbsent=this.checked;renderEscBoard()"> mostrar quem faltou</label>`:''}</div></details></div>`:'';
   const countBar=ed?`<div class="esc-count"><span><span class="cP">PRETO <b>${escState.preto.length}</b>/${escCount('preto').limite}</span> · <span class="cA">AZUL <b>${escState.azul.length}</b>/${escCount('azul').limite}</span> · <span class="cF">${dispo} fora</span></span><span style="display:flex;gap:.35rem"><button class="ghost" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSugerir()">⚖️ Sugerir</button><button class="ghost ${escState.swap?'swapon':''}" style="padding:.3rem .6rem;font-size:.72rem" onclick="escSwapMode()">⇄ Trocar</button><button class="ghost" style="padding:.3rem .6rem;font-size:.72rem" onclick="escLimparTudo()">🧹 Limpar</button></span></div>`:'';
-  const pool=ed?`${listaBox}${countBar}<div class="pool2"><div class="pool-h">${escState.swap?(escState.swapA?'Agora toque no jogador do OUTRO time':'Modo trocar: toque em 2 jogadores escalados, um de cada time'):'Toque em PRETO ou AZUL pra escalar'}${hasPres?` · ${escState.present.length} presentes`:''}</div><div class="pool-grid">${poolInner}</div></div>`:'';
+  const pool=ed?`${listaBox}${countBar}<div class="pool2"><div class="pool-h">${escState.swap?(escState.swapA?'Agora toque no jogador do OUTRO time':'Modo trocar: toque em 2 jogadores escalados, um de cada time'):(hasPres?'Presentes na ordem da súmula — os 16 primeiros começam':'Toque em PRETO ou AZUL pra escalar')}${hasPres?` · ${escState.present.length} presentes`:''}</div><div class="pool-grid">${poolInner}</div></div>`:'';
   const hist=`<div>${escState.allDates.length?escState.allDates.map(d=>`<div class="hist-item" data-hist="${d.data_jogo}"><span style="font-weight:800;font-family:var(--fd)">${fmtBR(d.data_jogo)}</span><span style="color:var(--txt-3);font-size:.78rem;margin-left:auto">Preto ${(d.preto||[]).length} · Azul ${(d.azul||[]).length}</span><span style="color:var(--txt-3)">›</span></div>`).join(''):'<div class="empty"><div class="e">📋</div>Nenhuma escalação salva ainda.</div>'}</div>`;
   // Aba MINHAS: lista de propostas do usuário OU editor
   const minhasList=`<div>
