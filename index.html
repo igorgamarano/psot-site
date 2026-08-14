@@ -446,7 +446,7 @@ footer .upd{font-size:.72rem}
 .tok.pos-MEI .ti{border-color:#2f7fe0}
 .tok.pos-DEF .ti{border-color:#111318;box-shadow:0 0 0 1px rgba(255,255,255,.5)}
 .tok .ti img{width:100%;height:100%;object-fit:cover}
-.tok .tn{margin-top:2px;font-size:.58rem;font-weight:700;background:rgba(0,0,0,.8);padding:2px 6px;border-radius:4px;max-width:104px;line-height:1.25;text-align:center;white-space:normal;word-break:break-word;overflow:visible}
+.tok .tn{margin-top:2px;font-size:.56rem;font-weight:700;background:rgba(0,0,0,.85);padding:1px 5px;border-radius:4px;max-width:clamp(44px,27%,88px);line-height:1.25;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 .tok .tx{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:.7rem;display:none;align-items:center;justify-content:center}
 .tok.editable{cursor:grab}
 .tok.editable .tx{display:flex}
@@ -494,6 +494,13 @@ footer .upd{font-size:.72rem}
 .pchip.swappable{cursor:pointer;border-style:dashed}
 .pitches2.shotmode{position:static!important;display:grid!important;grid-template-columns:1fr 1fr!important;width:760px!important;max-width:none!important;gap:14px}
 .pitches2.shotmode .pwrap2{max-height:none!important}
+.pitches2.shotmode .tok .tn{max-width:112px!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;font-size:.6rem}
+.pwrap2 .arte{position:absolute;inset:0;z-index:1;pointer-events:none}
+.pitches2.arte-noturno .arte{background:linear-gradient(180deg,rgba(3,16,38,.62),rgba(3,16,38,.18))}
+.pitches2.arte-retro .arte{background:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 14px,rgba(0,0,0,0) 14px 28px)}
+.pitches2.arte-dourado .arte{background:radial-gradient(circle at 50% 32%,rgba(244,182,44,.26),rgba(0,0,0,0) 62%),linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,0))}
+.esc-share{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:.2rem 0 .6rem}
+.esc-share select{padding:.42rem .6rem;border:1px solid var(--bd);border-radius:8px;background:var(--bg-2);color:var(--txt-1);font:inherit;font-size:.78rem}
 .pchip.swapsel{outline:2px solid var(--gold);outline-offset:1px}
 .t1b{margin-top:1px;font-size:.5rem;font-weight:800;background:var(--gold);color:#06101f;padding:0 4px;border-radius:3px;letter-spacing:.3px}
 .poschip{margin-left:5px;font-size:.6rem;font-weight:800;letter-spacing:.3px;padding:.15rem .35rem;border-radius:4px;border:1px solid var(--bd);background:var(--bg-2);color:var(--txt-2);cursor:pointer;font-family:inherit;line-height:1.2}
@@ -1201,7 +1208,7 @@ async function savePerfil(){
 }
 
 // ── ESCALAÇÃO (prancheta + histórico + pessoal) ─────────────────────────────
-let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false,halfOnly:[],away:[],swap:false,swapA:null,posOv:{}};
+let escState={date:null,preto:[],azul:[],pel:[],editable:false,view:'atual',allDates:[],myList:[],currentId:null,titulo:'',present:[],showAbsent:false,halfOnly:[],away:[],swap:false,swapA:null,posOv:{},arte:'classico'};
 let escDrag=null;
 // ── presença / apelidos / formação ──
 function escStrip(s){return (s==null?'':String(s)).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
@@ -1371,7 +1378,7 @@ function escForcaTime(team){
   return escState[team].reduce(function(s,e){const p=pelById(e.id);return s+(p&&!escIsGol(p)?escForca(p):0);},0);
 }
 function escIsento(p){return !!p && ESC_ISENTOS.indexOf(String(p.nome||'').trim().toUpperCase())>=0;}
-const ESC_SLOTS=[[22,72],[50,74],[78,72],[20,50],[50,52],[80,50],[30,27],[50,23],[70,27]];
+const ESC_SLOTS={DEF:[[18,74],[38,78],[62,78],[82,74],[50,68]],MEI:[[18,52],[38,55],[62,55],[82,52],[50,46]],ATA:[[26,29],[50,22],[74,29],[38,36],[62,36]]};
 function escIsGol(p){return !!p && (p.ordem||0)>=100;}
 function escCount(team){
   let g=0,l=0,iso=0;
@@ -1381,10 +1388,13 @@ function escCount(team){
     else l++; });
   return {gk:g, line:l, iso:iso, total:g+l+iso, limite:ESC_MAX_GK+ESC_MAX_LINE+iso};
 }
-function escNextSlot(team,isGol){
+function escNextSlot(team,isGol,pos){
   const taken=escState[team].map(function(e){return e.x+','+e.y;});
   if(isGol && taken.indexOf(ESC_GK[0]+','+ESC_GK[1])<0) return ESC_GK.slice();
-  for(let i=0;i<ESC_SLOTS.length;i++){ const s=ESC_SLOTS[i]; if(taken.indexOf(s[0]+','+s[1])<0) return s.slice(); }
+  const pref=(pos&&ESC_SLOTS[pos])?pos:'MEI';
+  const ordem=[pref].concat(['MEI','DEF','ATA'].filter(function(k){return k!==pref;}));
+  for(let k=0;k<ordem.length;k++){ const arr=ESC_SLOTS[ordem[k]]||[];
+    for(let i=0;i<arr.length;i++){ const s=arr[i]; if(taken.indexOf(s[0]+','+s[1])<0) return s.slice(); } }
   return [50,50];
 }
 function escToggleTeam(id,team){
@@ -1396,7 +1406,7 @@ function escToggleTeam(id,team){
     const p=pelById(id); const isGol=escIsGol(p); const c=escCount(team);
     if(isGol && c.gk>=ESC_MAX_GK){ alert('O time '+team.toUpperCase()+' já tem goleiro.'); renderEscBoard(); return; }
     if(!isGol && !escIsento(p) && c.line>=ESC_MAX_LINE){ alert('O time '+team.toUpperCase()+' já está completo ('+ESC_MAX_LINE+' na linha). Tire alguém antes.'); renderEscBoard(); return; }
-    const s=escNextSlot(team,isGol); const ne={id:id,x:s[0],y:s[1]}; if(escState.halfOnly.indexOf(id)>=0) ne.t1=true; escState[team].push(ne); }
+    const s=escNextSlot(team,isGol,escPos(p)); const ne={id:id,x:s[0],y:s[1]}; if(escState.halfOnly.indexOf(id)>=0) ne.t1=true; escState[team].push(ne); }
   renderEscBoard();
 }
 function escH(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1436,7 +1446,7 @@ function renderEscBoard(){
   const ed=escState.editable;
   const placed=new Set([...escState.preto,...escState.azul].map(e=>e.id));
   const toks=team=>escState[team].map(e=>{const p=pelById(e.id);if(!p)return'';return `<div class="tok ${team} pos-${escPos(p)} ${ed?'editable':''}" data-id="${e.id}" data-team="${team}" style="left:${e.x}%;top:${e.y}%"><div class="ti">${pelAv(p)}</div><div class="tn">${escH(p.nome)}</div>${e.t1?`<div class="t1b">⏱ 1ºT</div>`:``}${ed?`<button class="tx" data-rm="${e.id}" data-team="${team}">✕</button>`:''}</div>`;}).join('');
-  const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}${escState[team].length?'':'<div class="phint">'+(ed?'escale abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
+  const pitch=team=>`<div class="twrap2 ${team}"><div class="tlabel2">${team==='preto'?'⚫ TIME PRETO':'🔵 TIME AZUL'}</div><div class="pwrap2"><span class="num" style="position:absolute;top:6px;left:8px;z-index:3;font-size:.7rem;color:rgba(255,255,255,.7)">${escState[team].length}</span>${fieldSVG()}<div class="arte"></div>${escState[team].length?'':'<div class="phint">'+(ed?'escale abaixo':'sem escalação')+'</div>'}<div class="pdrop2" data-team="${team}"></div>${toks(team)}</div></div>`;
   const poolChip=(p,idx)=>{const ord=p.ordem||0;const isGol=ord>=100;const usePres=escState.present.length>0;const pos=usePres?idx:ord;const top16=!isGol && pos>=1 && pos<=16;const label=isGol?'G':String(pos);const inP=escState.preto.some(e=>e.id===p.id);const inA=escState.azul.some(e=>e.id===p.id);const absent=escState.present.length && escState.present.indexOf(p.id)<0;const swapSel=escState.swapA===p.id;return `<div class="pchip ${top16?'top16':''} ${isGol?'goleiro':''} ${absent?'absent':''} ${inP?'in-preto':''} ${inA?'in-azul':''} ${escState.swap&&(inP||inA)?'swappable':''} ${swapSel?'swapsel':''}" data-pid="${p.id}" ${escState.swap?`onclick="escSwapPick('${p.id}')"`:''}><span class="pn">${label}</span><span class="pa">${pelAv(p)}</span><span class="pnm">${escH(p.nome)}</span>${escState.halfOnly.indexOf(p.id)>=0?`<span class="t1chip">⏱1ºT</span>`:``}${ed&&!isGol?`<button class="poschip p-${escPos(p)}" onclick="event.stopPropagation();escCiclaPos('${p.id}')" title="Toque pra mudar a posição (só nesta pelada)">${escPos(p)}</button>`:``}${ed?`<span class="pbtns"><button class="pbtn bp ${inP?'on':''}" data-assign="preto" data-pid="${p.id}">PRETO</button><button class="pbtn ba ${inA?'on':''}" data-assign="azul" data-pid="${p.id}">AZUL</button></span>`:''}</div>`;};
   const hasPres=escState.present.length>0;
   let poolList;
@@ -1491,7 +1501,7 @@ function renderEscBoard(){
   else if(escState.view==='minhas'){content = escState.currentId!==null ? minhasEdit : minhasList;}
   else {content=`
       ${ed?`<div class="esc-bar"><span class="esc-date">📅 ${fmtBR(escState.date)}</span><button class="ghost" onclick="escNova()">Nova semana</button><button class="ghost" onclick="escLimpar('preto')">Limpar Preto</button><button class="ghost" onclick="escLimpar('azul')">Limpar Azul</button><button class="btn-primary" style="width:auto;padding:.5rem 1.3rem" onclick="escSalvar()">Salvar</button></div>`:`<div class="esc-bar"><span class="esc-date">📅 ${fmtBR(escState.date)}</span>${state.isAdmin?'':'<span style="color:var(--txt-3);font-size:.8rem">Só admins editam a escalação oficial</span>'}</div>`}
-      <div class="pitches2">${pitch('preto')}${pitch('azul')}</div>
+      <div class="esc-share"><button class="btn-primary" style="width:auto;padding:.5rem 1.1rem;background:#25D366;border-color:#25D366" onclick="escCompartilhar()">📤 WhatsApp</button><select onchange="escState.arte=this.value;renderEscBoard()" title="Arte de fundo da imagem"><option value="classico"${escState.arte==='classico'?' selected':''}>Gramado clássico</option><option value="noturno"${escState.arte==='noturno'?' selected':''}>Noturno</option><option value="retro"${escState.arte==='retro'?' selected':''}>Retrô</option><option value="dourado"${escState.arte==='dourado'?' selected':''}>Dourado PSOT</option></select></div><div class="pitches2">${pitch('preto')}${pitch('azul')}</div>
       ${pool}`;}
 
   const subtitle = escState.view==='hist'?'Histórico dos sábados' : escState.view==='minhas'?(escState.currentId!==null?'Suas escalações · editando':'Suas escalações pessoais') : 'Escalação oficial · '+fmtBR(escState.date);
@@ -1561,9 +1571,10 @@ async function escCompartilhar(){
   if(typeof html2canvas==='undefined'){alert('Biblioteca de imagem não carregou. Tente atualizar a página.');return;}
   try{
     el.classList.add('shotmode');
+    const _arte='arte-'+(escState.arte||'classico'); el.classList.add(_arte);
     let canvas;
     try{ canvas=await html2canvas(el,{backgroundColor:'#0a1424',useCORS:true,scale:2,logging:false,windowWidth:900}); }
-    finally{ el.classList.remove('shotmode'); }
+    finally{ el.classList.remove('shotmode'); el.classList.remove('arte-'+(escState.arte||'classico')); }
     canvas.toBlob(async(blob)=>{
       if(!blob){alert('Falha ao gerar imagem.');return;}
       const file=new File([blob],'escalacao_psot.png',{type:'image/png'});
