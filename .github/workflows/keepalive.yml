@@ -29,6 +29,7 @@ jobs:
           echo "escalacoes HTTP $c2"; test "$c2" = "200"
           python3 -m json.tool /tmp/pel.json > data/backup/peladeiros.json
           python3 -m json.tool /tmp/esc.json > data/backup/escalacoes.json
+          echo "linhas peladeiros: $(python3 -c 'import json;print(len(json.load(open("data/backup/peladeiros.json"))))')"
 
       - name: Commitar se mudou
         run: |
