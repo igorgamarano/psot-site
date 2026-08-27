@@ -26,23 +26,27 @@
   /* acento verde */
   --royal:#00A88A; --royal-vivid:#00C79E; --royal-txt:#0d6e60; --royal-btn:#0a7a68; --gold-txt:#6b4703; --gold-big:#a06c05; --blue-soft:#0d6e60; --blue-light:#0d6e60;
   --gold:#e8a413; --gold-soft:#f6c04a; --gold-dim:rgba(232,164,19,.15);
-  --ink:#052A24; --white:#ffffff;
+  --ink:#052A24; --white:#ffffff; --red-txt:#8f2724;
   --green:#00A88A; --red:#e0433f; --amber:#c8860a;
   /* vidro claro */
-  --glass:rgba(255,255,255,.46);
-  --glass-2:rgba(255,255,255,.66);
-  --glass-3:rgba(255,255,255,.86);
-  --bd:rgba(255,255,255,.78);
-  --bd-2:rgba(255,255,255,.95);
+  --glass:rgba(255,255,255,.36);
+  --glass-2:rgba(255,255,255,.54);
+  --glass-3:rgba(255,255,255,.78);
+  --bd:rgba(255,255,255,.94);
+  --bd-2:rgba(255,255,255,1);
+  /* brilho especular: a faixa de luz que faz a peca parecer vidro, nao painel */
+  --sheen:linear-gradient(140deg,rgba(255,255,255,.60) 0%,rgba(255,255,255,.16) 42%,rgba(255,255,255,.03) 100%);
+  --sheen-soft:linear-gradient(140deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.10) 52%,rgba(255,255,255,.02) 100%);
   --hair:rgba(5,42,36,.10);
   --txt:rgba(5,42,36,.96); --txt-1:rgba(5,42,36,.96);
-  --txt-2:rgba(5,42,36,.78); --txt-3:rgba(5,42,36,.65);
-  --r:14px; --r-lg:22px; --r-xl:28px; --pill:50px;
-  --blur:22px;
-  --sh:0 1px 2px rgba(5,42,36,.05), 0 10px 28px rgba(5,42,36,.10);
-  --sh-lg:0 2px 6px rgba(5,42,36,.06), 0 24px 56px rgba(5,42,36,.14);
-  --glow:0 6px 20px rgba(0,168,138,.40);
-  --hi:inset 0 1px 0 rgba(255,255,255,.92);
+  --txt-2:rgba(5,42,36,.82); --txt-3:rgba(5,42,36,.70);
+  --r:16px; --r-lg:26px; --r-xl:34px; --pill:50px;
+  --blur:30px;
+  --sh:0 2px 4px rgba(5,42,36,.04), 0 18px 44px rgba(5,42,36,.11);
+  --sh-lg:0 3px 8px rgba(5,42,36,.05), 0 32px 70px rgba(5,42,36,.15);
+  --glow:0 8px 26px rgba(0,168,138,.45);
+  /* aro de luz por dentro: o detalhe de 2026 que da espessura ao vidro */
+  --hi:inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(255,255,255,.34);
   --ff:'Manrope',-apple-system,'Segoe UI',system-ui,sans-serif;
   --fd:'Outfit','Manrope',system-ui,sans-serif;
   --maxw:1120px;
@@ -51,18 +55,18 @@ html{-webkit-text-size-adjust:100%}
 body{
   font-family:var(--ff); color:var(--txt); line-height:1.5; min-height:100vh; overflow-x:hidden;
   background:
-    radial-gradient(1000px 640px at 12% -6%, rgba(0,209,163,.34), transparent 64%),
-    radial-gradient(880px 560px at 92% 12%, rgba(13,110,96,.20), transparent 66%),
-    radial-gradient(900px 720px at 50% 112%, rgba(110,231,203,.42), transparent 68%),
-    linear-gradient(168deg,#CBEDE3 0%, #E6F8F3 46%, #F4FCFA 100%);
+    radial-gradient(900px 560px at 10% -8%, rgba(0,209,163,.42), transparent 62%),
+    radial-gradient(760px 520px at 94% 10%, rgba(13,110,96,.26), transparent 64%),
+    radial-gradient(860px 680px at 50% 114%, rgba(110,231,203,.50), transparent 66%),
+    linear-gradient(168deg,#BFE9DE 0%, #DFF5EE 44%, #F2FBF8 100%);
   background-attachment:fixed;
 }
 /* subtle pitch lines */
 body::before{
-  content:''; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.55;
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.30;
   background-image:linear-gradient(rgba(5,42,36,.030) 1px,transparent 1px),
     linear-gradient(90deg,rgba(5,42,36,.030) 1px,transparent 1px);
-  background-size:46px 46px; mask-image:radial-gradient(circle at 50% 30%,#000,transparent 85%);
+  background-size:52px 52px; mask-image:radial-gradient(circle at 50% 30%,#000,transparent 78%);
 }
 a{color:var(--navy);text-decoration:none}
 button{cursor:pointer;border:none;font-family:inherit;color:inherit}
@@ -77,7 +81,7 @@ img{max-width:100%;display:block}
 #topbar{
   position:sticky;top:0;z-index:200;
   padding:.7rem clamp(.8rem,3vw,1.4rem);
-  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.42));
+  background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.28));
   backdrop-filter:blur(var(--blur)) saturate(170%);-webkit-backdrop-filter:blur(var(--blur)) saturate(170%);
   border-bottom:1px solid var(--bd);box-shadow:0 1px 0 rgba(255,255,255,.6),0 8px 24px rgba(5,42,36,.06);
 }
@@ -118,7 +122,24 @@ img{max-width:100%;display:block}
 .season-opt .cur{margin-left:auto;font-size:.6rem;color:var(--txt-2);font-weight:700;text-transform:uppercase}
 
 /* ── Main ─────────────────────────────────────────────────────────── */
-main{flex:1;max-width:var(--maxw);margin:0 auto;width:100%;padding:1.4rem clamp(.8rem,3vw,1.4rem) 7rem}
+main{flex:1;max-width:var(--maxw);margin:0 auto;width:100%;padding:1.4rem clamp(.8rem,3vw,1.4rem) 7rem;position:relative}
+main::before{
+  content:'';position:absolute;inset:-6% -18%;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(30% 16% at 16% 6%,  rgba(0,209,163,.40), transparent 68%),
+    radial-gradient(26% 14% at 88% 20%, rgba(110,231,203,.52), transparent 70%),
+    radial-gradient(32% 18% at 26% 40%, rgba(13,110,96,.22), transparent 68%),
+    radial-gradient(28% 15% at 82% 56%, rgba(0,199,158,.36), transparent 70%),
+    radial-gradient(30% 16% at 20% 74%, rgba(166,221,209,.55), transparent 68%),
+    radial-gradient(26% 14% at 76% 90%, rgba(0,209,163,.30), transparent 70%);
+  animation:drift 34s ease-in-out infinite;
+}
+@keyframes drift{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  34%{transform:translate3d(-2.2%,1.6%,0) scale(1.07)}
+  67%{transform:translate3d(1.8%,-1.2%,0) scale(1.03)}
+}
+@media(prefers-reduced-motion:reduce){main::before{animation:none}}
 .view{animation:fadeUp .4s cubic-bezier(.2,.7,.3,1)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
@@ -132,7 +153,7 @@ main{flex:1;max-width:var(--maxw);margin:0 auto;width:100%;padding:1.4rem clamp(
 
 /* ── Hero (home) ──────────────────────────────────────────────────── */
 .hero{position:relative;border-radius:var(--r-xl);overflow:hidden;margin-bottom:1.1rem;
-  background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.40) 55%,rgba(255,255,255,.30));
+  background-color:rgba(255,255,255,.34);background-image:var(--sheen);
   backdrop-filter:blur(var(--blur)) saturate(170%);-webkit-backdrop-filter:blur(var(--blur)) saturate(170%);
   border:1px solid var(--bd-2);box-shadow:var(--sh),var(--hi);padding:1.5rem 1.4rem}
 .hero::after{content:'';position:absolute;right:-60px;top:-50px;width:280px;height:280px;
@@ -150,7 +171,7 @@ main{flex:1;max-width:var(--maxw);margin:0 auto;width:100%;padding:1.4rem clamp(
 
 /* ── Stat bento ───────────────────────────────────────────────────── */
 .bento{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.1rem}
-.stat{position:relative;background:var(--glass);border:1px solid var(--bd);border-radius:var(--r-lg);
+.stat{position:relative;background-color:var(--glass);background-image:var(--sheen);border:1px solid var(--bd);border-radius:var(--r-lg);
   backdrop-filter:blur(var(--blur)) saturate(165%);-webkit-backdrop-filter:blur(var(--blur)) saturate(165%);
   box-shadow:var(--sh),var(--hi);
   padding:1rem .8rem;text-align:center;overflow:hidden;transition:transform .2s,background .2s,border-color .2s}
@@ -162,7 +183,7 @@ main{flex:1;max-width:var(--maxw);margin:0 auto;width:100%;padding:1.4rem clamp(
 .stat.wide{grid-column:span 2}
 
 /* ── Cards ────────────────────────────────────────────────────────── */
-.card{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;
+.card{background-color:var(--glass);background-image:var(--sheen);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;
   backdrop-filter:blur(var(--blur)) saturate(165%);-webkit-backdrop-filter:blur(var(--blur)) saturate(165%);
   box-shadow:var(--sh),var(--hi)}
 .card-h{display:flex;align-items:center;gap:.5rem;padding:.85rem 1.15rem;font-weight:800;font-size:.86rem;letter-spacing:.2px;border-bottom:1px solid var(--hair)}
@@ -234,7 +255,7 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 .cell-name .mini{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-weight:800;font-size:.7rem;color:#3a2a00;background:linear-gradient(135deg,var(--gold-soft),var(--gold));flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.95)}
 .pf{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
 .b-v{background:rgba(0,168,138,.16);color:var(--navy2);padding:.16rem .5rem;border-radius:7px;font-weight:800;font-size:.78rem}
-.b-d{background:rgba(224,67,63,.14);color:#a32e2b;padding:.16rem .5rem;border-radius:7px;font-weight:800;font-size:.78rem}
+.b-d{background:rgba(224,67,63,.14);color:var(--red-txt);padding:.16rem .5rem;border-radius:7px;font-weight:800;font-size:.78rem}
 .b-e{background:rgba(200,134,10,.16);color:#6b4703;padding:.16rem .5rem;border-radius:7px;font-weight:800;font-size:.78rem}
 .cart{display:inline-flex;align-items:center;justify-content:center;background:rgba(200,134,10,.16);color:#6b4703;border-radius:7px;padding:.1rem .4rem;font-size:.76rem;font-weight:800;cursor:help;position:relative}
 .cart::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(5,42,36,.96);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.34rem .65rem;white-space:nowrap;font-size:.72rem;font-weight:500;opacity:0;pointer-events:none;transition:.16s;z-index:9}
@@ -256,7 +277,7 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 
 /* ── Round cards ──────────────────────────────────────────────────── */
 .rounds{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.85rem}
-.rcard{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s;
+.rcard{background-color:var(--glass);background-image:var(--sheen);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s;
   backdrop-filter:blur(var(--blur)) saturate(165%);-webkit-backdrop-filter:blur(var(--blur)) saturate(165%);
   box-shadow:var(--sh),var(--hi)}
 .rcard:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--bd-2)}
@@ -274,7 +295,7 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 
 /* round detail */
 .rd-hero{position:relative;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--bd-2);padding:1.8rem 1.2rem;text-align:center;margin-bottom:1.1rem;
-  background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.38));
+  background-color:rgba(255,255,255,.34);background-image:var(--sheen);
   backdrop-filter:blur(var(--blur)) saturate(170%);-webkit-backdrop-filter:blur(var(--blur)) saturate(170%);
   box-shadow:var(--sh),var(--hi)}
 .rd-hero::before{content:'';position:absolute;inset:0;background:url('logo.png') center/150px no-repeat;opacity:.06;pointer-events:none}
@@ -288,7 +309,7 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 .rd-sb .ts.win{color:var(--gold-big)}
 .rd-sb .x{font-size:1.6rem;color:var(--txt-3)}
 .lineups{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.1rem}
-.lu{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;
+.lu{background-color:var(--glass);background-image:var(--sheen-soft);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;
   backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--sh),var(--hi)}
 .lu-h{padding:.65rem 1rem;font-weight:800;font-size:.8rem;letter-spacing:.5px;text-transform:uppercase}
 .lu-h.preto{background:rgba(5,42,36,.09);color:var(--ink)}
@@ -299,7 +320,7 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 .lu li .g{color:var(--royal-txt);font-size:.82rem;font-weight:800;margin-left:auto}
 
 /* ── Player profile ───────────────────────────────────────────────── */
-.p-hero{display:flex;align-items:center;gap:1.2rem;background:linear-gradient(135deg,rgba(255,255,255,.74),rgba(255,255,255,.40));
+.p-hero{display:flex;align-items:center;gap:1.2rem;background-color:rgba(255,255,255,.34);background-image:var(--sheen);
   backdrop-filter:blur(var(--blur)) saturate(170%);-webkit-backdrop-filter:blur(var(--blur)) saturate(170%);
   border:1px solid var(--bd-2);border-radius:var(--r-xl);padding:1.5rem 1.4rem;margin-bottom:1.1rem;position:relative;overflow:hidden;box-shadow:var(--sh),var(--hi)}
 .p-hero::after{content:'';position:absolute;right:-40px;top:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(0,209,163,.26),transparent 65%)}
@@ -335,7 +356,7 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 
 /* player grid cards */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem}
-.pcard{background:var(--glass);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;
+.pcard{background-color:var(--glass);background-image:var(--sheen);border:1px solid var(--bd);border-radius:var(--r-lg);overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;
   backdrop-filter:blur(var(--blur)) saturate(165%);-webkit-backdrop-filter:blur(var(--blur)) saturate(165%);
   box-shadow:var(--sh),var(--hi)}
 .pcard:hover{transform:translateY(-4px);border-color:var(--bd-2);box-shadow:var(--sh-lg)}
@@ -393,7 +414,7 @@ footer .upd{font-size:.72rem}
   main{padding-bottom:6rem}
   /* bottom app nav */
   #botnav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:300;
-    background:linear-gradient(0deg,rgba(255,255,255,.90),rgba(255,255,255,.66));
+    background:linear-gradient(0deg,rgba(255,255,255,.80),rgba(255,255,255,.52));
     backdrop-filter:blur(var(--blur)) saturate(170%);-webkit-backdrop-filter:blur(var(--blur)) saturate(170%);
     border-top:1px solid var(--bd);padding:.4rem .2rem calc(.4rem + env(safe-area-inset-bottom));justify-content:space-around;
     box-shadow:0 -1px 0 rgba(255,255,255,.7),0 -8px 26px rgba(5,42,36,.10)}
@@ -450,7 +471,7 @@ footer .upd{font-size:.72rem}
 .adm-rt{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
 .adm-row .badge{display:inline-block;font-size:.58rem;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--txt-2);padding:.18rem .5rem;border-radius:6px}
 .adm-row .badge.b-master{background:var(--gold);color:#3a2a00}
-.adm-rm{background:rgba(224,67,63,.12);border:1px solid rgba(224,67,63,.35);color:#a32e2b;padding:.4rem .8rem;border-radius:10px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit}
+.adm-rm{background:rgba(224,67,63,.12);border:1px solid rgba(224,67,63,.35);color:var(--red-txt);padding:.4rem .8rem;border-radius:10px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit}
 .adm-rm:hover{background:rgba(224,67,63,.22)}
 .muted{color:var(--txt-3)}
 @media(max-width:560px){.adm-add .btn-primary{width:100%}}
@@ -544,9 +565,9 @@ footer .upd{font-size:.72rem}
 .poschip{margin-left:5px;font-size:.6rem;font-weight:800;letter-spacing:.3px;padding:.15rem .35rem;border-radius:5px;border:1px solid var(--bd);background:var(--bg-2);color:var(--txt-2);cursor:pointer;font-family:inherit;line-height:1.2}
 .poschip.p-DEF{background:rgba(17,19,24,.10);color:#2b3038;border-color:rgba(17,19,24,.28)}
 .poschip.p-MEI{background:rgba(47,127,224,.14);color:#1f5cad;border-color:rgba(47,127,224,.34)}
-.poschip.p-ATA{background:rgba(224,67,63,.14);color:#a32e2b;border-color:rgba(224,67,63,.34)}
+.poschip.p-ATA{background:rgba(224,67,63,.14);color:var(--red-txt);border-color:rgba(224,67,63,.34)}
 .t1chip{margin-left:4px;font-size:.58rem;font-weight:800;background:rgba(232,164,19,.20);color:#6b4703;border:1px solid rgba(232,164,19,.42);padding:0 4px;border-radius:5px;white-space:nowrap}
-.hist-item{display:flex;align-items:center;gap:.7rem;padding:.75rem .9rem;background:var(--glass);border:1px solid var(--bd);border-radius:14px;margin-bottom:.5rem;cursor:pointer;transition:background .15s;box-shadow:var(--hi)}
+.hist-item{display:flex;align-items:center;gap:.7rem;padding:.75rem .9rem;background-color:var(--glass);background-image:var(--sheen-soft);border:1px solid var(--bd);border-radius:14px;margin-bottom:.5rem;cursor:pointer;transition:background .15s;box-shadow:var(--hi)}
 .hist-item:hover{background:var(--glass-2)}
 @media(max-width:680px){.pitches2{grid-template-columns:1fr 1fr;gap:.5rem}.tlabel2{font-size:.62rem;letter-spacing:.5px;padding:.35rem .2rem}}
 </style>
@@ -952,7 +973,7 @@ function renderJogadorDetail(apelido,initSeason){
     <div class="stat"><div class="v num">${p.jogos??0}</div><div class="l">Jogos</div></div>
     <div class="stat green"><div class="v num">${p.vitorias??0}</div><div class="l">Vitórias</div></div>
     <div class="stat"><div class="v num">${p.empates??0}</div><div class="l">Empates</div></div>
-    <div class="stat"><div class="v num" style="color:var(--red)">${p.derrotas??0}</div><div class="l">Derrotas</div></div>
+    <div class="stat"><div class="v num" style="color:var(--red-txt)">${p.derrotas??0}</div><div class="l">Derrotas</div></div>
     <div class="stat gold"><div class="v num">${pts(p)}</div><div class="l">Pontos</div></div>
     <div class="stat blue"><div class="v num" style="font-size:1.4rem">${pct(p.vitorias,p.jogos)}</div><div class="l">% Vitória</div></div>
     <div class="stat green"><div class="v num" style="font-size:1.4rem">${p.jogos?(p.gols/p.jogos).toFixed(2):'0.00'}</div><div class="l">Gols/Jogo</div></div>
@@ -1084,12 +1105,12 @@ function chemistryBlock(ap,season){
   const rank=(obj,dir)=>Object.entries(obj).filter(([,v])=>v.J>=2).map(([n,v])=>[n,v,saldo(v)]).sort((a,b)=>dir*(b[2]-a[2])||b[1].J-a[1].J).slice(0,3).filter(x=>dir>0?x[2]>0:x[2]<0);
   const bM=rank(mate,1),wM=rank(mate,-1),bR=rank(riv,1),wR=rank(riv,-1);
   if(!bM.length&&!wM.length&&!bR.length&&!wR.length)return '';
-  const li=(arr,blue)=>arr.length?arr.map(([n,v,sd])=>`<div class="chem-row"><span class="av${blue?' b':''}" style="width:26px;height:26px;font-size:.66rem">${initial(n)}</span><span class="rn">${n}</span><span style="color:var(--txt-3);font-size:.7rem">${v.V}V·${v.E}E·${v.D}D</span><b style="color:${sd>0?'var(--green)':sd<0?'var(--red)':'var(--txt-2)'}">${sd>0?'+':''}${sd}</b></div>`).join(''):'<div style="color:var(--txt-3);font-size:.8rem;padding:.3rem 0">—</div>';
+  const li=(arr,blue)=>arr.length?arr.map(([n,v,sd])=>`<div class="chem-row"><span class="av${blue?' b':''}" style="width:26px;height:26px;font-size:.66rem">${initial(n)}</span><span class="rn">${n}</span><span style="color:var(--txt-3);font-size:.7rem">${v.V}V·${v.E}E·${v.D}D</span><b style="color:${sd>0?'var(--royal-txt)':sd<0?'var(--red-txt)':'var(--txt-2)'}">${sd>0?'+':''}${sd}</b></div>`).join(''):'<div style="color:var(--txt-3);font-size:.8rem;padding:.3rem 0">—</div>';
   return `<div class="card" style="margin-bottom:.9rem"><div class="card-h blue">${I.users}Química &amp; Rivais</div><div class="card-b"><div class="chem-grid">
     <div><div class="chem-h" style="color:var(--royal-txt)">🤝 Melhores duplas</div>${li(bM,false)}</div>
-    <div><div class="chem-h" style="color:var(--red)">🧊 Duplas que travam</div>${li(wM,false)}</div>
+    <div><div class="chem-h" style="color:var(--red-txt)">🧊 Duplas que travam</div>${li(wM,false)}</div>
     <div><div class="chem-h" style="color:var(--royal-txt)">😈 Freguês</div>${li(bR,true)}</div>
-    <div><div class="chem-h" style="color:var(--red)">🧱 Pedra no sapato</div>${li(wR,true)}</div>
+    <div><div class="chem-h" style="color:var(--red-txt)">🧱 Pedra no sapato</div>${li(wR,true)}</div>
   </div><p class="note">Saldo = vitórias − derrotas (mín. 2 jogos juntos/contra). Parceiros = mesmo time · Rivais = times opostos.</p></div></div>`;
 }
 
