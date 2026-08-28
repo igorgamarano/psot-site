@@ -999,8 +999,8 @@ function allPlayers(){
     s.players.forEach(p=>{const k=p.apelido.toUpperCase();if(!seen[k])seen[k]={apelido:p.apelido,nome:p.nome,seasons:{}};seen[k].seasons[yr]=p;});});
   return Object.values(seen);
 }
-function playerForm(ap){ // last 5 results for a player this season
-  const s=S();const A=ap.toUpperCase();const out=[];
+function playerForm(ap,season){ // last 5 results for a player this season
+  const s=state.seasons[season||state.season];if(!s)return [];const A=ap.toUpperCase();const out=[];
   s.rounds.forEach(r=>{
     const inP=(r.time_preto||[]).map(x=>x.toUpperCase()).some(x=>x===A||x.includes(A)||A.includes(x));
     const inA=(r.time_azul||[]).map(x=>x.toUpperCase()).some(x=>x===A||x.includes(A)||A.includes(x));
@@ -1238,7 +1238,7 @@ function renderJogadorDetail(apelido,initSeason){
   const found=all.find(p=>p.apelido.toUpperCase()===dec.toUpperCase());
   if(!found)return `<button class="back" onclick="navigate('jogadores')"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Voltar</button><div class="empty"><div class="e"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.3 2.4c-.6.3-.9.8-.9 1.4v.5M12 17.4v.01"/></svg></div>Jogador não encontrado</div>`;
   const vs=initSeason||state.season;const p=found.seasons[vs];const nome=found.nome||found.apelido;
-  const form=p?playerForm(found.apelido):[];
+  const form=p?playerForm(found.apelido,vs):[];
   return `
   <button class="back" onclick="navigate('jogadores')"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Estatísticas</button>
   <div class="p-hero">
@@ -1833,7 +1833,7 @@ function renderEscBoard(){
       <button class="btn-primary" style="width:auto;padding:.5rem 1.3rem" onclick="escMinhasSalvar()"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l4 4v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M8 3v6h8V3M8 21v-6h8v6"/></svg> Salvar</button>
       <button class="btn-primary" style="width:auto;padding:.5rem 1.3rem;background:#25D366;border-color:#25D366" onclick="escCompartilhar()"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg> WhatsApp</button>
     </div>
-    <div class="pitches2" id="esc-pitches">${pitch('preto')}${pitch('azul')}</div>
+    <div class="pitches2 arte-${escState.arte||'classico'}" id="esc-pitches">${pitch('preto')}${pitch('azul')}</div>
     ${pool}`;
 
   const tabsHTML=`<div class="esc-tabs">
@@ -1917,10 +1917,9 @@ async function escCompartilhar(){
   if(typeof html2canvas==='undefined'){alert('Biblioteca de imagem não carregou. Tente atualizar a página.');return;}
   try{
     el.classList.add('shotmode');
-    const _arte='arte-'+(escState.arte||'classico'); el.classList.add(_arte);
     let canvas;
     try{ canvas=await html2canvas(el,{backgroundColor:'#0a1424',useCORS:true,scale:2,logging:false,windowWidth:900}); }
-    finally{ el.classList.remove('shotmode'); el.classList.remove('arte-'+(escState.arte||'classico')); }
+    finally{ el.classList.remove('shotmode'); }
     canvas.toBlob(async(blob)=>{
       if(!blob){alert('Falha ao gerar imagem.');return;}
       const file=new File([blob],'escalacao_psot.png',{type:'image/png'});
