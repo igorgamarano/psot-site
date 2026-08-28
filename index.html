@@ -385,6 +385,22 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 .chem-row .rn{flex:1;font-weight:700;font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chem-row b{font-family:var(--fd);font-size:.85rem}
 
+
+/* ── Radar do peladeiro ── */
+.radar-wrap{display:grid;grid-template-columns:minmax(0,250px) 1fr;gap:1.4rem;align-items:center}
+@media(max-width:620px){.radar-wrap{grid-template-columns:1fr;gap:1rem}}
+.radar-svg{width:100%;max-width:250px;margin:0 auto;display:block;overflow:visible}
+.radar-bars{display:flex;flex-direction:column;gap:.7rem}
+.rb{display:grid;grid-template-columns:1fr auto;gap:.3rem .6rem;align-items:baseline}
+.rb-l{font-family:var(--fm);font-size:.62rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--txt-2)}
+.rb-v{font-family:var(--fm);font-size:.76rem;font-weight:800;text-align:right;color:var(--txt)}
+.rb-t{grid-column:1/-1;height:6px;border-radius:99px;background:var(--tint-2);overflow:hidden}
+.rb-f{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--royal),var(--royal-vivid));
+  transition:width .8s cubic-bezier(.2,.7,.3,1)}
+.rb.top .rb-f{background:linear-gradient(90deg,var(--gold),var(--gold-soft))}
+.radar-nota{font-size:.72rem;color:var(--txt-3);margin-top:.9rem;line-height:1.5}
+
 /* ── Search ───────────────────────────────────────────────────────── */
 .search{position:relative;margin-bottom:1.1rem}
 .search input{width:100%;padding:.8rem 1.1rem .8rem 2.6rem;border:1px solid var(--bd);border-radius:var(--pill);font-size:.9rem;outline:none;
@@ -676,6 +692,10 @@ footer .upd{font-size:.72rem}
 /* html2canvas nao entende backdrop-filter: no modo foto, tudo vira solido */
 .pitches2.shotmode,.pitches2.shotmode *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .pitches2.shotmode{background:var(--bg1)!important}
+/* na foto do WhatsApp nao entra controle de edicao nem contador */
+.pitches2.shotmode .tok .tx{display:none!important}
+.pitches2.shotmode .pwrap2>.num{display:none!important}
+.pitches2.shotmode .phint{display:none!important}
 .pwrap2 .arte{position:absolute;inset:0;z-index:1;pointer-events:none}
 .pitches2.arte-noturno .arte{background:linear-gradient(180deg,rgba(3,16,38,.62),rgba(3,16,38,.18))}
 .pitches2.arte-retro .arte{background:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 14px,rgba(0,0,0,0) 14px 28px)}
@@ -877,6 +897,91 @@ function navigate(page,params={}){
 const MES=['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 function fmtDate(d){if(!d)return'';const[a,m,y]=d.split('.');return `${+a} ${MES[+m]} ${y}`;}
 function fmtShort(d){if(!d)return'';const[a,m]=d.split('.');return `${a}/${m}`;}
+/* Radar do peladeiro: 6 eixos, todos vindos do que o JSON ja guarda.
+   Cada eixo e normalizado contra o melhor da temporada, entao a teia
+   mostra o jogador em relacao ao elenco, nao em valor absoluto. */
+function radarCard(p, vs){
+  var s = state.seasons[vs];
+  if(!s || !p || !(p.jogos > 0)) return '';
+  var elenco = s.players.filter(function(x){ return x.jogos > 0 && !x.convidado; });
+  if(elenco.length < 3) return '';
+  var rodadas = (s.rounds && s.rounds.length) || 1;
+  var maxDe = function(f){ return Math.max.apply(null, elenco.map(f).concat([0.0001])); };
+  var mediaGols = function(x){ return (x.gols||0) / Math.max(1, x.jogos); };
+  var aprov = function(x){ return pts(x) / Math.max(1, x.jogos*3); };
+  /* experiencia = jogos somados em todas as temporadas.
+     Nao uso o campo "faltas": ele guarda AUSENCIAS acumuladas (correlacao de
+     0,96 com os jogos que o cara nao foi), entao seria presenca medida duas vezes. */
+  var expDe = function(ap){
+    var t = 0;
+    Object.keys(state.seasons).forEach(function(yr){
+      var sp = state.seasons[yr];
+      if(!sp || !sp.players) return;
+      for(var i=0;i<sp.players.length;i++){
+        if(sp.players[i].apelido === ap){ t += (sp.players[i].jogos||0); break; }
+      }
+    });
+    return t;
+  };
+  var expJog = expDe(p.apelido);
+  var maxExp = Math.max.apply(null, elenco.map(function(x){ return expDe(x.apelido); }).concat([1]));
+
+  var eixos = [
+    { k:'GOLS',        v:(p.gols||0)/maxDe(function(x){return x.gols||0;}), r:(p.gols||0) + '' },
+    { k:'MÉDIA',      v:mediaGols(p)/maxDe(mediaGols),                r:mediaGols(p).toFixed(2) + ' /jogo' },
+    { k:'PRESENÇA',   v:Math.min(1,(p.jogos||0)/rodadas),             r:(p.jogos||0) + ' de ' + rodadas },
+    { k:'APROVEIT.',   v:aprov(p),                                          r:Math.round(aprov(p)*100) + '%' },
+    { k:'VITÓRIAS',   v:(p.vitorias||0)/Math.max(1,p.jogos),          r:pct(p.vitorias, p.jogos) },
+    { k:'EXPERIÊNCIA',v:expJog/maxExp,                                r:expJog + ' jogos' }
+  ];
+
+  var CX = 100, CY = 100, R = 70;
+  var ang = [-90, -30, 30, 90, 150, 210].map(function(a){ return a*Math.PI/180; });
+  var pto = function(i, f){
+    return (CX + R*f*Math.cos(ang[i])).toFixed(1) + ',' + (CY + R*f*Math.sin(ang[i])).toFixed(1);
+  };
+  var anel = function(f){
+    return eixos.map(function(_, i){ return pto(i, f); }).join(' ');
+  };
+  var raios = eixos.map(function(_, i){ return 'M' + CX + ' ' + CY + 'L' + pto(i, 1); }).join('');
+  var forma = eixos.map(function(e, i){ return pto(i, Math.max(0.04, Math.min(1, e.v))); }).join(' ');
+  var pontos = eixos.map(function(e, i){
+    var xy = pto(i, Math.max(0.04, Math.min(1, e.v))).split(',');
+    return '<circle cx="' + xy[0] + '" cy="' + xy[1] + '" r="3" fill="var(--royal-vivid)"/>';
+  }).join('');
+  var rotulos = eixos.map(function(e, i){
+    var x = CX + (R+17)*Math.cos(ang[i]), y = CY + (R+17)*Math.sin(ang[i]);
+    var anc = Math.abs(x-CX) < 6 ? 'middle' : (x > CX ? 'start' : 'end');
+    return '<text x="' + x.toFixed(1) + '" y="' + (y+3.5).toFixed(1) + '" text-anchor="' + anc +
+           '" font-size="8.5" font-weight="700" letter-spacing=".6" fill="var(--txt-3)" ' +
+           'font-family="var(--fm)">' + e.k + '</text>';
+  }).join('');
+
+  var svg = '<svg class="radar-svg" viewBox="-24 -14 248 228" role="img" aria-label="Perfil de ' +
+    escH(p.apelido) + ' em seis atributos">' +
+    '<g fill="none" stroke="var(--hair)" stroke-width="1">' +
+      [0.25,0.5,0.75,1].map(function(f){ return '<polygon points="' + anel(f) + '"/>'; }).join('') +
+      '<path d="' + raios + '"/></g>' +
+    '<polygon points="' + forma + '" fill="var(--royal)" fill-opacity=".26" ' +
+      'stroke="var(--royal-vivid)" stroke-width="2" stroke-linejoin="round"/>' +
+    pontos + rotulos + '</svg>';
+
+  var barras = eixos.map(function(e){
+    var pc = Math.round(Math.max(0, Math.min(1, e.v))*100);
+    return '<div class="rb' + (pc >= 100 ? ' top' : '') + '">' +
+             '<span class="rb-l">' + e.k + '</span><span class="rb-v">' + e.r + '</span>' +
+             '<span class="rb-t"><span class="rb-f" style="width:' + pc + '%"></span></span>' +
+           '</div>';
+  }).join('');
+
+  return '<div class="card" style="margin-bottom:.9rem"><div class="card-h blue">' + I.chart +
+    'Perfil do peladeiro</div><div class="card-b"><div class="radar-wrap">' + svg +
+    '<div class="radar-bars">' + barras + '</div></div>' +
+    '<div class="radar-nota">Cada eixo compara o jogador com o melhor da temporada: cheio ' +
+    'significa que ele lidera aquele quesito. <b>Disciplina</b> conta faltas e cartoes por jogo, ' +
+    'invertido \u2014 quanto mais cheio, menos falta.</div></div></div>';
+}
+
 function pts(p){return (p.vitorias||0)*3+(p.empates||0);}
 function pct(v,j){return j>0?Math.round(v/j*100)+'%':'—';}
 function medal(p){return p;}
@@ -1159,6 +1264,7 @@ function renderJogadorDetail(apelido,initSeason){
     <div class="stat blue"><div class="v num" style="font-size:1.4rem">${pct(p.vitorias,p.jogos)}</div><div class="l">% Vitória</div></div>
     <div class="stat green"><div class="v num" style="font-size:1.4rem">${p.jogos?(p.gols/p.jogos).toFixed(2):'0.00'}</div><div class="l">Gols/Jogo</div></div>
   </div>
+  ${radarCard(p,vs)}
   ${(()=>{const c=p.cartoes||{CA:0,CAz:0,CV:0};const t=(c.CA||0)+(c.CAz||0)+(c.CV||0);
     return t?`<div class="card" style="margin-bottom:.9rem"><div class="card-b" style="display:flex;gap:1.2rem;justify-content:center;padding:.9rem">
       <span style="font-size:.85rem"><i class="ci ca"></i> <b class="num">${c.CA||0}</b></span><span style="font-size:.85rem"><i class="ci caz"></i> <b class="num">${c.CAz||0}</b></span><span style="font-size:.85rem"><i class="ci cv"></i> <b class="num">${c.CV||0}</b></span>
