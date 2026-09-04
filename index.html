@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ── Reset & Tokens ───────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -24,7 +24,7 @@
   --bg-1:#DFF5EE; --bg-2:#F4FCFA;
   --navy:#0d6e60; --navy2:#0a5a4e;
   /* acento verde */
-  --royal:#00A88A; --royal-vivid:#00C79E; --royal-txt:#0d6e60; --royal-btn:#0a7a68; --gold-txt:var(--gold-txt); --gold-big:#a06c05; --blue-soft:#0d6e60; --blue-light:#0d6e60;
+  --royal:#00A88A; --royal-vivid:#00C79E; --royal-txt:#0d6e60; --royal-btn:#0a7a68; --royal-btn-ink:#ffffff; --gold-txt:#6b4703; --gold-big:#a06c05; --blue-soft:#0d6e60; --blue-light:#0d6e60;
   --gold:#e8a413; --gold-soft:#f6c04a; --gold-dim:rgba(232,164,19,.15);
   --ink:#052A24; --white:#ffffff; --red-txt:#8f2724;
   --green:#00A88A; --red:#e0433f; --amber:#c8860a;
@@ -38,12 +38,12 @@
   --sheen:linear-gradient(140deg,rgba(255,255,255,.60) 0%,rgba(255,255,255,.16) 42%,rgba(255,255,255,.03) 100%);
   --sheen-soft:linear-gradient(140deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.10) 52%,rgba(255,255,255,.02) 100%);
   --hair:var(--tint-2);
-  --tint-1:var(--tint-1); --tint-2:var(--tint-2); --tint-3:var(--tint-3);
+  --tint-1:rgba(5,42,36,.06); --tint-2:rgba(5,42,36,.09); --tint-3:rgba(5,42,36,.22);
   --pill-on:#ffffff; --pill-on-ink:#052A24;
   --ring:rgba(255,255,255,.95);
   --btn-solid:#052A24; --btn-solid-ink:#ffffff;
-  --pos-def:var(--pos-def); --pos-mei:#1f5cad;
-  --grid-line:var(--grid-line);
+  --pos-def:#2b3038; --pos-mei:#1f5cad;
+  --grid-line:rgba(5,42,36,.030);
   --rim:linear-gradient(140deg,rgba(255,255,255,1) 0%,rgba(255,255,255,.30) 34%,rgba(0,168,138,.34) 68%,rgba(255,255,255,.85) 100%);
   --txt:rgba(5,42,36,.96); --txt-1:rgba(5,42,36,.96);
   --txt-2:rgba(5,42,36,.82); --txt-3:rgba(5,42,36,.70);
@@ -115,7 +115,7 @@ img{max-width:100%;display:block}
 #nav::-webkit-scrollbar{display:none}
 .nav-btn{background:transparent;color:var(--txt-2);padding:.5rem .9rem;flex:0 0 auto;border-radius:40px;font-size:.82rem;font-weight:700;transition:.18s;white-space:nowrap}
 .nav-btn:hover{color:var(--ink);background:var(--glass-2)}
-.nav-btn.active{color:#fff;background:var(--royal-btn);box-shadow:var(--glow);font-weight:800}
+.nav-btn.active{color:var(--royal-btn-ink);background:var(--royal-btn);box-shadow:var(--glow);font-weight:800}
 
 /* season pill */
 #season{justify-self:end;position:relative}
@@ -182,7 +182,7 @@ main::before{
   color:var(--gold-txt);background:var(--gold-dim);border:1px solid rgba(232,164,19,.42);padding:.28rem .7rem;border-radius:var(--pill);letter-spacing:.5px;text-transform:uppercase}
 .hero-txt .loc{font-size:.78rem;color:var(--txt-2);margin-top:.55rem}
 .hero-season{position:absolute;top:1.1rem;right:1.2rem;z-index:2;font-family:var(--fd);font-weight:800;
-  font-size:.82rem;color:#fff;background:var(--royal-btn);
+  font-size:.82rem;color:var(--royal-btn-ink);background:var(--royal-btn);
   padding:.32rem .8rem;border-radius:var(--pill);box-shadow:var(--glow)}
 
 /* ── Stat bento ───────────────────────────────────────────────────── */
@@ -374,7 +374,7 @@ tbody td:nth-child(2){text-align:left;font-weight:700}
 .styled-tabs{display:flex;gap:.5rem;margin-bottom:1rem}
 .styled-tabs button{padding:.45rem 1rem;border-radius:var(--pill);border:1px solid var(--bd);background:var(--glass);font-weight:800;font-size:.84rem;color:var(--txt-2);transition:.18s;
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.styled-tabs button.active{background:var(--royal-btn);color:#fff;border-color:transparent;box-shadow:var(--glow)}
+.styled-tabs button.active{background:var(--royal-btn);color:var(--royal-btn-ink);border-color:transparent;box-shadow:var(--glow)}
 /* charts + chemistry */
 .chart-t{font-size:.74rem;color:var(--txt-2);font-weight:700;margin-bottom:.3rem}
 .chart-t span{color:var(--txt-3);font-weight:500}
@@ -487,6 +487,7 @@ footer .upd{font-size:.72rem}
 
 /* ── Tema escuro: o azul original da PSOT, agora com o mesmo vidro ── */
 :root[data-theme="dark"]{
+  --royal-btn-ink:#ffffff;
   --bg0:#050B14; --bg1:#0A1626; --bg2:#0F2340;
   --bg-1:#0A1626; --bg-2:#0F2340;
   --navy:#8fbcff; --navy2:#a9ceff;
@@ -558,6 +559,90 @@ footer .upd{font-size:.72rem}
 :root[data-theme="dark"] .twrap2.azul .tlabel2{background:linear-gradient(135deg,#123a72,#0f2c5c)}
 :root[data-theme="dark"] body::after{opacity:.075}
 
+
+/* ── Tema ResenhaFC (em teste) ────────────────────────────────────────
+   Design system do ResenhaFC. Escada de superficie e de texto, verde volt
+   como acento e o dourado que a PSOT ja usava. O proprio sistema resolve
+   o contraste do neon: --volt-tinta (#93DC0C) e a versao para TEXTO,
+   porque o verde da marca mede 1,3:1 e nao serve para ler.            */
+:root[data-theme="resenha"]{
+  --bg0:#08090C; --bg1:#0B0D10; --bg2:#0E141A;
+  --bg-1:#0B0D10; --bg-2:#131B22;
+  --navy:#93DC0C; --navy2:#A6E63C;
+  --royal:#39FF14; --royal-vivid:#7CFC00;
+  --royal-txt:#93DC0C; --royal-btn:#39FF14; --royal-btn-ink:#0A0F05;
+  --gold:#F4B62C; --gold-soft:#FFD56B; --gold-dim:rgba(244,182,44,.14);
+  --gold-txt:#F4B62C; --gold-big:#F4B62C;
+  --blue-soft:#4C8DFF; --blue-light:#4C8DFF;
+  --ink:#EDF2F6;
+  --green:#39FF14; --red:#FF3B5C; --amber:#F4B62C; --red-txt:#FF8A80;
+  /* vidro escuro do sistema: --vidro, --vidro-aro, --vidro-luz */
+  --glass:rgba(255,255,255,.055);
+  --glass-2:rgba(255,255,255,.10);
+  --glass-3:rgba(255,255,255,.16);
+  --bd:rgba(255,255,255,.18); --bd-2:rgba(255,255,255,.30);
+  --hair:rgba(255,255,255,.07);
+  --tint-1:rgba(255,255,255,.04); --tint-2:rgba(255,255,255,.08); --tint-3:rgba(255,255,255,.20);
+  --pill-on:rgba(255,255,255,.14); --pill-on-ink:#EDF2F6;
+  --ring:rgba(255,255,255,.22);
+  --btn-solid:#EDF2F6; --btn-solid-ink:#0B0D10;
+  --pos-def:#C7D2DB; --pos-mei:#4C8DFF;
+  --grid-line:rgba(255,255,255,.025);
+  --txt:#EDF2F6; --txt-1:#EDF2F6; --txt-2:#C7D2DB; --txt-3:#93A5B5;
+  --sheen:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.04) 42%,rgba(255,255,255,0) 100%);
+  --sheen-soft:linear-gradient(115deg,rgba(255,255,255,.09) 0%,rgba(255,255,255,.02) 52%,rgba(255,255,255,0) 100%);
+  --sh:0 8px 20px rgba(0,0,0,.35);
+  --sh-lg:0 24px 60px -12px rgba(0,0,0,.75);
+  --glow:inset 0 -2px 8px -3px rgba(57,255,20,.70), 0 8px 18px -6px rgba(57,255,20,.55);
+  --hi:inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 0 1px rgba(255,255,255,.05);
+  --rim:linear-gradient(115deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.06) 38%,rgba(57,255,20,.30) 72%,rgba(255,255,255,.28) 100%);
+  /* o sistema e mais quadrado: raios de 10/14/18 e botao de 12 */
+  --r:10px; --r-lg:14px; --r-xl:18px; --pill:12px;
+  --blur:18px;
+  --ff:'Plus Jakarta Sans',-apple-system,'Segoe UI',system-ui,sans-serif;
+  --fd:'Space Grotesk','Plus Jakarta Sans',system-ui,sans-serif;
+}
+:root[data-theme="resenha"] body{
+  background:
+    radial-gradient(900px 560px at 12% -8%, rgba(57,255,20,.10), transparent 60%),
+    radial-gradient(760px 520px at 92% 8%, rgba(76,141,255,.10), transparent 62%),
+    radial-gradient(860px 680px at 50% 112%, rgba(57,255,20,.07), transparent 64%),
+    linear-gradient(168deg,#08090C 0%, #0B0D10 46%, #0E141A 100%);
+}
+:root[data-theme="resenha"] main::before{
+  background:
+    radial-gradient(30% 16% at 16% 6%,  rgba(57,255,20,.16), transparent 66%),
+    radial-gradient(26% 14% at 88% 20%, rgba(76,141,255,.14), transparent 68%),
+    radial-gradient(32% 18% at 26% 40%, rgba(57,255,20,.10), transparent 66%),
+    radial-gradient(28% 15% at 82% 56%, rgba(244,182,44,.09), transparent 68%),
+    radial-gradient(30% 16% at 20% 74%, rgba(57,255,20,.13), transparent 66%),
+    radial-gradient(26% 14% at 76% 90%, rgba(76,141,255,.10), transparent 68%);
+}
+:root[data-theme="resenha"] #topbar{
+  background:linear-gradient(180deg,rgba(11,13,16,.82),rgba(11,13,16,.52));
+  box-shadow:0 1px 0 rgba(255,255,255,.06),0 8px 24px rgba(0,0,0,.42);
+}
+:root[data-theme="resenha"] #botnav{
+  background:linear-gradient(0deg,rgba(11,13,16,.94),rgba(11,13,16,.70));
+  box-shadow:0 -1px 0 rgba(255,255,255,.06),0 -8px 26px rgba(0,0,0,.5);
+}
+:root[data-theme="resenha"] .season-menu,
+:root[data-theme="resenha"] #authmenu{background:rgba(14,20,26,.96)}
+:root[data-theme="resenha"] .hero,
+:root[data-theme="resenha"] .rd-hero,
+:root[data-theme="resenha"] .p-hero{background-color:rgba(255,255,255,.05)}
+:root[data-theme="resenha"] .sb-side.azul{background:linear-gradient(180deg,rgba(76,141,255,.20),rgba(76,141,255,.05))}
+:root[data-theme="resenha"] .chip{background:rgba(57,255,20,.10);color:var(--royal-txt);border-color:rgba(57,255,20,.35)}
+:root[data-theme="resenha"] .b-v{background:rgba(57,255,20,.12);color:var(--royal-txt)}
+:root[data-theme="resenha"] .bar>i{background:linear-gradient(90deg,#5ee03a,var(--royal))}
+:root[data-theme="resenha"] .twrap2.azul .tlabel2{background:linear-gradient(135deg,#14385f,#0f2748)}
+:root[data-theme="resenha"] body::after{opacity:.05}
+/* o sistema pede caixa-alta nos botoes principais */
+:root[data-theme="resenha"] .btn-primary,
+:root[data-theme="resenha"] .nav-btn.active{text-transform:uppercase;letter-spacing:.05em}
+:root[data-theme="resenha"] .sec-head h2,
+:root[data-theme="resenha"] .hero-txt h1{letter-spacing:-.02em}
+
 /* botao de troca de tema */
 .tema-btn{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;
   background:var(--glass);border:1px solid var(--bd);color:var(--txt-2);cursor:pointer;
@@ -595,7 +680,7 @@ footer .upd{font-size:.72rem}
 .pf-field input{width:100%;padding:.7rem 1rem;background:var(--glass-2);border:1px solid var(--bd);border-radius:14px;color:var(--ink);font-size:.92rem;outline:none;font-family:inherit}
 .pf-field input:focus{border-color:var(--royal);box-shadow:var(--glow)}
 .pf-field .ro{color:var(--txt-2)}
-.btn-primary{width:100%;padding:.8rem;background:var(--royal-btn);color:#fff;border:none;border-radius:14px;font-weight:800;font-size:.92rem;cursor:pointer;font-family:inherit;box-shadow:var(--glow)}
+.btn-primary{width:100%;padding:.8rem;background:var(--royal-btn);color:var(--royal-btn-ink);border:none;border-radius:14px;font-weight:800;font-size:.92rem;cursor:pointer;font-family:inherit;box-shadow:var(--glow)}
 .btn-primary:disabled{opacity:.5}
 /* ── Painel de admins ── */
 .adm-add{display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap}
@@ -668,7 +753,7 @@ footer .upd{font-size:.72rem}
 .pbtn{border:none;background:var(--glass-2);color:var(--txt-2);font:inherit;font-size:.72rem;font-weight:800;letter-spacing:.3px;padding:.42rem .6rem;cursor:pointer;touch-action:manipulation;min-width:52px}
 .pbtn+.pbtn{border-left:1px solid var(--bd)}
 .pbtn.bp.on{background:#22262e;color:#fff}
-.pbtn.ba.on{background:var(--royal-btn);color:#fff}
+.pbtn.ba.on{background:var(--royal-btn);color:var(--royal-btn-ink)}
 .esc-lista-box{margin:.7rem 0}
 .esc-lista-box summary{cursor:pointer;font-size:.8rem;color:var(--txt-2);font-weight:800;padding:.45rem .2rem;list-style:none}
 .esc-lista-box.callout{border:1px solid rgba(232,164,19,.5);background:rgba(232,164,19,.10);border-radius:12px;padding:.5rem .7rem}
@@ -795,6 +880,7 @@ const I={
   search:'<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>',
   star:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9L12 3Z"/></svg>',
   sun:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.2M12 19.4v2.2M4.2 12H2M22 12h-2.2M6.3 6.3 4.8 4.8M19.2 19.2l-1.5-1.5M17.7 6.3l1.5-1.5M4.8 19.2l1.5-1.5"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12z"/></svg>',
   moon:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2z"/></svg>',
   clip:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="4" rx="1"/><path d="M16 5h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2"/></svg>',
   crown:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l4 3.5L12 4l5 7.5L21 8l-2 11H5z"/></svg>',
@@ -822,28 +908,60 @@ const I={
   shield:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v6c0 4.6-3.2 8.2-7.5 9-4.3-.8-7.5-4.4-7.5-9V6z"/></svg>'
 };
 /* ── Tema: claro (verde) x escuro (azul) ── */
+/* Temas. "resenha" so entra na roda para quem esta na lista privada
+   (tabela temas_beta no Supabase, com RLS: cada um le so a propria linha).
+   Quem nao esta nem sabe que ele existe. */
+var TEMAS_PUBLICOS = ['light','dark'];
+var temasLiberados = TEMAS_PUBLICOS.slice();
+
+var TEMA_INFO = {
+  light:   { cor:'#DFF5EE', rotulo:'claro' },
+  dark:    { cor:'#0A1626', rotulo:'escuro' },
+  resenha: { cor:'#0B0D10', rotulo:'ResenhaFC' }
+};
+function temaProximo(t){
+  var i = temasLiberados.indexOf(t);
+  return temasLiberados[(i < 0 ? 0 : i + 1) % temasLiberados.length];
+}
 function temaAplicar(t){
+  if(temasLiberados.indexOf(t) < 0) t = 'light';
   document.documentElement.setAttribute('data-theme', t);
   var b=document.getElementById('tema-btn');
   if(b){
-    b.innerHTML = (t==='dark') ? I.sun : I.moon;
-    b.setAttribute('aria-label', t==='dark' ? 'Mudar para o tema claro' : 'Mudar para o tema escuro');
-    b.setAttribute('title', b.getAttribute('aria-label'));
+    var prox = temaProximo(t);
+    b.innerHTML = prox==='dark' ? I.moon : (prox==='resenha' ? I.bolt : I.sun);
+    var rot = 'Mudar para o tema ' + (TEMA_INFO[prox]||{}).rotulo;
+    b.setAttribute('aria-label', rot); b.setAttribute('title', rot);
   }
   var m=document.querySelector('meta[name="theme-color"]');
-  if(m) m.setAttribute('content', t==='dark' ? '#0A1626' : '#DFF5EE');
+  if(m) m.setAttribute('content', (TEMA_INFO[t]||TEMA_INFO.light).cor);
 }
 function temaTrocar(){
-  var atual=document.documentElement.getAttribute('data-theme')==='dark' ? 'dark' : 'light';
-  var novo = atual==='dark' ? 'light' : 'dark';
+  var novo = temaProximo(document.documentElement.getAttribute('data-theme') || 'light');
   try{ localStorage.setItem('psot-tema', novo); }catch(e){}
   temaAplicar(novo);
 }
 function temaAtual(){
   var t=null;
   try{ t=localStorage.getItem('psot-tema'); }catch(e){}
-  if(t==='dark'||t==='light') return t;
-  return 'light';   // o verde e a entrada padrao; o azul e escolha de quem quer
+  if(temasLiberados.indexOf(t) >= 0) return t;
+  return 'light';   // o verde e a entrada padrao; os outros sao escolha de quem quer
+}
+/* pergunta ao banco se este usuario enxerga algum tema em teste.
+   Quem nao esta na lista recebe lista vazia e nada muda. */
+async function temasCarregarLiberados(){
+  var antes = temasLiberados.join(',');
+  temasLiberados = TEMAS_PUBLICOS.slice();
+  if(state.user && sb){
+    try{
+      var r = await sb.from('temas_beta').select('tema');
+      (r.data||[]).forEach(function(x){
+        if(x && x.tema && TEMA_INFO[x.tema] && temasLiberados.indexOf(x.tema) < 0)
+          temasLiberados.push(x.tema);
+      });
+    }catch(e){}
+  }
+  if(temasLiberados.join(',') !== antes) temaAplicar(temaAtual());
 }
 temaAplicar(temaAtual());
 if(document.readyState==='loading'){
@@ -1437,6 +1555,7 @@ async function setUser(u){
   state.user=u; state.isAdmin=false; state.isMaster=false;
   if(u){ try{ const { data } = await sb.rpc('is_admin'); state.isAdmin=!!data; }catch(e){}
          try{ const { data:dm } = await sb.rpc('is_master'); state.isMaster=!!dm; }catch(e){} }
+  try{ await temasCarregarLiberados(); }catch(e){}
   renderAuth(); renderNavVisibility();
   if(u && state.page==='perfil') navigate('perfil');
   if(!u && (state.page==='perfil'||state.page==='escalacao')) navigate('home');
