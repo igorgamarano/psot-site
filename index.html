@@ -510,6 +510,10 @@ thead th{font-size:.75rem;letter-spacing:.08em}
 @media(min-width:380px){.bn{font-size:1rem!important}}
 .nav-btn{font-size:.9375rem}
 
+.gr{color:var(--royal-txt);font-weight:700;font-size:.875rem}
+/* regra 01: gol por rodada e dado — branco + peso, nao cor */
+:root[data-theme="resenha"] .gr{color:var(--txt);font-weight:800}
+
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media(max-width:860px){
   .cols-home{grid-template-columns:1fr}
@@ -672,6 +676,8 @@ thead th{font-size:.75rem;letter-spacing:.08em}
   --interno-suave:rgba(255,255,255,.04);
   --ln:rgba(255,255,255,.07);
   --tinta-volt:rgba(57,255,20,.10); --aro-volt:rgba(57,255,20,.35);
+  --volt-linha:#39FF14;
+  --glow-aceso:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 8px -3px rgba(235,255,170,.90), 0 12px 28px -8px rgba(57,255,20,.55);
   --tinta-warm:rgba(255,196,70,.10); --aro-warm:rgba(244,182,44,.38);
   --glow-volt:inset 0 -2px 8px -3px rgba(57,255,20,.70), 0 8px 18px -6px rgba(57,255,20,.45);
   --sh:var(--vidro-queda-leve);
@@ -961,6 +967,63 @@ thead th{font-size:.75rem;letter-spacing:.08em}
 /* .folha — menu e popover usam a elevacao 3 */
 :root[data-theme="resenha"] .season-menu,
 :root[data-theme="resenha"] #authmenu{box-shadow:var(--hi),var(--sh-lg)}
+/* ══ Regra 01, aplicada ao pe da letra ══════════════════════════════
+   "Seis enderecos legitimos: acao primaria unica, item ativo da
+   navegacao, chip confirmado/vitoria, linha do lider, filete do heroi,
+   atmosfera. Todo outro 'positivo' usa branco + peso, nao cor."
+   Eu usava so dois. Abaixo, os seis.                                */
+
+/* 4 - LINHA DO LIDER: filete volt na primeira colocada.
+   O dourado continua na gloria (a medalha, o nome do artilheiro);
+   a LINHA e estado, e estado veste verde. */
+:root[data-theme="resenha"] tbody tr.gold{
+  background:linear-gradient(90deg,var(--tinta-volt),transparent 68%);
+  box-shadow:inset 3px 0 0 var(--volt-linha)}
+/* uma linha do lider por tela: o filete verde e da CLASSIFICACAO.
+   O artilheiro e gloria (medalha), e gloria veste dourado --
+   regra 05. E o numero nao precisa repetir o sinal do filete. */
+:root[data-theme="resenha"] .rank-row:first-child .rk{color:var(--gold-txt)}
+
+/* 3 - CHIP CONFIRMADO / VITORIA: so a vitoria veste verde.
+   Empate nao e confirmacao: fica neutro. */
+:root[data-theme="resenha"] .res-badge.preto,
+:root[data-theme="resenha"] .res-badge.azul{
+  background:var(--tinta-volt);color:var(--royal-txt);
+  border:1.5px solid var(--aro-volt)}
+:root[data-theme="resenha"] .res-badge.empate{
+  background:var(--interno-suave);color:var(--txt-2);
+  border:1.5px solid var(--ln)}
+
+/* 1 - ACAO PRIMARIA UNICA: uma por tela. Na home e "Ver detalhes" da
+   ultima rodada; as demais continuam fantasma. */
+:root[data-theme="resenha"] .ghost.primaria{
+  background:linear-gradient(115deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.12) 38%,rgba(255,255,255,0) 42%),
+             linear-gradient(180deg,#39FF14 0%,#93DC0C 100%);
+  color:#0A0F05;border:1.5px solid rgba(255,255,255,.35);
+  text-transform:uppercase;letter-spacing:.03em;font-weight:700;
+  box-shadow:var(--glow-aceso)}
+:root[data-theme="resenha"] .ghost.primaria:hover{filter:brightness(1.1)}
+
+/* 5 - FILETE DO HEROI: ja aplicado no .hero (aro volt + glow).
+   Regra 07: chanfro 2:1 no heroi, maior que o do cartao. */
+:root[data-theme="resenha"] .hero{border-radius:.75rem}
+
+/* "Todo outro positivo usa branco + peso, nao cor" */
+:root[data-theme="resenha"] .b-v{background:var(--interno-suave);color:var(--txt);font-weight:800}
+/* Regra 01, ultima parte: "Todo outro 'positivo' usa branco + peso,
+   nao cor." Numero de ficha, radar e serie de resultados sao dado --
+   passam a branco. O !important e para vencer estilo embutido no JS. */
+:root[data-theme="resenha"] .pcard-grid .v,
+:root[data-theme="resenha"] .stat .v,
+:root[data-theme="resenha"] .chem-row b{color:var(--txt)!important;font-weight:800}
+:root[data-theme="resenha"] .stat.gloria .v{color:var(--gold-txt)!important}
+:root[data-theme="resenha"] .radar-svg polygon[fill-opacity]{
+  fill:#EDF2F6;fill-opacity:.16;stroke:rgba(237,242,246,.75)}
+:root[data-theme="resenha"] .radar-svg circle[r="3"]{fill:rgba(237,242,246,.85)}
+/* serie de resultados: tres canais sem gastar verde */
+:root[data-theme="resenha"] .form i.v{background:var(--txt)}
+:root[data-theme="resenha"] .form i.e{background:var(--gold)}
+:root[data-theme="resenha"] .form i.d{background:var(--red)}
 :root[data-theme="resenha"] body::after{opacity:.03}
 /* a lousa ja da a textura; a grade de linhas so sujaria */
 :root[data-theme="resenha"] body::before{opacity:0}
@@ -1500,7 +1563,7 @@ function renderHome(){
         </div>
         <div style="text-align:center"><span class="res-badge ${v.toLowerCase()}">${v==='EMPATE'?'Empate':'Vitória Time '+(v==='AZUL'?'Azul':'Preto')}</span></div>
         ${scorers(last.gols).length?`<div class="chips">${scorers(last.gols).map(([n,g])=>`<span class="chip">${n}${g>1?` <span class="g">×${g}</span>`:''}</span>`).join('')}</div>`:''}
-        <div class="center">${ghost('Ver detalhes',`navigate('rodada',{num:${last.rodada}})`)}</div>
+        <div class="center">${ghost('Ver detalhes',`navigate('rodada',{num:${last.rodada}})`,'primaria')}</div>
         `:'<div class="empty"><div class="e"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="40" height="40" rx="2"/><path d="M3 9h18M8 2v4m8-4v4"/></svg></div>Sem rodadas ainda</div>'}
       </div>
     </div>
@@ -1541,7 +1604,7 @@ function renderHome(){
   </div>`;
 }
 
-function ghost(label,onclick){return `<button class="ghost" onclick="${onclick}">${label} <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>`;}
+function ghost(label,onclick,cls){return `<button class="ghost ${cls||''}" onclick="${onclick}">${label} <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>`;}
 
 // ── CLASSIFICAÇÃO ─────────────────────────────────────────────────
 function renderClassificacao(){
@@ -1738,7 +1801,7 @@ function playerRounds(apelido,season){
       <span class="num" style="font-weight:700">${pf[0]} × ${pf[1]}</span>
       <span style="font-size:.72rem;color:var(--txt-3)">${team}</span>
       <span class="${bc}" style="margin-left:auto">${res}</span>
-      ${g>0?`<span style="color:var(--royal-txt);font-weight:700;font-size:.82rem"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7l4.5 3.3-1.7 5.4H9.2L7.5 10.3 12 7Z"/></svg>${g>1?' '+g:''}</span>`:''}</div>`;
+      ${g>0?`<span class="gr"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7l4.5 3.3-1.7 5.4H9.2L7.5 10.3 12 7Z"/></svg>${g>1?' '+g:''}</span>`:''}</div>`;
   }).join('');
   return `<div style="display:flex;flex-direction:column;gap:.5rem">${rows}</div>`;
 }
