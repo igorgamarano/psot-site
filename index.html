@@ -631,7 +631,9 @@ thead th{font-size:.75rem;letter-spacing:.08em}
    camadas com aro de 1,5px e desfoque de ~11px (g-mult .6 x 18px).   */
 :root[data-theme="resenha"]{
   /* a escada da obsidiana: pagina, poco, cartao, linha, folha */
-  --bg0:#090D10; --bg1:#0E141A; --bg2:#131B22;
+  /* o CSS do sistema diz #0B0D10; o texto da documentacao diz #090D10.
+     Sigo o CSS, que e o que renderiza. */
+  --bg0:#0B0D10; --bg1:#0E141A; --bg2:#131B22;
   --bg-1:#0E141A; --bg-2:#1A242D;
   /* tres niveis de leitura NUM TAMANHO SO: branco da marca a .96/.68/.50,
      herdando a obsidiana por construcao — nunca cinza de catalogo */
@@ -690,7 +692,7 @@ thead th{font-size:.75rem;letter-spacing:.08em}
   background:
     linear-gradient(180deg,rgba(9,13,16,.26),rgba(9,13,16,.46)),
     url('lousa.webp') top center / cover no-repeat,
-    #090D10;
+    #0B0D10;
   background-attachment:scroll,fixed,fixed;
 }
 /* a lousa tambem atravessa por tras da coluna de conteudo, mais aberta,
