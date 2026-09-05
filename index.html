@@ -86,6 +86,9 @@ button{cursor:pointer;border:none;font-family:inherit;color:inherit}
 img{max-width:100%;display:block}
 ::selection{background:rgba(0,168,138,.24)}
 .num{font-family:var(--fm);font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+/* regra 11: se um numero alinha, todos alinham */
+.stat .v,.pts,.gv,.rv,.rk,.pcard-grid .v,.sb-side .sc,.rcard-sb .ts,.rd-sb .ts,
+tbody td,.esc-count b,.pchip .pn,.rb-v{font-variant-numeric:tabular-nums lining-nums}
 
 /* ── App shell ────────────────────────────────────────────────────── */
 #app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
@@ -456,6 +459,48 @@ footer{text-align:center;padding:1.4rem 1rem;font-size:.78rem;color:var(--txt-3)
 footer img{height:30px;opacity:.85}
 footer .upd{font-size:.72rem}
 
+
+/* ── Piso de leitura (regra 03 do sistema do ResenhaFC) ──────────────
+   O sistema pede 1rem em tudo. A tabela de 38 peladeiros nao cabe a
+   16px, entao o piso pratico aqui e 13px, com as etiquetas ganhando
+   caixa alta e tracking largo: leem "menores" sem serem menores.    */
+.stat .l{font-size:.8125rem;letter-spacing:.1em}
+.pcard-grid .l{font-size:.75rem;letter-spacing:.08em}
+.rcard-sb .tl,.rd-sb .tl,.sb-side .tn{font-size:.8125rem;letter-spacing:.12em}
+thead th{font-size:.75rem;letter-spacing:.08em}
+.card-h{font-size:.8125rem}
+.b-v,.b-e,.b-d,.cart{font-size:.8125rem}
+.chip,.res-badge,.recon,.mini-tag,.t1chip,.t1b{font-size:.8125rem}
+.note,.chart-t,.chem-h,.radar-nota,.empty,.rd-date,.p-info .mt,
+.esc-lista-help,.esc-showabs,.pool2 .pool-h,footer,.lu li,.hist-item{font-size:.875rem}
+.rb-l{font-size:.75rem}
+.rb-v,.pcard-top .num,.pchip .pn,.poschip{font-size:.8125rem}
+.brand .bt span{font-size:.75rem}
+.stat .ic{font-size:2.2rem}
+/* alvo de toque: 44px e o piso do sistema */
+.nav-btn,.tab-btn,.esc-tab,.styled-tabs button,.season-btn,.back,.ghost,
+.btn-primary,.tema-btn,.auth-btn,.av-btn{min-height:44px}
+.av-btn{width:44px;height:44px}
+.pbtn{min-height:38px}
+/* foco visivel em todo controle, e diferente do hover */
+.nav-btn:focus-visible,.tab-btn:focus-visible,.esc-tab:focus-visible,
+.styled-tabs button:focus-visible,.season-btn:focus-visible,.back:focus-visible,
+.ghost:focus-visible,.btn-primary:focus-visible,.tema-btn:focus-visible,
+.pcard:focus-visible,.rcard:focus-visible,.search input:focus-visible{
+  outline:3px solid var(--royal);outline-offset:2px}
+/* movimento: entradas desaceleram, o toque responde, e quem pediu calma tem calma */
+.nav-btn,.tab-btn,.esc-tab,.styled-tabs button,.season-btn,.back,.ghost,
+.btn-primary,.tema-btn,.pcard,.rcard{transition:background .2s cubic-bezier(.2,0,0,1),
+  color .2s cubic-bezier(.2,0,0,1),border-color .2s cubic-bezier(.2,0,0,1),
+  transform .16s cubic-bezier(.2,0,0,1),box-shadow .2s cubic-bezier(.2,0,0,1)}
+.nav-btn:active,.tab-btn:active,.esc-tab:active,.styled-tabs button:active,
+.season-btn:active,.back:active,.ghost:active,.btn-primary:active,
+.tema-btn:active{transform:scale(.97)}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media(max-width:860px){
   .cols-home{grid-template-columns:1fr}
@@ -478,6 +523,12 @@ footer .upd{font-size:.72rem}
   .bn svg{width:21px;height:21px}
   .bn.active{color:var(--royal-txt)}
   .bn.active svg{filter:drop-shadow(0 0 6px rgba(0,168,138,.5))}
+}
+/* regra 12: o celular e o modelo principal — verificado a 390px */
+@media(max-width:560px){
+  .chem-grid{grid-template-columns:1fr}
+  .chem-row .rn{min-width:0}
+  .radar-wrap{grid-template-columns:1fr}
 }
 @media(max-width:420px){
   .rounds{grid-template-columns:1fr}
@@ -570,9 +621,13 @@ footer .upd{font-size:.72rem}
    Escada de superficie sf-0..4, escada de texto tx-1..5, vidro de tres
    camadas com aro de 1,5px e desfoque de ~11px (g-mult .6 x 18px).   */
 :root[data-theme="resenha"]{
-  --bg0:#0B0D10; --bg1:#0E141A; --bg2:#131B22;
-  --bg-1:#0E141A; --bg-2:#131B22;
-  --txt:#EDF2F6; --txt-1:#EDF2F6; --txt-2:#C7D2DB; --txt-3:#93A5B5;
+  /* a escada da obsidiana: pagina, poco, cartao, linha, folha */
+  --bg0:#090D10; --bg1:#0E141A; --bg2:#131B22;
+  --bg-1:#0E141A; --bg-2:#1A242D;
+  /* tres niveis de leitura NUM TAMANHO SO: branco da marca a .96/.68/.50,
+     herdando a obsidiana por construcao — nunca cinza de catalogo */
+  --txt:rgba(237,242,246,.96); --txt-1:rgba(237,242,246,.96);
+  --txt-2:rgba(237,242,246,.68); --txt-3:rgba(237,242,246,.50);
   --ink:#EDF2F6;
   /* volt: acento de acao. --royal-txt e o volt-tinta, a versao de texto */
   --royal:#39FF14; --royal-vivid:#7CFC00;
@@ -601,7 +656,8 @@ footer .upd{font-size:.72rem}
   --hi:inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 0 1px rgba(255,255,255,.05);
   --sh:0 8px 20px rgba(0,0,0,.35);
   --sh-lg:0 24px 60px -12px rgba(0,0,0,.75);
-  --glow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 8px -3px rgba(235,255,170,.90), 0 12px 28px -8px rgba(57,255,20,.55);
+  /* o brilho vaza por BAIXO da aresta; nunca contorna a peca */
+  --glow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 8px -3px rgba(235,255,170,.90), 0 10px 22px -10px rgba(57,255,20,.75);
   --rim:linear-gradient(115deg,rgba(255,255,255,.30) 0%,rgba(255,255,255,.06) 38%,rgba(255,255,255,0) 44%,rgba(255,255,255,.14) 100%);
   /* quatro raios, e pilula so no trilho */
   --r:4px; --r-lg:8px; --r-xl:12px; --pill:12px;
@@ -625,7 +681,7 @@ footer .upd{font-size:.72rem}
 :root[data-theme="resenha"] #topbar{background:linear-gradient(180deg,rgba(11,13,16,.86),rgba(11,13,16,.58));box-shadow:0 1px 0 rgba(255,255,255,.05),0 8px 24px rgba(0,0,0,.45)}
 :root[data-theme="resenha"] #botnav{background:linear-gradient(0deg,rgba(11,13,16,.96),rgba(11,13,16,.74));box-shadow:0 -1px 0 rgba(255,255,255,.05)}
 :root[data-theme="resenha"] .season-menu,
-:root[data-theme="resenha"] #authmenu{background:rgba(19,27,34,.97)}
+:root[data-theme="resenha"] #authmenu{background:#22303B}
 :root[data-theme="resenha"] .hero,
 :root[data-theme="resenha"] .rd-hero,
 :root[data-theme="resenha"] .p-hero{background-color:rgba(16,18,20,.35)}
@@ -663,6 +719,14 @@ footer .upd{font-size:.72rem}
 /* o botao de tema e o unico redondo que sobra: vira quadrado chanfrado */
 :root[data-theme="resenha"] .tema-btn,
 :root[data-theme="resenha"] .av-btn{border-radius:10px}
+/* vidro de controle: mesmo material, desfoque menor que o do painel */
+:root[data-theme="resenha"] .tema-btn,
+:root[data-theme="resenha"] .season-btn,
+:root[data-theme="resenha"] .back,
+:root[data-theme="resenha"] .ghost,
+:root[data-theme="resenha"] .tabs,
+:root[data-theme="resenha"] .esc-tabs,
+:root[data-theme="resenha"] .search input{backdrop-filter:blur(7px) saturate(140%);-webkit-backdrop-filter:blur(7px) saturate(140%)}
 
 /* ── regra 01 e 05: verde so em acao; numero e neutro; gloria e dourada ── */
 :root[data-theme="resenha"] .stat .v,
@@ -748,6 +812,18 @@ footer .upd{font-size:.72rem}
 :root[data-theme="resenha"] tbody td{font-size:.875rem}
 :root[data-theme="resenha"] .pcard-grid .l,
 :root[data-theme="resenha"] .rcard-sb .tl{font-size:.75rem}
+/* regra 05: estatistica e DADO, nao acao. So gloria (dourado) e acao
+   (volt) tem cor propria; o resto le em branco sobre a obsidiana. */
+:root[data-theme="resenha"] .rb-f{background:rgba(237,242,246,.45)}
+:root[data-theme="resenha"] .rb.top .rb-f{background:var(--gold)}
+:root[data-theme="resenha"] .av{background:linear-gradient(135deg,#FFD56B,#F4B62C);color:#2A1D00}
+:root[data-theme="resenha"] .av.b{background:linear-gradient(135deg,#8FC0FF,#4C8DFF);color:#04121F}
+:root[data-theme="resenha"] .cell-name .mini,
+:root[data-theme="resenha"] .pchip .pa{background:linear-gradient(135deg,#FFD56B,#F4B62C);color:#2A1D00}
+:root[data-theme="resenha"] .chem-h{color:var(--txt-2)!important}
+:root[data-theme="resenha"] .chem-row b{color:var(--txt)!important}
+:root[data-theme="resenha"] .radar-svg polygon[fill-opacity]{fill:#4C8DFF}
+:root[data-theme="resenha"] .p-av{background:linear-gradient(135deg,#FFD56B,#F4B62C);color:#2A1D00}
 :root[data-theme="resenha"] body::after{opacity:.04}
 
 /* botao de troca de tema */
@@ -1209,7 +1285,9 @@ function radarCard(p, vs){
 
 function pts(p){return (p.vitorias||0)*3+(p.empates||0);}
 function pct(v,j){return j>0?Math.round(v/j*100)+'%':'—';}
-function medal(p){return p;}
+/* regra 11 do sistema: zero a esquerda e numeros tabulares no painel */
+function zz(n){n=parseInt(n,10);return isNaN(n)?'':(n<10?'0'+n:''+n);}
+function medal(p){return zz(p);}
 function rowCls(p){return p===1?'gold':p===2?'silver':p===3?'bronze':'';}
 function initial(ap){return (ap||'?').charAt(0).toUpperCase();}
 function pFotoSlug(ap){return String(ap||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\./g,'').replace(/[^a-z0-9 ]/g,'').trim().replace(/\s+/g,'_');}
@@ -1471,7 +1549,7 @@ function renderJogadorDetail(apelido,initSeason){
     <div class="p-info">
       <h1>${(p&&p.apelido)||found.apelido}</h1>
       ${nome!==found.apelido?`<div class="nm">${nome}</div>`:''}
-      <div class="mt">${p?.numero?`<span><b>Camisa</b> #${p.numero}</span>`:''}${p?.data_nasc?`<span><b>Nasc.</b> ${p.data_nasc}</span>`:''}
+      <div class="mt">${p?.numero?`<span><b>Camisa</b> #${zz(p.numero)||p.numero}</span>`:''}${p?.data_nasc?`<span><b>Nasc.</b> ${p.data_nasc}</span>`:''}
       ${form.length?`<span class="form" title="Últimos jogos">${form.map(f=>`<i class="${f}"></i>`).join('')}</span>`:''}</div>
     </div>
   </div>
