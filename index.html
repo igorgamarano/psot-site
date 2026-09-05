@@ -664,7 +664,15 @@ thead th{font-size:.75rem;letter-spacing:.08em}
           linear-gradient(180deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.05) 45%);
   --sheen-soft:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 42%,rgba(255,255,255,.01) 46%);
   --hi:inset 0 1px 0 rgba(255,255,255,.42), inset 0 0 0 1px rgba(255,255,255,.07);
-  --sh:0 8px 20px rgba(0,0,0,.38);
+  /* a escada de elevacao do sistema, verbatim */
+  --vidro-queda:0 14px 34px rgba(0,0,0,.45);
+  --vidro-queda-leve:0 8px 20px rgba(0,0,0,.35);
+  --interno-suave:rgba(255,255,255,.04);
+  --ln:rgba(255,255,255,.07);
+  --tinta-volt:rgba(57,255,20,.10); --aro-volt:rgba(57,255,20,.35);
+  --tinta-warm:rgba(255,196,70,.10); --aro-warm:rgba(244,182,44,.38);
+  --glow-volt:inset 0 -2px 8px -3px rgba(57,255,20,.70), 0 8px 18px -6px rgba(57,255,20,.45);
+  --sh:var(--vidro-queda-leve);
   --sh-lg:0 24px 60px -12px rgba(0,0,0,.75);
   /* o brilho vaza por BAIXO da aresta; nunca contorna a peca */
   --glow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 8px -3px rgba(235,255,170,.90), 0 10px 22px -10px rgba(57,255,20,.75);
@@ -849,6 +857,108 @@ thead th{font-size:.75rem;letter-spacing:.08em}
 :root[data-theme="resenha"] .rk.top,
 :root[data-theme="resenha"] tbody tr.gold .num,
 :root[data-theme="resenha"] tbody tr.gold .pts{color:var(--gold-txt)}
+/* ══ Componentes copiados do design system ══════════════════════════
+   Sem invencao: cada regra abaixo e a do ResenhaFC, remapeada para as
+   classes que o PSOT ja usa.                                        */
+
+/* .card .card — uma folha de vidro por pilha: cartao dentro de cartao
+   PERDE o desfoque e vira superficie interna. */
+:root[data-theme="resenha"] .card .card,
+:root[data-theme="resenha"] .card .stat,
+:root[data-theme="resenha"] .card .m-card{
+  background:var(--interno-suave);
+  -webkit-backdrop-filter:none;backdrop-filter:none;
+  border:1px solid var(--ln);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+
+/* .vidro-interno — a superficie de dentro: placar, campo, trilho */
+:root[data-theme="resenha"] .scoreboard,
+:root[data-theme="resenha"] .m-pitch,
+:root[data-theme="resenha"] .bar,
+:root[data-theme="resenha"] .rb-t,
+:root[data-theme="resenha"] .m-seg{
+  background:var(--interno-suave);
+  border:1px solid var(--ln);
+  border-radius:var(--r);corner-shape:bevel;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+
+/* .nav-i[aria-current] — o ATIVO e tinta + aro + texto normal.
+   O neon solido e do botao primario, nao da navegacao. */
+:root[data-theme="resenha"] .nav-btn.active,
+:root[data-theme="resenha"] .tab-btn.active,
+:root[data-theme="resenha"] .esc-tab.active,
+:root[data-theme="resenha"] .styled-tabs button.active,
+:root[data-theme="resenha"] .bn.active{
+  background:var(--tinta-volt);
+  border:1px solid var(--aro-volt);
+  color:var(--txt);
+  text-transform:none;letter-spacing:0;
+  box-shadow:var(--hi),var(--glow-volt)}
+:root[data-theme="resenha"] .bn.active{background:transparent;border:none;
+  color:var(--royal-txt);box-shadow:none}
+:root[data-theme="resenha"] .nav-btn:hover{background:var(--interno-suave);color:var(--txt)}
+
+/* .card--heroi — um heroi por tela: aro volt e glow, so no heroi */
+:root[data-theme="resenha"] .hero{
+  border:1.5px solid var(--aro-volt);
+  box-shadow:var(--hi),var(--glow-volt);
+  padding:1.5rem 1.25rem}
+
+/* .btn — a base do sistema */
+:root[data-theme="resenha"] .btn-primary,
+:root[data-theme="resenha"] .ghost,
+:root[data-theme="resenha"] .back,
+:root[data-theme="resenha"] .season-btn{
+  font-family:var(--fd);font-weight:700;font-size:.9375rem;letter-spacing:.03em;
+  border-width:1.5px;
+  transition:filter .2s cubic-bezier(.2,0,0,1),box-shadow .2s cubic-bezier(.2,0,0,1),
+             transform .2s cubic-bezier(.2,0,0,1)}
+:root[data-theme="resenha"] .btn-primary:hover,
+:root[data-theme="resenha"] .ghost:hover,
+:root[data-theme="resenha"] .back:hover,
+:root[data-theme="resenha"] .season-btn:hover,
+:root[data-theme="resenha"] .tema-btn:hover{filter:brightness(1.1)}
+:root[data-theme="resenha"] .btn-primary:focus-visible,
+:root[data-theme="resenha"] .ghost:focus-visible,
+:root[data-theme="resenha"] .back:focus-visible,
+:root[data-theme="resenha"] .nav-btn:focus-visible,
+:root[data-theme="resenha"] .tema-btn:focus-visible{
+  outline:none;box-shadow:0 0 0 2px var(--royal)}
+:root[data-theme="resenha"] .btn-primary:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+
+/* .btn--terciario / .btn--fantasma */
+/* o fantasma e acao discreta, mas continua acao: fica no nivel de
+   apoio (.68), nao no de metadado (.50), que so passa 4,49:1 */
+:root[data-theme="resenha"] .back,
+:root[data-theme="resenha"] .ghost{
+  background:var(--interno-suave);color:var(--txt-2);border-color:var(--ln)}
+:root[data-theme="resenha"] .back:hover,
+:root[data-theme="resenha"] .ghost:hover{color:var(--txt)}
+
+/* .chip — altura compacta de 32px, tipo do sistema */
+:root[data-theme="resenha"] .chip,
+:root[data-theme="resenha"] .res-badge{
+  min-height:32px;display:inline-flex;align-items:center;
+  border-radius:var(--r);corner-shape:bevel;border-width:1.5px;
+  font-family:var(--fd);font-size:.8125rem;font-weight:700;letter-spacing:.02em}
+
+/* .tag — a etiqueta do sistema */
+:root[data-theme="resenha"] .stat .l,
+:root[data-theme="resenha"] .card-h,
+:root[data-theme="resenha"] .rcard-sb .tl,
+:root[data-theme="resenha"] .sb-side .tn,
+:root[data-theme="resenha"] .rd-sb .tl{
+  font-family:var(--fd);font-size:.875rem;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--txt-3)}
+
+/* .navbar>.vidro — a barra inferior so tem borda em cima */
+:root[data-theme="resenha"] #botnav{
+  border:none;border-top:1.5px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
+
+/* .folha — menu e popover usam a elevacao 3 */
+:root[data-theme="resenha"] .season-menu,
+:root[data-theme="resenha"] #authmenu{box-shadow:var(--hi),var(--sh-lg)}
 :root[data-theme="resenha"] body::after{opacity:.03}
 /* a lousa ja da a textura; a grade de linhas so sujaria */
 :root[data-theme="resenha"] body::before{opacity:0}
