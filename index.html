@@ -645,17 +645,22 @@ thead th{font-size:.75rem;letter-spacing:.08em}
   --txt-2:rgba(237,242,246,.68); --txt-3:rgba(237,242,246,.50);
   --ink:#EDF2F6;
   /* volt: acento de acao. --royal-txt e o volt-tinta, a versao de texto */
-  --royal:#39FF14; --royal-vivid:#7CFC00;
-  --royal-txt:#93DC0C; --royal-btn:#39FF14; --royal-btn-ink:#0A0F05;
-  --navy:#4C8DFF; --navy2:#7FB0FF;
+  /* UM verde faz tudo no escuro: preenchimento, brilho e rotulo.
+     O #93DC0C so aparece no gradiente do botao primario, como no CSS
+     dele; o #3F7A00 e so para texto sobre branco, que aqui nao existe. */
+  --royal:#39FF14; --royal-vivid:#39FF14;
+  --royal-txt:#39FF14; --royal-btn:#39FF14; --royal-btn-ink:#0A0F05;
+  --navy:#4C8DFF; --navy2:#4C8DFF;
   --blue-soft:#4C8DFF; --blue-light:#4C8DFF;
   /* warm: gloria */
-  --gold:#F4B62C; --gold-soft:#FFD56B; --gold-dim:rgba(244,182,44,.10);
+  --gold:#F4B62C; --gold-soft:#E3C688; --gold-dim:rgba(244,182,44,.10);
   --gold-txt:#F4B62C; --gold-big:#F4B62C;
-  --green:#39FF14; --red:#FF3B5C; --amber:#F4B62C; --red-txt:#FF8A80;
+  --green:#39FF14; --red:#FF3B5C; --amber:#F4B62C; --red-txt:#FF3B5C;
   /* vidro do sistema */
-  /* o --vidro do sistema: duas especulares sobre tinta rgba(16,18,20,.35) */
-  --glass:rgba(233,242,248,.075);
+  /* o --vidro do sistema: duas especulares sobre tinta rgba(16,18,20,.35).
+     A tinta ESCURECE — eu tinha posto um lavado claro, e era ele que subia
+     o plano do cartao e derrubava o metadado abaixo de 4,5:1. */
+  --glass:rgba(16,18,20,.35);
   --glass-2:rgba(255,255,255,.14);
   --glass-3:rgba(255,255,255,.20);
   --bd:rgba(255,255,255,.14); --bd-2:rgba(255,255,255,.26);
@@ -666,9 +671,12 @@ thead th{font-size:.75rem;letter-spacing:.08em}
   --btn-solid:#EDF2F6; --btn-solid-ink:#0B0D10;
   --pos-def:#C7D2DB; --pos-mei:#4C8DFF;
   --grid-line:rgba(255,255,255,.025);
-  --sheen:linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.08) 38%,rgba(255,255,255,.02) 42%),
-          linear-gradient(180deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.05) 45%);
-  --sheen-soft:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 42%,rgba(255,255,255,.01) 46%);
+  /* as duas especulares do --vidro, nos valores dele. Eu tinha subido para
+     .22/.16 quando pediram "mais glass"; isso clareava o plano do cartao e
+     era a segunda razao do metadado cair abaixo de 4,5:1. */
+  --sheen:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 38%,rgba(255,255,255,0) 42%),
+          linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.02) 45%);
+  --sheen-soft:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 38%,rgba(255,255,255,0) 42%);
   --hi:inset 0 1px 0 rgba(255,255,255,.42), inset 0 0 0 1px rgba(255,255,255,.07);
   /* a escada de elevacao do sistema, verbatim */
   --vidro-queda:0 14px 34px rgba(0,0,0,.45);
@@ -1024,6 +1032,102 @@ thead th{font-size:.75rem;letter-spacing:.08em}
 :root[data-theme="resenha"] .form i.v{background:var(--txt)}
 :root[data-theme="resenha"] .form i.e{background:var(--gold)}
 :root[data-theme="resenha"] .form i.d{background:var(--red)}
+/* ══ Regra 03: "o piso nao desce" ═══════════════════════════════════
+   Estes lavados estavam cravados como literal na folha base — sao da
+   paleta CLARA da PSOT (teal 0,168,138 / ambar 232,164,19 / branco .34).
+   O tema azul tinha override para varios; o resenha nao tinha nenhum, e
+   no escuro eles viravam faixa cinza-clara sobre a obsidiana.
+   Cada um abaixo vira o token equivalente do sistema. Nenhum tom novo. */
+
+/* a barra de cima: mesma construcao da de baixo, borda so no lado de dentro */
+:root[data-theme="resenha"] #topbar{
+  background:linear-gradient(180deg,rgba(11,13,16,.96),rgba(11,13,16,.74));
+  border-bottom:1.5px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.06)}
+
+/* cabecalho de cartao: e etiqueta sobre a superficie, nao faixa pintada.
+   "Todo outro positivo usa branco + peso, nao cor." */
+:root[data-theme="resenha"] .card-h.dark,
+:root[data-theme="resenha"] .card-h.blue,
+:root[data-theme="resenha"] .card-h.green,
+:root[data-theme="resenha"] .rcard-h.azul,
+:root[data-theme="resenha"] .rcard-h.preto,
+:root[data-theme="resenha"] .lu-h.azul,
+:root[data-theme="resenha"] .lu-h{
+  background:var(--interno-suave);color:var(--txt-3)}
+
+/* gloria mantem endereco: dourado, e so translucido */
+:root[data-theme="resenha"] .card-h.gold,
+:root[data-theme="resenha"] .rcard-h.empate{
+  background:linear-gradient(90deg,var(--tinta-warm),transparent);color:var(--gold-txt)}
+:root[data-theme="resenha"] tbody tr.gold{
+  background:linear-gradient(90deg,var(--tinta-volt),transparent 68%)}
+:root[data-theme="resenha"] .aviso,
+:root[data-theme="resenha"] .esc-lista-box.callout,
+:root[data-theme="resenha"] .t1chip,
+:root[data-theme="resenha"] .cart,
+:root[data-theme="resenha"] .b-e{
+  background:var(--tinta-warm);border-color:var(--aro-warm);color:var(--gold-txt)}
+
+/* fora / destrutivo: o crimson do sistema, na mesma alfa de tinta (.10) */
+:root[data-theme="resenha"] .b-d,
+:root[data-theme="resenha"] .adm-rm,
+:root[data-theme="resenha"] .poschip.p-ATA{
+  background:rgba(255,59,92,.10);border-color:rgba(255,59,92,.35);color:var(--red-txt)}
+:root[data-theme="resenha"] .adm-rm:hover{background:rgba(255,59,92,.20)}
+
+/* teal da paleta clara -> superficie interna neutra */
+:root[data-theme="resenha"] .chip,
+:root[data-theme="resenha"] .b-v,
+:root[data-theme="resenha"] .pchip.goleiro .pn,
+:root[data-theme="resenha"] .season-opt:hover,
+:root[data-theme="resenha"] .am-item:hover{
+  background:var(--interno-suave);border-color:var(--ln);color:var(--txt)}
+:root[data-theme="resenha"] .chip{color:var(--txt-2)}
+:root[data-theme="resenha"] .pchip.goleiro .pn{color:var(--navy)}
+:root[data-theme="resenha"] ::selection{background:var(--tinta-volt);color:var(--txt)}
+:root[data-theme="resenha"] .bn.active svg{filter:drop-shadow(0 0 6px rgba(57,255,20,.5))}
+:root[data-theme="resenha"] .av.b{
+  background:linear-gradient(135deg,#4C8DFF,#0E141A);color:var(--txt)}
+:root[data-theme="resenha"] .twrap2.azul .tlabel2{
+  background:linear-gradient(135deg,#4C8DFF,#1A242D);color:var(--txt);border-color:var(--ln)}
+
+/* o poco do placar: superficie interna, nao vidro branco */
+:root[data-theme="resenha"] .sb-side.preto{background:var(--interno-suave)}
+:root[data-theme="resenha"] .sb-side.azul{background:rgba(76,141,255,.10)}
+:root[data-theme="resenha"] .sb-side.azul .tn{color:var(--navy)}
+:root[data-theme="resenha"] .sb-side .sc.win{
+  color:var(--gold);text-shadow:0 4px 22px rgba(244,182,44,.30)}
+/* ── "corrige-se o fundo, nunca o alpha" ────────────────────────────
+   O cabecalho do cartao e etiqueta sobre a superficie, nao faixa
+   pintada: sem lavado, o metadado a .50 bate 4,6:1 — o numero que o
+   proprio sistema publica. Com o lavado, 4,3:1.                     */
+:root[data-theme="resenha"] .card-h.dark,
+:root[data-theme="resenha"] .card-h.blue,
+:root[data-theme="resenha"] .card-h.green,
+:root[data-theme="resenha"] .rcard-h.azul,
+:root[data-theme="resenha"] .rcard-h.preto,
+:root[data-theme="resenha"] .lu-h,
+:root[data-theme="resenha"] .lu-h.azul,
+:root[data-theme="resenha"] .sb-side.preto{background:transparent}
+
+/* 2o e 3o lugar vinham com faixa branca .50 e degrade de bronze — literais
+   do tema claro. "Todo outro positivo usa branco + peso, nao cor": so o
+   lider veste o filete volt; prata e bronze ficam na superficie interna. */
+/* prata e bronze sem faixa: so o lider tem endereco (o filete volt).
+   A posicao 02/03 ja marca, com zero a esquerda — regra 11. */
+:root[data-theme="resenha"] tbody tr.silver{background:transparent}
+:root[data-theme="resenha"] tbody tr.bronze{background:transparent}
+:root[data-theme="resenha"] tbody tr.clk:hover,
+:root[data-theme="resenha"] .rank-row.clk:hover{background:rgba(255,255,255,.06)}
+/* o placar e POCO, nao cartao: --sf-1 #0E141A, o plano de "campo, trilho,
+   faixa". Ele desce em relacao ao cartao; eu tinha subido com lavado claro. */
+:root[data-theme="resenha"] .scoreboard{background:#0E141A;border-color:var(--ln)}
+:root[data-theme="resenha"] .sb-side.azul{background:rgba(76,141,255,.10)}
+/* "Informacao que decide nunca vive no terceiro nivel." O numero de gols
+   ao lado do nome decide — branco + peso, nao metadado. */
+:root[data-theme="resenha"] .lu li .g,
+:root[data-theme="resenha"] .chip .g{color:var(--txt);font-weight:800}
 :root[data-theme="resenha"] body::after{opacity:.03}
 /* a lousa ja da a textura; a grade de linhas so sujaria */
 :root[data-theme="resenha"] body::before{opacity:0}
