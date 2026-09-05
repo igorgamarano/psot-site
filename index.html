@@ -501,6 +501,15 @@ thead th{font-size:.75rem;letter-spacing:.08em}
     transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 
+/* O Confronto: "laterais com nome e retrospecto real, placar gigante no
+   centro". O vencedor se identifica sem precisar ler o numero. */
+.sb-side .retro{font-size:.8125rem;color:var(--txt-3);margin-top:.35rem;
+  font-variant-numeric:tabular-nums lining-nums;letter-spacing:.02em}
+/* "Rotulos a 1rem — o peladeiro de 82 anos le." O PSOT tem o Perin, 81. */
+.bn{font-size:.875rem!important}
+@media(min-width:380px){.bn{font-size:1rem!important}}
+.nav-btn{font-size:.9375rem}
+
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media(max-width:860px){
   .cols-home{grid-template-columns:1fr}
@@ -1373,9 +1382,9 @@ function renderHome(){
       <div class="card-b">
         ${last?`
         <div class="scoreboard">
-          <div class="sb-side preto"><div class="tn">Preto</div><div class="sc ${v==='PRETO'?'win':''}">${last.placar_final[0]}</div></div>
+          <div class="sb-side preto"><div class="tn">Preto</div><div class="sc ${v==='PRETO'?'win':''}">${last.placar_final[0]}</div><div class="retro">${st.vitoria_preto}V · ${st.vitoria_azul}D · ${st.empates}E</div></div>
           <div class="sb-mid"><span>×</span></div>
-          <div class="sb-side azul"><div class="tn">Azul</div><div class="sc ${v==='AZUL'?'win':''}">${last.placar_final[1]}</div></div>
+          <div class="sb-side azul"><div class="tn">Azul</div><div class="sc ${v==='AZUL'?'win':''}">${last.placar_final[1]}</div><div class="retro">${st.vitoria_azul}V · ${st.vitoria_preto}D · ${st.empates}E</div></div>
         </div>
         <div style="text-align:center"><span class="res-badge ${v.toLowerCase()}">${v==='EMPATE'?'Empate':'Vitória Time '+(v==='AZUL'?'Azul':'Preto')}</span></div>
         ${scorers(last.gols).length?`<div class="chips">${scorers(last.gols).map(([n,g])=>`<span class="chip">${n}${g>1?` <span class="g">×${g}</span>`:''}</span>`).join('')}</div>`:''}
