@@ -639,22 +639,23 @@ thead th{font-size:.75rem;letter-spacing:.08em}
   --gold-txt:#F4B62C; --gold-big:#F4B62C;
   --green:#39FF14; --red:#FF3B5C; --amber:#F4B62C; --red-txt:#FF8A80;
   /* vidro do sistema */
-  --glass:rgba(16,18,20,.35);
-  --glass-2:rgba(255,255,255,.09);
-  --glass-3:rgba(255,255,255,.14);
-  --bd:rgba(255,255,255,.08); --bd-2:rgba(255,255,255,.18);
+  /* o --vidro do sistema: duas especulares sobre tinta rgba(16,18,20,.35) */
+  --glass:rgba(233,242,248,.075);
+  --glass-2:rgba(255,255,255,.14);
+  --glass-3:rgba(255,255,255,.20);
+  --bd:rgba(255,255,255,.14); --bd-2:rgba(255,255,255,.26);
   --hair:rgba(255,255,255,.07);
-  --tint-1:rgba(255,255,255,.04); --tint-2:rgba(255,255,255,.07); --tint-3:rgba(255,255,255,.18);
+  --tint-1:rgba(255,255,255,.05); --tint-2:rgba(255,255,255,.09); --tint-3:rgba(255,255,255,.20);
   --pill-on:rgba(255,255,255,.12); --pill-on-ink:#EDF2F6;
   --ring:rgba(255,255,255,.20);
   --btn-solid:#EDF2F6; --btn-solid-ink:#0B0D10;
   --pos-def:#C7D2DB; --pos-mei:#4C8DFF;
   --grid-line:rgba(255,255,255,.025);
-  --sheen:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 38%,rgba(255,255,255,0) 42%),
-          linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.02) 45%);
-  --sheen-soft:linear-gradient(115deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.02) 42%,rgba(255,255,255,0) 46%);
-  --hi:inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 0 1px rgba(255,255,255,.05);
-  --sh:0 8px 20px rgba(0,0,0,.35);
+  --sheen:linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.08) 38%,rgba(255,255,255,.02) 42%),
+          linear-gradient(180deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.05) 45%);
+  --sheen-soft:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,.05) 42%,rgba(255,255,255,.01) 46%);
+  --hi:inset 0 1px 0 rgba(255,255,255,.42), inset 0 0 0 1px rgba(255,255,255,.07);
+  --sh:0 8px 20px rgba(0,0,0,.38);
   --sh-lg:0 24px 60px -12px rgba(0,0,0,.75);
   /* o brilho vaza por BAIXO da aresta; nunca contorna a peca */
   --glow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 8px -3px rgba(235,255,170,.90), 0 10px 22px -10px rgba(57,255,20,.75);
@@ -664,21 +665,25 @@ thead th{font-size:.75rem;letter-spacing:.08em}
   --blur:11px;
   --ff:'Plus Jakarta Sans',-apple-system,'Segoe UI',system-ui,sans-serif;
   --fd:'Space Grotesk','Plus Jakarta Sans',system-ui,sans-serif;
+  /* numero e Space Grotesk tabular, nao mono: o zero pontilhado do
+     JetBrains vira 8 em corpo pequeno */
+  --fm:'Space Grotesk','Plus Jakarta Sans',system-ui,sans-serif;
 }
 :root[data-theme="resenha"] body{
   background:
-    radial-gradient(900px 560px at 12% -8%, rgba(57,255,20,.07), transparent 58%),
-    radial-gradient(760px 520px at 92% 8%, rgba(76,141,255,.07), transparent 60%),
-    linear-gradient(168deg,#0B0D10 0%, #0E141A 52%, #131B22 100%);
+    linear-gradient(180deg,rgba(9,13,16,.26),rgba(9,13,16,.46)),
+    url('lousa.webp') top center / cover no-repeat,
+    #090D10;
+  background-attachment:scroll,fixed,fixed;
 }
+/* a lousa tambem atravessa por tras da coluna de conteudo, mais aberta,
+   para o vidro dos cartoes ter textura de verdade para desfocar */
 :root[data-theme="resenha"] main::before{
   background:
-    radial-gradient(30% 16% at 16% 6%,  rgba(57,255,20,.10), transparent 64%),
-    radial-gradient(26% 14% at 88% 22%, rgba(76,141,255,.10), transparent 66%),
-    radial-gradient(30% 16% at 24% 56%, rgba(57,255,20,.07), transparent 64%),
-    radial-gradient(26% 14% at 78% 84%, rgba(244,182,44,.06), transparent 66%);
+    linear-gradient(180deg,rgba(9,13,16,.10),rgba(9,13,16,.30)),
+    url('lousa.webp') 30% 30% / cover no-repeat;
+  opacity:1;
 }
-:root[data-theme="resenha"] #topbar{background:linear-gradient(180deg,rgba(11,13,16,.86),rgba(11,13,16,.58));box-shadow:0 1px 0 rgba(255,255,255,.05),0 8px 24px rgba(0,0,0,.45)}
 :root[data-theme="resenha"] #botnav{background:linear-gradient(0deg,rgba(11,13,16,.96),rgba(11,13,16,.74));box-shadow:0 -1px 0 rgba(255,255,255,.05)}
 :root[data-theme="resenha"] .season-menu,
 :root[data-theme="resenha"] #authmenu{background:#22303B}
@@ -713,9 +718,12 @@ thead th{font-size:.75rem;letter-spacing:.08em}
 :root[data-theme="resenha"] .card,
 :root[data-theme="resenha"] .rcard,
 :root[data-theme="resenha"] .pcard,
+:root[data-theme="resenha"] .stat,
+:root[data-theme="resenha"] .lu,
 :root[data-theme="resenha"] .hero,
 :root[data-theme="resenha"] .rd-hero,
-:root[data-theme="resenha"] .p-hero{border-width:1.5px}
+:root[data-theme="resenha"] .p-hero{
+  border:1.5px solid rgba(255,255,255,.10)}
 /* o botao de tema e o unico redondo que sobra: vira quadrado chanfrado */
 :root[data-theme="resenha"] .tema-btn,
 :root[data-theme="resenha"] .av-btn{border-radius:10px}
@@ -824,7 +832,17 @@ thead th{font-size:.75rem;letter-spacing:.08em}
 :root[data-theme="resenha"] .chem-row b{color:var(--txt)!important}
 :root[data-theme="resenha"] .radar-svg polygon[fill-opacity]{fill:#4C8DFF}
 :root[data-theme="resenha"] .p-av{background:linear-gradient(135deg,#FFD56B,#F4B62C);color:#2A1D00}
-:root[data-theme="resenha"] body::after{opacity:.04}
+/* regra 05: dourado e gloria. Na home a gloria e o LIDER; media e empates
+   sao dado. Medalha (top 3) tambem veste dourado; ponto e numero. */
+:root[data-theme="resenha"] .stat.gold .v{color:var(--txt)}
+:root[data-theme="resenha"] .stat.gloria .v{color:var(--gold-txt)}
+:root[data-theme="resenha"] .pts{color:var(--txt)}
+:root[data-theme="resenha"] .rk.top,
+:root[data-theme="resenha"] tbody tr.gold .num,
+:root[data-theme="resenha"] tbody tr.gold .pts{color:var(--gold-txt)}
+:root[data-theme="resenha"] body::after{opacity:.03}
+/* a lousa ja da a textura; a grade de linhas so sujaria */
+:root[data-theme="resenha"] body::before{opacity:0}
 
 /* botao de troca de tema */
 .tema-btn{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;
@@ -1345,7 +1363,7 @@ function renderHome(){
     <div class="stat white"><div class="v num">${st.vitoria_preto}</div><div class="l">Vitórias Preto</div></div>
     <div class="stat blue"><div class="v num">${st.vitoria_azul}</div><div class="l">Vitórias Azul</div></div>
     <div class="stat gold"><div class="v num">${st.empates}</div><div class="l">Empates</div></div>
-    <div class="stat"><div class="v num">${leader?leader.apelido:'—'}</div><div class="l">Líder</div></div>
+    <div class="stat gloria"><div class="v num">${leader?leader.apelido:'—'}</div><div class="l">Líder</div></div>
   </div>
 
   <div class="cols-home">
