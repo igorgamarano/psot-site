@@ -1,10 +1,14 @@
 name: Supabase keepalive + backup
 # 1) Mantem o projeto Supabase (free tier) ativo, evitando a pausa por inatividade.
+#    A doc da Supabase pede "alguns requests ao banco TODO DIA na ultima semana";
+#    a cada 3 dias nao bastou — o projeto pausou em set/2026 e de novo em out/2026.
+#    Agora roda duas vezes por dia (9h e 21h de Brasilia).
 # 2) Salva um snapshot do elenco e das escalacoes no proprio repo, para nunca depender
 #    so do banco. NAO inclui a tabela admins (emails pessoais, repo publico).
+#    So commita quando o snapshot muda — rodar mais vezes nao gera commit a mais.
 on:
   schedule:
-    - cron: '17 12 */3 * *'
+    - cron: '17 0,12 * * *'
   workflow_dispatch:
 permissions:
   contents: write
