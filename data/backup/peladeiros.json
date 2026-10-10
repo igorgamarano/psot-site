@@ -189,20 +189,11 @@
         "posicao": "MEI"
     },
     {
-        "id": "68587d63-1bae-44c4-b24b-45bc96435475",
-        "nome": "LIPIN",
-        "foto_url": "/peladeiros/lipin.jpg",
-        "convidado": false,
-        "ordem": 22,
-        "created_at": "2026-06-27T01:09:03.213115+00:00",
-        "posicao": "ATA"
-    },
-    {
         "id": "5293f2e0-5337-403b-9dbb-df3a3dfc63ef",
         "nome": "DR. WAGNER",
         "foto_url": null,
         "convidado": false,
-        "ordem": 23,
+        "ordem": 22,
         "created_at": "2026-06-27T01:09:03.213115+00:00",
         "posicao": "DEF"
     },
@@ -211,9 +202,18 @@
         "nome": "GUSTAVO",
         "foto_url": "/peladeiros/gustavo.jpg",
         "convidado": false,
-        "ordem": 24,
+        "ordem": 23,
         "created_at": "2026-06-27T01:09:03.213115+00:00",
         "posicao": "MEI"
+    },
+    {
+        "id": "68587d63-1bae-44c4-b24b-45bc96435475",
+        "nome": "LIPIN",
+        "foto_url": "/peladeiros/lipin.jpg",
+        "convidado": false,
+        "ordem": 24,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
     },
     {
         "id": "2de7ba94-1451-499c-b1bc-3bef6e436dd0",
