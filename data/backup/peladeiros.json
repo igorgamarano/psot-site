@@ -324,11 +324,20 @@
         "posicao": "GOL"
     },
     {
+        "id": "ad1e5110-df99-4973-9b19-52625a41b73b",
+        "nome": "WESLEN",
+        "foto_url": null,
+        "convidado": false,
+        "ordem": 101,
+        "created_at": "2026-10-18T18:03:15.60323+00:00",
+        "posicao": "GOL"
+    },
+    {
         "id": "8644f25e-4602-466b-894a-5339f6dc0800",
         "nome": "LUCIANO",
         "foto_url": "/peladeiros/luciano.jpg",
         "convidado": false,
-        "ordem": 101,
+        "ordem": 102,
         "created_at": "2026-06-27T01:09:03.213115+00:00",
         "posicao": "GOL"
     }
