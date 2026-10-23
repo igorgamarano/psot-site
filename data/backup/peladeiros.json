@@ -207,22 +207,22 @@
         "posicao": "MEI"
     },
     {
-        "id": "68587d63-1bae-44c4-b24b-45bc96435475",
-        "nome": "LIPIN",
-        "foto_url": "/peladeiros/lipin.jpg",
-        "convidado": false,
-        "ordem": 24,
-        "created_at": "2026-06-27T01:09:03.213115+00:00",
-        "posicao": "ATA"
-    },
-    {
         "id": "2de7ba94-1451-499c-b1bc-3bef6e436dd0",
         "nome": "PS",
         "foto_url": "/peladeiros/ps.jpg",
         "convidado": false,
-        "ordem": 25,
+        "ordem": 24,
         "created_at": "2026-06-27T01:09:03.213115+00:00",
         "posicao": "DEF"
+    },
+    {
+        "id": "68587d63-1bae-44c4-b24b-45bc96435475",
+        "nome": "LIPIN",
+        "foto_url": "/peladeiros/lipin.jpg",
+        "convidado": false,
+        "ordem": 25,
+        "created_at": "2026-06-27T01:09:03.213115+00:00",
+        "posicao": "ATA"
     },
     {
         "id": "85b07649-75ed-471a-b3d9-e51d6e225ecd",
@@ -234,18 +234,18 @@
         "posicao": "DEF"
     },
     {
-        "id": "fe5ca8bc-65cc-46aa-b69b-df600540869c",
-        "nome": "WASHINGTON",
-        "foto_url": "/peladeiros/washington.jpg",
+        "id": "d69529e7-38c4-4dce-9ad5-8c0a127de45e",
+        "nome": "GAMA",
+        "foto_url": "/peladeiros/gama.jpg",
         "convidado": false,
         "ordem": 27,
         "created_at": "2026-06-27T01:09:03.213115+00:00",
         "posicao": "MEI"
     },
     {
-        "id": "d69529e7-38c4-4dce-9ad5-8c0a127de45e",
-        "nome": "GAMA",
-        "foto_url": "/peladeiros/gama.jpg",
+        "id": "fe5ca8bc-65cc-46aa-b69b-df600540869c",
+        "nome": "WASHINGTON",
+        "foto_url": "/peladeiros/washington.jpg",
         "convidado": false,
         "ordem": 28,
         "created_at": "2026-06-27T01:09:03.213115+00:00",
